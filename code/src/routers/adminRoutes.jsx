@@ -1,6 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import Levels from '../pages/admin/Levels';
 import Curriculum from '../pages/admin/Curriculum';
+import Lessons from '../pages/admin/lesson/Lessons';
+import LessonConfig from '../pages/admin/lesson/LessonConfig';
 
 // Temporary placeholders for exams under Admin
 function AdminExamsPlaceholder() {
@@ -26,9 +28,22 @@ const adminRoutes = [
     element: <Curriculum />,
   },
   {
+    path: 'curriculum/:unitId/lessons',
+    element: <Lessons />,
+  },
+  {
+    path: 'curriculum/:unitId/lessons/new',
+    element: <LessonConfig />,
+  },
+  {
+    path: 'curriculum/:unitId/lessons/:lessonId/config',
+    element: <LessonConfig />,
+  },
+  {
     path: 'exams',
     element: <AdminExamsPlaceholder />,
   },
 ];
 
 export default adminRoutes;
+
