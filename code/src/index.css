@@ -1,0 +1,258 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: 'Be Vietnam Pro', sans-serif;
+    --font-sans: 'Inter', sans-serif;
+    
+    /* Brand & Accent Colors */
+    --color-primary: #4E56C0;
+    --color-secondary: #9B5DE0;
+    --color-accent: #D78FEE;
+    --color-light-accent: #FDCFFA;
+    
+    /* Surfaces */
+    --color-canvas: #F9F7FE;
+    --color-surface: #FFFFFF;
+    --color-dark-floor: #1C1B2E;
+    
+    /* Text Colors */
+    --color-text-primary: #1A1A2E;
+    --color-text-secondary: #5A5A7A;
+    
+    /* Semantic Colors */
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    
+    /* Border Radii Scale */
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-xxl: 32px;
+    --radius-pill: 9999px;
+    --radius-full: 9999px;
+    
+    /* Shadows/Glows (Depth) */
+    --shadow-glow: 0 0 12px rgba(155, 93, 224, 0.15);
+    --shadow-active-glow: 0 0 20px rgba(78, 86, 192, 0.25);
+    --shadow-hover-glow: 0 0 32px rgba(215, 143, 238, 0.4);
+    --shadow-glass-shadow: 0 8px 32px rgba(78, 86, 192, 0.06);
+
+    /* Gradients */
+    --background-image-gradient-nebula: linear-gradient(135deg, #FDCFFA 0%, #D78FEE 50%, #9B5DE0 100%);
+    --background-image-gradient-galactic: linear-gradient(120deg, #4E56C0, #9B5DE0, #D78FEE);
+    --background-image-gradient-haze: radial-gradient(circle at 20% 30%, #FDCFFA, #F9F7FE);
+    
+    /* Sidebar colors */
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    
+    /* Radix Ring, border, etc. */
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+}
+
+:root {
+    --background: #F9F7FE; /* Canvas */
+    --foreground: #1A1A2E; /* Text Primary */
+    --card: #FFFFFF; /* Surface */
+    --card-foreground: #1A1A2E;
+    --popover: #FFFFFF;
+    --popover-foreground: #1A1A2E;
+    --primary: #4E56C0; /* Primary Brand */
+    --primary-foreground: #FFFFFF;
+    --secondary: #9B5DE0; /* Secondary Brand */
+    --secondary-foreground: #FFFFFF;
+    --muted: #F0ECFC; /* Soft muted canvas shade */
+    --muted-foreground: #5A5A7A; /* Text Secondary */
+    --accent: #FDCFFA; /* Light Accent */
+    --accent-foreground: #4E56C0;
+    --destructive: #EF4444; /* Error */
+    --destructive-foreground: #FFFFFF;
+    --border: rgba(78, 86, 192, 0.08); /* Soft blue-purple border */
+    --input: rgba(155, 93, 224, 0.2); /* Soft input accent border */
+    --ring: #4E56C0;
+    --radius: 16px;
+    --sidebar: #FFFFFF;
+    --sidebar-foreground: #1A1A2E;
+    --sidebar-primary: #4E56C0;
+    --sidebar-primary-foreground: #FFFFFF;
+    --sidebar-accent: rgba(78, 86, 192, 0.08);
+    --sidebar-accent-foreground: #4E56C0;
+    --sidebar-border: rgba(78, 86, 192, 0.08);
+    --sidebar-ring: #4E56C0;
+}
+
+.dark {
+    --background: #1C1B2E; /* Dark Floor as backdrop for dark mode */
+    --foreground: #F9F7FE;
+    --card: #252438;
+    --card-foreground: #F9F7FE;
+    --popover: #252438;
+    --popover-foreground: #F9F7FE;
+    --primary: #D78FEE;
+    --primary-foreground: #1C1B2E;
+    --secondary: #9B5DE0;
+    --secondary-foreground: #FFFFFF;
+    --muted: #2E2D4A;
+    --muted-foreground: #A0A5C1;
+    --accent: #9B5DE0;
+    --accent-foreground: #FFFFFF;
+    --destructive: #EF4444;
+    --destructive-foreground: #FFFFFF;
+    --border: rgba(215, 143, 238, 0.15);
+    --input: rgba(215, 143, 238, 0.25);
+    --ring: #D78FEE;
+    --sidebar: #1C1B2E;
+    --sidebar-foreground: #F9F7FE;
+    --sidebar-primary: #D78FEE;
+    --sidebar-primary-foreground: #1C1B2E;
+    --sidebar-accent: rgba(215, 143, 238, 0.15);
+    --sidebar-accent-foreground: #D78FEE;
+    --sidebar-border: rgba(215, 143, 238, 0.15);
+    --sidebar-ring: #D78FEE;
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+    body {
+        @apply bg-background text-foreground font-sans antialiased;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-heading;
+    }
+}
+
+/* ==========================================================================
+   PRODUCTION FULL-SCREEN OVERRIDES FOR FIGMA LAYOUTS
+   ========================================================================== */
+body {
+  background-color: var(--canvas) !important;
+  padding: 0 !important;
+  display: block !important;
+}
+
+.app-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 100vh !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.body-wrapper {
+  width: 100% !important;
+}
+
+/* ==========================================================================
+   USER-REQUESTED USABILITY & AESTHETIC FIXES
+   ========================================================================== */
+
+/* 1. Modal Centering in Viewport & Darker Dim Overlay */
+.modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: rgba(15, 14, 26, 0.75) !important; /* Premium darker overlay */
+  backdrop-filter: blur(4px) !important; /* Subtle blur instead of heavy blur */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999 !important;
+}
+
+.modal-box {
+  margin: auto !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important; /* Scroll inside modal if content is long */
+  box-shadow: 0 24px 64px rgba(15, 14, 26, 0.35) !important;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) ease-out !important;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 2. Table Column Contrast and Typography adjustments */
+.data-table th {
+  color: var(--text-primary) !important; /* Darker, high-contrast headers */
+  font-weight: 800 !important;
+  background-color: rgba(78, 86, 192, 0.05) !important;
+}
+
+.data-table td {
+  color: var(--text-secondary) !important; /* Softer text color for normal columns */
+  font-weight: 500 !important;
+}
+
+/* Highlight important sequence/titles as bold and dark */
+.data-table td.unit-sequence,
+.data-table td.unit-title,
+.data-table td.ielts-target,
+.data-table td.toeic-target {
+  color: var(--text-primary) !important;
+  font-weight: 700 !important;
+}
+
+/* 3. Remove bold from level name in table content ( Cơ Bản (Beginner) ) */
+.data-table td .level-name {
+  color: var(--text-primary) !important;
+  font-weight: 500 !important; /* Not bold */
+}
+
+/* 4. Ensure Card component has standard padding (fixes admin homepage card layout) */
+[data-slot="card"] {
+  padding: 32px !important; /* adjusted to p-8 */
+}
+[data-slot="card"][data-variant="hero"] {
+  padding: 40px !important; /* adjusted to p-10 */
+}
+
+/* 5. Prevent validation warning SVG icons from being squeezed/compressed in forms */
+.error-message svg {
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  min-height: 14px !important;
+  flex-shrink: 0 !important;
+}
+
+/* 6. Prevent curriculum card from stretching to 100% width when alone in learning roadmap */
+.curriculum-card {
+  max-width: calc((100% - 48px) / 3) !important;
+  flex: 1 1 calc((100% - 48px) / 3) !important;
+}
