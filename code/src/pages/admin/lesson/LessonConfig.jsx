@@ -787,6 +787,28 @@ export default function LessonConfig() {
     }
   };
 
+  const getVisibleCardIndices = () => {
+    const total = cards.length;
+    const current = activeCardIndex;
+    
+    let start = Math.max(0, current - 1);
+    let end = Math.min(total - 1, current + 1);
+    
+    if (end - start + 1 < 3) {
+      if (start === 0) {
+        end = Math.min(total - 1, start + 2);
+      } else if (end === total - 1) {
+        start = Math.max(0, end - 2);
+      }
+    }
+    
+    const visible = [];
+    for (let i = start; i <= end; i++) {
+      visible.push(i);
+    }
+    return visible;
+  };
+
   return (
     <main className="content-body">
       {/* Breadcrumbs */}
@@ -825,7 +847,7 @@ export default function LessonConfig() {
         <button
           type="button"
           onClick={handleAddCard}
-          className="inline-flex items-center gap-2 bg-surface text-primary border border-primary/20 text-sm font-semibold px-4 py-2.5 rounded-lg shadow-sm hover:bg-gray-50 cursor-pointer"
+          className="btn-primary"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -842,43 +864,41 @@ export default function LessonConfig() {
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSave)} className="flex flex-col gap-8 w-full">
-          <div className="config-grid flex flex-col md:flex-row gap-8 items-start w-full">
+          <div className="config-grid">
             
             {/* LEFT COLUMN: GENERAL INFO */}
-            <div className="left-col w-full md:w-[340px] flex-shrink-0 flex flex-col gap-6">
-              <div className="premium-card bg-surface p-6 rounded-xl border border-border flex flex-col gap-5 shadow-glass-shadow">
-                <div className="font-heading text-sm font-bold text-text-primary border-b border-border pb-2">
-                  Thông tin chung
-                </div>
+            <div className="w-30">
+              <div className="config-card">
+                <div className="config-card-title">Thông tin chung</div>
 
                 {/* Lesson Name input */}
-                <div className="form-group flex flex-col gap-1.5">
-                  <label className="text-sm font-bold text-text-primary">Tên bài học *</label>
+                <div className={`input-group ${errors.title ? 'error' : ''}`}>
+                  <label>Tên bài học *</label>
                   <input
                     type="text"
-                    className="w-full p-2.5 border border-input rounded-lg text-[15px] bg-surface outline-none focus:border-primary"
+                    className="input-field"
                     {...register('title')}
                   />
-                  {errors.title && <span className="text-xs text-error">{errors.title.message}</span>}
+                  {errors.title && <span className="error-message">✕ {errors.title.message}</span>}
                 </div>
 
                 {/* Lesson Subtitle input */}
-                <div className="form-group flex flex-col gap-1.5">
-                  <label className="text-sm font-bold text-text-primary">Mô tả ngắn bài học *</label>
+                <div className={`input-group ${errors.subtitle ? 'error' : ''}`}>
+                  <label>Mô tả ngắn bài học *</label>
                   <input
                     type="text"
-                    className="w-full p-2.5 border border-input rounded-lg text-[15px] bg-surface outline-none focus:border-primary"
+                    className="input-field"
                     {...register('subtitle')}
                     placeholder="Mô tả ngắn..."
                   />
-                  {errors.subtitle && <span className="text-xs text-error">{errors.subtitle.message}</span>}
+                  {errors.subtitle && <span className="error-message">✕ {errors.subtitle.message}</span>}
                 </div>
 
                 {/* Genre Selector */}
-                <div className="form-group flex flex-col gap-1.5">
-                  <label className="text-sm font-bold text-text-primary">Thể loại bài học *</label>
+                <div className={`input-group ${errors.genre ? 'error' : ''}`}>
+                  <label>Thể loại bài học *</label>
                   <select
-                    className="w-full p-2.5 border border-input rounded-lg text-[15px] bg-surface outline-none focus:border-primary"
+                    className="input-field"
                     {...register('genre')}
                   >
                     <option value="Từ vựng">Từ vựng (Vocabulary)</option>
@@ -888,15 +908,27 @@ export default function LessonConfig() {
                     <option value="Đọc">Đọc (Reading)</option>
                     <option value="Viết">Viết (Writing)</option>
                   </select>
-                  {errors.genre && <span className="text-xs text-error">{errors.genre.message}</span>}
+                  {errors.genre && <span className="error-message">✕ {errors.genre.message}</span>}
+                </div>
+
+                {/* Total Cards count (Read-only) */}
+                <div className="input-group">
+                  <label>Tổng số thẻ câu hỏi</label>
+                  <input
+                    type="text"
+                    className="input-field font-bold text-primary"
+                    readOnly
+                    value={`${cards.length} thẻ`}
+                    style={{ backgroundColor: 'rgba(78, 86, 192, 0.03)' }}
+                  />
                 </div>
 
                 {/* Exercise Type selector */}
-                <div className="form-group flex flex-col gap-2">
-                  <label className="text-sm font-bold text-text-primary">Chọn hình thức bài tập *</label>
+                <div className="input-group">
+                  <label>Chọn hình thức bài tập *</label>
                   <div className="custom-radio-list flex flex-col gap-2.5 mt-1">
                     {getExerciseTypesForGenre(selectedGenre).map((type) => (
-                      <label key={type} className={`custom-radio-item flex items-center gap-3 cursor-pointer p-1 rounded hover:bg-gray-50 ${exerciseType === type ? 'active font-bold text-text-primary' : 'text-text-secondary'}`}>
+                      <label key={type} className={`custom-radio-item flex items-center gap-3 cursor-pointer p-1 rounded hover:bg-gray-50 ${exerciseType === type ? 'active text-text-primary' : 'text-text-secondary'}`}>
                         <input
                           type="radio"
                           value={type}
@@ -907,7 +939,7 @@ export default function LessonConfig() {
                         <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${exerciseType === type ? 'border-primary' : 'border-text-secondary/35'}`}>
                           {exerciseType === type && <span className="w-2.5 h-2.5 rounded-full bg-primary" />}
                         </span>
-                        <span className="text-sm">{type}</span>
+                        <span className="text-sm" style={{ fontWeight: '500', textTransform: 'none' }}>{type}</span>
                       </label>
                     ))}
                   </div>
@@ -916,8 +948,31 @@ export default function LessonConfig() {
             </div>
 
             {/* RIGHT COLUMN: DETAILED CONFIGURATION */}
-            <div className="right-col flex-grow w-full flex flex-col gap-6">
-              <div className="premium-card bg-surface p-8 rounded-xl border border-border shadow-glass-shadow flex flex-col gap-6 w-full">
+            <div className="w-70">
+              <div className="config-card flex flex-col gap-6" style={{ border: '2px solid var(--primary)', boxShadow: 'var(--elevation-active-glow)' }}>
+                {/* Active Card Index Header similar to ExamConfig */}
+                <div className="page-header-row" style={{ borderBottom: '1px solid rgba(78, 86, 192, 0.08)', paddingBottom: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '50%',
+                        backgroundColor: 'var(--primary)',
+                        color: '#fff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: '800'
+                      }}
+                    >
+                      {activeCardIndex + 1}
+                    </div>
+                    <span style={{ fontWeight: '700', color: 'var(--text-primary)', fontSize: '15px' }}>
+                      Cấu hình Thẻ #{activeCardIndex + 1} - Kỹ năng {selectedGenre} ({exerciseType})
+                    </span>
+                  </div>
+                </div>
                 
                 {/* Render split config sub-components */}
                 {exerciseType === 'Flashcards SRS' && (
@@ -1088,7 +1143,7 @@ export default function LessonConfig() {
                       >
                         &lt;
                       </button>
-                      {cards.map((_, idx) => (
+                      {getVisibleCardIndices().map((idx) => (
                         <button
                           type="button"
                           key={idx}

@@ -158,12 +158,20 @@ export default function Lessons() {
       </div>
 
       {/* Statistics */}
-      <div className="stats-grid-single">
-        <div className="stat-card">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', width: '100%' }}>
+        <div className="stat-card animate-scale-up">
           <span className="stat-label">Tổng số bài học</span>
           <span className="stat-value">
-            {loading ? '...' : `${lessons.length < 10 ? '0' + lessons.length : lessons.length} Bài học`}
+            {loading ? '...' : `${lessons.length} Bài học`}
           </span>
+          <span className="stat-badge success">▲ Thiết lập hoàn tất</span>
+        </div>
+        <div className="stat-card animate-scale-up" style={{ animationDelay: '100ms' }}>
+          <span className="stat-label">Tỷ lệ hoàn thành trung bình</span>
+          <span className="stat-value">
+            {loading ? '...' : `${lessons.length > 0 ? Math.round((lessons.filter(l => l.status === 'completed').length / lessons.length) * 100) : 0}%`}
+          </span>
+          <span className="stat-badge stable">● Dựa trên trạng thái học viên</span>
         </div>
       </div>
 
@@ -187,10 +195,10 @@ export default function Lessons() {
                 backgroundColor: 'var(--surface)',
                 border: '1px solid rgba(78, 86, 192, 0.15)',
                 borderRadius: 'var(--rounded-md)',
-                padding: '6px 12px',
-                fontSize: '13px',
+                padding: '8px 16px',
+                fontSize: '14px',
                 outline: 'none',
-                width: '200px',
+                width: '240px',
               }}
             />
             <a href="#" className="btn-secondary" onClick={(e) => e.preventDefault()}>
@@ -251,11 +259,22 @@ export default function Lessons() {
                       )}
                     </td>
                     <td>
-                      <div className="action-cell">
+                      <div className="flex gap-2">
                         <Link
                           to={`/admin/curriculum/${unitId}/lessons/${l.id}/config`}
                           className="btn-action-icon edit-btn"
-                          style={{ color: 'var(--primary)', borderColor: 'rgba(78, 86, 192, 0.15)' }}
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            textDecoration: 'none',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            padding: '6px 12px',
+                            borderRadius: '6px',
+                            border: '1px solid rgba(78, 86, 192, 0.15)',
+                            color: 'var(--primary)'
+                          }}
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
@@ -267,8 +286,20 @@ export default function Lessons() {
                           href="#"
                           onClick={(e) => handleOpenDelete(e, l)}
                           className="btn-action-icon delete-btn"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            textDecoration: 'none',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            padding: '6px 12px',
+                            borderRadius: '6px',
+                            border: '1px solid rgba(239, 68, 68, 0.15)',
+                            color: 'var(--error)'
+                          }}
                         >
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M10 11v6" />
                             <path d="M14 11v6" />
                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />

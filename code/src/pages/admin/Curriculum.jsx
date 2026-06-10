@@ -18,15 +18,11 @@ const unitFormSchema = z.object({
 export default function Curriculum() {
   const navigate = useNavigate()
   const { levelId } = useParams()
+  const selectedLevelId = levelId || null
   const [levels, setLevels] = useState([])
   const [units, setUnits] = useState([])
   const [levelCounts, setLevelCounts] = useState({})
   
-  const [selectedLevelId, setSelectedLevelId] = useState(null)
-
-  useEffect(() => {
-    setSelectedLevelId(levelId || null)
-  }, [levelId])
   const [currentLevelPage, setCurrentLevelPage] = useState(1)
   
   // Loading states
