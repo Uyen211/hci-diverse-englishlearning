@@ -6,41 +6,41 @@ export function FlashcardConfig({ register, watch, errors }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="form-group flex flex-col gap-1.5">
-          <label className="text-sm font-bold text-text-primary">Từ vựng (Key) *</label>
+        <div className={`input-group ${errors.key ? 'error' : ''}`}>
+          <label>Từ vựng (Key) *</label>
           <input 
             type="text" 
-            className="w-full p-2.5 border border-input rounded-lg text-[15px]" 
+            className="input-field" 
             {...register('key')} 
             placeholder="Ví dụ: collaborate" 
           />
-          {errors.key && <span className="text-xs text-error">{errors.key.message}</span>}
+          {errors.key && <span className="error-message">✕ {errors.key.message}</span>}
         </div>
-        <div className="form-group flex flex-col gap-1.5">
-          <label className="text-sm font-bold text-text-primary">Phiên âm IPA</label>
+        <div className="input-group">
+          <label>Phiên âm IPA</label>
           <input 
             type="text" 
-            className="w-full p-2.5 border border-input rounded-lg text-[15px]" 
+            className="input-field" 
             {...register('ipa')} 
             placeholder="Ví dụ: /kəˈlæb.ə.reɪt/" 
           />
         </div>
       </div>
 
-      <div className="form-group flex flex-col gap-1.5">
-        <label className="text-sm font-bold text-text-primary">Định nghĩa & Ví dụ *</label>
+      <div className={`input-group ${errors.definition ? 'error' : ''}`}>
+        <label>Định nghĩa & Ví dụ *</label>
         <textarea 
-          className="w-full p-2.5 border border-input rounded-lg text-[15px]" 
+          className="input-field" 
           rows={3} 
           {...register('definition')} 
           placeholder="Ví dụ: Động từ thể hiện sự hợp tác... Ví dụ: We need to collaborate." 
         />
-        {errors.definition && <span className="text-xs text-error">{errors.definition.message}</span>}
+        {errors.definition && <span className="error-message">✕ {errors.definition.message}</span>}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="form-group flex flex-col gap-1.5">
-          <label className="text-sm font-bold text-text-primary">Âm thanh phát âm (.mp3)</label>
+        <div className="input-group">
+          <label>Âm thanh phát âm (.mp3)</label>
           <div className="border-2 border-dashed border-input rounded-lg p-5 text-center bg-gray-50 cursor-pointer flex flex-col items-center gap-1">
             <svg className="w-6 h-6 text-text-secondary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/>
@@ -134,19 +134,19 @@ export function ConcordanceConfig({ contexts, addContext, removeContext, updateC
         <span className="font-heading text-base font-bold text-text-primary">Thiết lập Đoán nghĩa qua ngữ cảnh (Smart Concordance)</span>
       </div>
 
-      <div className="form-group flex flex-col gap-1.5 max-w-sm">
-        <label className="text-sm font-bold text-text-primary">Từ vựng mục tiêu *</label>
+      <div className={`input-group max-w-sm ${errors.key ? 'error' : ''}`}>
+        <label>Từ vựng mục tiêu *</label>
         <input 
           type="text" 
-          className="w-full p-2.5 border border-input rounded-lg text-[15px]" 
+          className="input-field" 
           {...register('key')} 
           placeholder="Ví dụ: collaborate" 
         />
-        {errors.key && <span className="text-xs text-error">{errors.key.message}</span>}
+        {errors.key && <span className="error-message">✕ {errors.key.message}</span>}
       </div>
 
       <div className="flex justify-between items-center mt-2">
-        <label className="text-sm font-bold text-text-primary">Danh sách câu ví dụ chứa từ mục tiêu * (Tối thiểu 2 câu)</label>
+        <label style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Danh sách câu ví dụ chứa từ mục tiêu * (Tối thiểu 2 câu)</label>
         <button 
           type="button" 
           onClick={addContext} 
@@ -158,13 +158,24 @@ export function ConcordanceConfig({ contexts, addContext, removeContext, updateC
       
       <div className="flex flex-col gap-4">
         {contexts.map((c, idx) => (
-          <div key={c.id} className="p-4 bg-gray-50 rounded-lg border border-border flex flex-col gap-3">
+          <div key={c.id} className="sub-questions-manager" style={{ border: '1px solid rgba(78, 86, 192, 0.12)', borderRadius: '12px', padding: '16px', backgroundColor: 'rgba(78, 86, 192, 0.01)' }}>
             <div className="flex justify-between items-center border-b border-border/60 pb-1.5">
               <span className="text-xs font-bold text-primary">Câu ví dụ #{idx + 1}</span>
               <button
                 type="button"
                 onClick={() => removeContext(c.id)}
-                className="w-7 h-7 rounded bg-error/5 border border-error/15 text-error flex items-center justify-center hover:bg-error/10"
+                style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '6px',
+                  border: '1px solid rgba(239, 68, 68, 0.15)',
+                  backgroundColor: 'rgba(239, 68, 68, 0.05)',
+                  color: 'var(--error)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -172,10 +183,10 @@ export function ConcordanceConfig({ contexts, addContext, removeContext, updateC
               </button>
             </div>
             
-            <div className="form-group flex flex-col gap-1">
-              <label className="text-[13px] font-semibold text-text-secondary">Câu chứa từ khóa *</label>
+            <div className="input-group mt-2">
+              <label>Câu chứa từ khóa *</label>
               <textarea
-                className="w-full p-2 border border-input rounded text-[15px] bg-surface"
+                className="input-field"
                 rows={2}
                 value={c.sentence}
                 onChange={(e) => updateContext(c.id, 'sentence', e.target.value)}
@@ -183,22 +194,22 @@ export function ConcordanceConfig({ contexts, addContext, removeContext, updateC
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div className="form-group flex flex-col gap-1">
-                <label className="text-[13px] font-semibold text-text-secondary">Tệp âm thanh câu ví dụ (.mp3)</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '8px' }}>
+              <div className="input-group">
+                <label>Tệp âm thanh câu ví dụ (.mp3)</label>
                 <input
                   type="text"
-                  className="w-full p-2 border border-input rounded text-[15px] bg-surface"
+                  className="input-field"
                   value={c.audio || ''}
                   onChange={(e) => updateContext(c.id, 'audio', e.target.value)}
                   placeholder="context_audio_x.mp3"
                 />
               </div>
-              <div className="form-group flex flex-col gap-1">
-                <label className="text-[13px] font-semibold text-text-secondary">Dịch nghĩa câu (Gợi ý ẩn)</label>
+              <div className="input-group">
+                <label>Dịch nghĩa câu (Gợi ý ẩn)</label>
                 <input
                   type="text"
-                  className="w-full p-2 border border-input rounded text-[15px] bg-surface"
+                  className="input-field"
                   value={c.translation}
                   onChange={(e) => updateContext(c.id, 'translation', e.target.value)}
                   placeholder="Các nhà khoa học hợp tác..."

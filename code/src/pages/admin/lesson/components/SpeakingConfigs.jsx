@@ -71,42 +71,42 @@ export function RoleplayConfig({ register, errors, turns, addTurn, removeTurn, u
         <span className="font-heading text-base font-bold text-text-primary">Thiết lập Hội thoại nhập vai với AI</span>
       </div>
 
-      <div className="form-group flex flex-col gap-1.5">
-        <label className="text-sm font-bold text-text-primary">Thiết lập bối cảnh tình huống giả lập *</label>
+      <div className={`input-group ${errors.context ? 'error' : ''}`}>
+        <label>Thiết lập bối cảnh tình huống giả lập *</label>
         <textarea 
-          className="w-full p-2.5 border border-input rounded-lg text-[15px]" 
+          className="input-field" 
           rows={2} 
           {...register('context')} 
           placeholder="Tình huống: Bạn và một đồng nghiệp nước ngoài đang thảo luận..." 
         />
-        {errors.context && <span className="text-xs text-error">{errors.context.message}</span>}
+        {errors.context && <span className="error-message">✕ {errors.context.message}</span>}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="form-group flex flex-col gap-1.5">
-          <label className="text-sm font-bold text-text-primary">Vai của AI *</label>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <div className={`input-group ${errors.aiRole ? 'error' : ''}`}>
+          <label>Vai của AI *</label>
           <input 
             type="text" 
-            className="w-full p-2.5 border border-input rounded-lg text-[15px]" 
+            className="input-field" 
             {...register('aiRole')} 
             placeholder="Ví dụ: John (Project Manager)" 
           />
-          {errors.aiRole && <span className="text-xs text-error">{errors.aiRole.message}</span>}
+          {errors.aiRole && <span className="error-message">✕ {errors.aiRole.message}</span>}
         </div>
-        <div className="form-group flex flex-col gap-1.5">
-          <label className="text-sm font-bold text-text-primary">Vai của Người học *</label>
+        <div className={`input-group ${errors.userRole ? 'error' : ''}`}>
+          <label>Vai của Người học *</label>
           <input 
             type="text" 
-            className="w-full p-2.5 border border-input rounded-lg text-[15px]" 
+            className="input-field" 
             {...register('userRole')} 
             placeholder="Ví dụ: Technical Assistant" 
           />
-          {errors.userRole && <span className="text-xs text-error">{errors.userRole.message}</span>}
+          {errors.userRole && <span className="error-message">✕ {errors.userRole.message}</span>}
         </div>
       </div>
 
       <div className="flex justify-between items-center mt-2">
-        <label className="text-sm font-bold text-text-primary">Kịch bản gợi ý hội thoại mẫu *</label>
+        <label style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Kịch bản gợi ý hội thoại mẫu *</label>
         <button 
           type="button" 
           onClick={addTurn} 
@@ -132,15 +132,28 @@ export function RoleplayConfig({ register, errors, turns, addTurn, removeTurn, u
             </button>
             <input
               type="text"
-              className="flex-grow p-2 border border-input rounded-lg text-[15px] bg-surface"
+              className="input-field"
               value={t.text}
               onChange={(e) => updateTurn(t.id, 'text', e.target.value)}
               placeholder="Lời thoại thoại..."
+              style={{ flexGrow: 1 }}
             />
             <button
               type="button"
               onClick={() => removeTurn(t.id)}
-              className="w-8 h-8 rounded bg-error/5 border border-error/15 text-error flex items-center justify-center hover:bg-error/10 flex-shrink-0"
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '8px',
+                border: '1px solid rgba(239, 68, 68, 0.15)',
+                backgroundColor: 'rgba(239, 68, 68, 0.05)',
+                color: 'var(--error)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                flexShrink: 0
+              }}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
