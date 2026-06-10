@@ -28,6 +28,10 @@ const adminRoutes = [
     element: <Curriculum />,
   },
   {
+    path: 'curriculum/:levelId',
+    element: <Curriculum />,
+  },
+  {
     path: 'curriculum/:unitId/lessons',
     element: <Lessons />,
   },

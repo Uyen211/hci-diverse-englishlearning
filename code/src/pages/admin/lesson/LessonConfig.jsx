@@ -797,7 +797,7 @@ export default function LessonConfig() {
         {level && (
           <>
             <span className="separator">&gt;</span>
-            <Link to="/admin/curriculum" onClick={(e) => { e.preventDefault(); navigate('/admin/curriculum'); }}>
+            <Link to={`/admin/curriculum/${level.id}`}>
               Quản lý Unit cấp độ {level.name.toLowerCase()}
             </Link>
           </>

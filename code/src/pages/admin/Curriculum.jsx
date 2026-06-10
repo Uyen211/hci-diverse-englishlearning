@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { levelService } from '../../services/levelService'
 import { unitService } from '../../services/unitService'
 
@@ -17,11 +17,16 @@ const unitFormSchema = z.object({
 
 export default function Curriculum() {
   const navigate = useNavigate()
+  const { levelId } = useParams()
   const [levels, setLevels] = useState([])
   const [units, setUnits] = useState([])
   const [levelCounts, setLevelCounts] = useState({})
   
   const [selectedLevelId, setSelectedLevelId] = useState(null)
+
+  useEffect(() => {
+    setSelectedLevelId(levelId || null)
+  }, [levelId])
   const [currentLevelPage, setCurrentLevelPage] = useState(1)
   
   // Loading states
@@ -269,14 +274,14 @@ export default function Curriculum() {
     }
   }
 
-  const handleLevelSelect = (e, levelId) => {
+  const handleLevelSelect = (e, targetLevelId) => {
     e.preventDefault()
-    setSelectedLevelId(levelId)
+    navigate(`/admin/curriculum/${targetLevelId}`)
   }
 
   const handleBackToOverview = (e) => {
     e.preventDefault()
-    setSelectedLevelId(null)
+    navigate('/admin/curriculum')
   }
 
   return (
