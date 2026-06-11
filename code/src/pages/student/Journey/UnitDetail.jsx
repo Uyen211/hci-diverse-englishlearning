@@ -1,16 +1,17 @@
-import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card'
-import { Button } from '../../components/ui/button'
+import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/card'
+import { Button } from '../../../components/ui/button'
 import { Check, Play, Lock } from 'lucide-react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 
 export default function UnitDetail() {
   const { unitId } = useParams()
+  const navigate = useNavigate()
 
   const lessons = [
     { id: 1, type: 'Từ vựng & Ngữ pháp', title: 'Từ vựng & Ngữ pháp', status: 'completed', desc: 'Hoàn thành: Hôm qua', duration: '15 phút' },
     { id: 2, type: 'Luyện đọc', title: 'Everyday News', status: 'completed', desc: 'Hoàn thành: 2 giờ trước', duration: '20 phút' },
     { id: 3, type: 'Luyện nghe', title: 'A Conversation at the Coffee Shop', status: 'active', desc: 'Interactive Stories / Shadowing', duration: '12 phút', level: 'Cấp độ B1' },
-    { id: 4, type: 'Luyện nói', title: 'Ordering Coffee', status: 'locked', desc: 'Yêu cầu hoàn thành bài luyện nghe' },
+    { id: 4, type: 'Luyện nói', title: 'Ordering Coffee', status: 'active', desc: 'Luyện phát âm / Role-play', duration: '15 phút', level: 'Cấp độ B1' },
     { id: 5, type: 'Mini Test', title: 'Mini Test Unit', status: 'locked', desc: 'Hoàn thành tất cả bài học để mở khóa' },
   ]
 
@@ -74,7 +75,16 @@ export default function UnitDetail() {
                       </div>
 
                       {isActive && (
-                        <Button className="shrink-0 mt-4 sm:mt-0 rounded-full px-6 shadow-active-glow">
+                        <Button 
+                          className="shrink-0 mt-4 sm:mt-0 rounded-full px-6 shadow-active-glow"
+                          onClick={() => {
+                            if (lesson.id === 3) {
+                              navigate('/student/listening-select')
+                            } else if (lesson.id === 4) {
+                              navigate('/student/speaking-select')
+                            }
+                          }}
+                        >
                           Bắt đầu học <Play className="w-4 h-4 ml-2 fill-current" />
                         </Button>
                       )}
