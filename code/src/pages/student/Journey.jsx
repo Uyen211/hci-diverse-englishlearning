@@ -1,8 +1,10 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
 import { Compass, Star, ChevronRight } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Journey() {
+  const navigate = useNavigate()
   const roadmapSteps = [
     { id: 1, title: 'Kết nối đầu tiên (Greetings)', units: 'Unit 1-3', status: 'completed', score: '95/100' },
     { id: 2, title: 'Nhịp sống hàng ngày (Daily Routines)', units: 'Unit 4-6', status: 'active', score: '70/100' },
@@ -68,6 +70,7 @@ export default function Journey() {
                       variant={isActive ? 'default' : 'outline'}
                       size="sm"
                       disabled={step.status === 'locked'}
+                      onClick={() => navigate(`/student/unit/${step.id}`)}
                     >
                       {isCompleted ? 'Học lại' : isActive ? 'Tiếp tục' : 'Bị khóa'}
                       <ChevronRight className="w-3.5 h-3.5 ml-1" />
