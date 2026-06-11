@@ -16,6 +16,16 @@ import RolePlay from '../pages/student/Journey/skills/speaking/RolePlay';
 import Pronunciation from '../pages/student/Journey/skills/speaking/Pronunciation';
 import SpeakingResult from '../pages/student/Journey/skills/speaking/SpeakingResult';
 
+// Reading
+import ReadingSelect from '../pages/student/Journey/skills/reading/ReadingSelect';
+import SplitReading from '../pages/student/Journey/skills/reading/SplitReading';
+import NewsReading from '../pages/student/Journey/skills/reading/NewsReading';
+import ReadingResult from '../pages/student/Journey/skills/reading/ReadingResult';
+
+// Writing
+import WritingTask from '../pages/student/Journey/skills/writing/WritingTask';
+import WritingResult from '../pages/student/Journey/skills/writing/WritingResult';
+
 const studentRoutes = [
   {
     path: 'journey',
@@ -60,6 +70,30 @@ const studentRoutes = [
   {
     path: 'speaking/result',
     element: <SpeakingResult />,
+  },
+  {
+    path: 'reading-select',
+    element: <ReadingSelect />,
+  },
+  {
+    path: 'reading/split',
+    element: <SplitReading />,
+  },
+  {
+    path: 'reading/news',
+    element: <NewsReading />,
+  },
+  {
+    path: 'reading/result',
+    element: <ReadingResult />,
+  },
+  {
+    path: 'writing/task',
+    element: <WritingTask />,
+  },
+  {
+    path: 'writing/result',
+    element: <WritingResult />,
   },
   {
     path: 'review',
