@@ -1,6 +1,8 @@
 import Journey from '../pages/student/Journey/Journey';
 import Review from '../pages/student/Review';
-import PracticeTest from '../pages/student/PracticeTest';
+import PracticeTest from '../pages/student/practice-test/PracticeTest';
+import ExamTaker from '../pages/student/practice-test/ExamTaker';
+import ExamReview from '../pages/student/practice-test/ExamReview';
 import UnitDetail from '../pages/student/Journey/UnitDetail';
 
 // Listening
@@ -15,6 +17,16 @@ import SpeakingSelect from '../pages/student/Journey/skills/speaking/SpeakingSel
 import RolePlay from '../pages/student/Journey/skills/speaking/RolePlay';
 import Pronunciation from '../pages/student/Journey/skills/speaking/Pronunciation';
 import SpeakingResult from '../pages/student/Journey/skills/speaking/SpeakingResult';
+
+// Reading
+import ReadingSelect from '../pages/student/Journey/skills/reading/ReadingSelect';
+import SplitReading from '../pages/student/Journey/skills/reading/SplitReading';
+import NewsReading from '../pages/student/Journey/skills/reading/NewsReading';
+import ReadingResult from '../pages/student/Journey/skills/reading/ReadingResult';
+
+// Writing
+import WritingTask from '../pages/student/Journey/skills/writing/WritingTask';
+import WritingResult from '../pages/student/Journey/skills/writing/WritingResult';
 
 const studentRoutes = [
   {
@@ -62,12 +74,44 @@ const studentRoutes = [
     element: <SpeakingResult />,
   },
   {
+    path: 'reading-select',
+    element: <ReadingSelect />,
+  },
+  {
+    path: 'reading/split',
+    element: <SplitReading />,
+  },
+  {
+    path: 'reading/news',
+    element: <NewsReading />,
+  },
+  {
+    path: 'reading/result',
+    element: <ReadingResult />,
+  },
+  {
+    path: 'writing/task',
+    element: <WritingTask />,
+  },
+  {
+    path: 'writing/result',
+    element: <WritingResult />,
+  },
+  {
     path: 'review',
     element: <Review />,
   },
   {
     path: 'practice-test',
     element: <PracticeTest />,
+  },
+  {
+    path: 'practice-test/:examId/take',
+    element: <ExamTaker />,
+  },
+  {
+    path: 'practice-test/:examId/review',
+    element: <ExamReview />,
   },
 ];
 

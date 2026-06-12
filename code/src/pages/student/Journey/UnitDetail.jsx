@@ -9,10 +9,11 @@ export default function UnitDetail() {
 
   const lessons = [
     { id: 1, type: 'Từ vựng & Ngữ pháp', title: 'Từ vựng & Ngữ pháp', status: 'completed', desc: 'Hoàn thành: Hôm qua', duration: '15 phút' },
-    { id: 2, type: 'Luyện đọc', title: 'Everyday News', status: 'completed', desc: 'Hoàn thành: 2 giờ trước', duration: '20 phút' },
+    { id: 2, type: 'Luyện đọc', title: 'Everyday News', status: 'active', desc: 'Đọc hiểu / Báo chí', duration: '20 phút' },
     { id: 3, type: 'Luyện nghe', title: 'A Conversation at the Coffee Shop', status: 'active', desc: 'Interactive Stories / Shadowing', duration: '12 phút', level: 'Cấp độ B1' },
     { id: 4, type: 'Luyện nói', title: 'Ordering Coffee', status: 'active', desc: 'Luyện phát âm / Role-play', duration: '15 phút', level: 'Cấp độ B1' },
-    { id: 5, type: 'Mini Test', title: 'Mini Test Unit', status: 'locked', desc: 'Hoàn thành tất cả bài học để mở khóa' },
+    { id: 5, type: 'Luyện viết', title: 'Writing Task', status: 'active', desc: 'Luyện viết đoạn văn ngắn', duration: '20 phút', level: 'Cấp độ B1' },
+    { id: 6, type: 'Mini Test', title: 'Mini Test Unit', status: 'locked', desc: 'Hoàn thành tất cả bài học để mở khóa' },
   ]
 
   return (
@@ -60,7 +61,7 @@ export default function UnitDetail() {
                         )}
                         <div>
                           <h4 className={`text-lg font-bold mb-1 ${isActive ? 'text-primary' : 'text-text-primary'}`}>
-                            {lesson.type}{lesson.title !== lesson.type ? `: ${lesson.title}` : ''} {lesson.id === 5 ? (unitId || 3) : ''}
+                            {lesson.type}{lesson.title !== lesson.type ? `: ${lesson.title}` : ''} {lesson.id === 6 ? (unitId || 3) : ''}
                           </h4>
                           {isActive ? (
                             <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-text-secondary mt-2">
@@ -78,10 +79,14 @@ export default function UnitDetail() {
                         <Button 
                           className="shrink-0 mt-4 sm:mt-0 rounded-full px-6 shadow-active-glow"
                           onClick={() => {
-                            if (lesson.id === 3) {
+                            if (lesson.id === 2) {
+                              navigate('/student/reading-select')
+                            } else if (lesson.id === 3) {
                               navigate('/student/listening-select')
                             } else if (lesson.id === 4) {
                               navigate('/student/speaking-select')
+                            } else if (lesson.id === 5) {
+                              navigate('/student/writing/task')
                             }
                           }}
                         >
