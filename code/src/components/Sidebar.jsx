@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const { user } = useAuthStore()
+  const navigate = useNavigate()
 
   // Dynamic menu items based on user role with raw SVG icons
   const getMenuItems = () => {
@@ -108,8 +109,8 @@ export default function Sidebar() {
   return (
     <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-brand">
-        {!isCollapsed && <span className="logo-text">DiveVerse</span>}
-        {isCollapsed && <span className="logo-text text-sm">DV</span>}
+        {!isCollapsed && <span className="logo-text cursor-pointer select-none" onClick={() => navigate('/')}>DiveVerse</span>}
+        {isCollapsed && <span className="logo-text text-sm cursor-pointer select-none" onClick={() => navigate('/')}>DV</span>}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="toggle-btn cursor-pointer"

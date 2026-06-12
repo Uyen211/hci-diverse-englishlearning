@@ -1,7 +1,8 @@
-
 import { Globe, Users, Mail } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Footer() {
+  const navigate = useNavigate()
   return (
     <footer className="bg-dark-floor text-white py-[60px] flex flex-col gap-12 shrink-0 w-full mt-auto">
       <div className="max-w-[1240px] mx-auto w-full px-8 md:px-12 lg:px-16 flex flex-col gap-12">
@@ -9,7 +10,10 @@ export default function Footer() {
         <div className="flex flex-wrap gap-20 justify-between">
           {/* Brand Column */}
           <div className="max-w-[300px] flex flex-col gap-[18px]">
-            <span className="font-heading text-[22px] font-extrabold text-white tracking-tight">
+            <span 
+              onClick={() => navigate('/')} 
+              className="font-heading text-[22px] font-extrabold text-white tracking-tight cursor-pointer select-none"
+            >
               DiveVerse
             </span>
             <p className="text-[13px] leading-relaxed text-[#a0a5c1]">
