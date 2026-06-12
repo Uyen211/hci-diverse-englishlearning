@@ -7,7 +7,6 @@ import adminRoutes from './adminRoutes';
 import studentRoutes from './studentRoutes';
 
 const router = createBrowserRouter([
-
   {
     path: '/login',
     element: (
