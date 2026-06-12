@@ -8,11 +8,12 @@ export default function UnitDetail() {
   const navigate = useNavigate()
 
   const lessons = [
-    { id: 1, type: 'Từ vựng & Ngữ pháp', title: 'Từ vựng & Ngữ pháp', status: 'completed', desc: 'Hoàn thành: Hôm qua', duration: '15 phút' },
-    { id: 2, type: 'Luyện đọc', title: 'Everyday News', status: 'completed', desc: 'Hoàn thành: 2 giờ trước', duration: '20 phút' },
-    { id: 3, type: 'Luyện nghe', title: 'A Conversation at the Coffee Shop', status: 'active', desc: 'Interactive Stories / Shadowing', duration: '12 phút', level: 'Cấp độ B1' },
-    { id: 4, type: 'Luyện nói', title: 'Ordering Coffee', status: 'active', desc: 'Luyện phát âm / Role-play', duration: '15 phút', level: 'Cấp độ B1' },
-    { id: 5, type: 'Mini Test', title: 'Mini Test Unit', status: 'locked', desc: 'Hoàn thành tất cả bài học để mở khóa' },
+    { id: 1, type: 'Từ vựng', title: 'Nhóm từ vựng', status: 'active', desc: 'Học từ vựng theo cụm và ngữ cảnh', duration: '15 phút' },
+    { id: 2, type: 'Ngữ pháp', title: 'Điểm ngữ pháp', status: 'active', desc: 'Thực hành cấu trúc câu', duration: '15 phút' },
+    { id: 3, type: 'Luyện đọc', title: 'Everyday News', status: 'completed', desc: 'Hoàn thành: 2 giờ trước', duration: '20 phút' },
+    { id: 4, type: 'Luyện nghe', title: 'A Conversation at the Coffee Shop', status: 'active', desc: 'Interactive Stories / Shadowing', duration: '12 phút', level: 'Cấp độ B1' },
+    { id: 5, type: 'Luyện nói', title: 'Ordering Coffee', status: 'active', desc: 'Luyện phát âm / Role-play', duration: '15 phút', level: 'Cấp độ B1' },
+    { id: 6, type: 'Mini Test', title: 'Mini Test Unit', status: 'locked', desc: 'Hoàn thành tất cả bài học để mở khóa' },
   ]
 
   return (
@@ -26,13 +27,13 @@ export default function UnitDetail() {
         <div className="flex-[2] flex flex-col gap-6 w-full">
           <Card className="border-none shadow-soft">
             <CardContent className="p-8">
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="text-3xl font-extrabold text-text-primary">Unit {unitId || 3}: Daily Communication</h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-extrabold text-text-primary leading-tight">Unit {unitId || 3}: Daily Communication</h2>
                 <div className="w-32 h-2 bg-primary/10 rounded-full overflow-hidden hidden md:block">
                   <div className="w-[60%] h-full bg-primary rounded-full"></div>
                 </div>
               </div>
-              <p className="text-text-secondary text-base">Master essential phrases for everyday interactions.</p>
+              <p className="text-text-secondary text-[15px] leading-relaxed">Master essential phrases for everyday interactions.</p>
             </CardContent>
           </Card>
 
@@ -78,9 +79,13 @@ export default function UnitDetail() {
                         <Button 
                           className="shrink-0 mt-4 sm:mt-0 rounded-full px-6 shadow-active-glow"
                           onClick={() => {
-                            if (lesson.id === 3) {
-                              navigate('/student/listening-select')
+                            if (lesson.id === 1) {
+                              navigate('/student/vocabulary-select', { state: { unitId: unitId || 3 } })
+                            } else if (lesson.id === 2) {
+                              alert('Tính năng Học Ngữ Pháp đang được phát triển!')
                             } else if (lesson.id === 4) {
+                              navigate('/student/listening-select')
+                            } else if (lesson.id === 5) {
                               navigate('/student/speaking-select')
                             }
                           }}

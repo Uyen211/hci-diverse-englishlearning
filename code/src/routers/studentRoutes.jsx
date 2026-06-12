@@ -16,6 +16,10 @@ import RolePlay from '../pages/student/Journey/skills/speaking/RolePlay';
 import Pronunciation from '../pages/student/Journey/skills/speaking/Pronunciation';
 import SpeakingResult from '../pages/student/Journey/skills/speaking/SpeakingResult';
 
+// Vocabulary
+import VocabSelect from '../pages/student/Journey/skills/vocabulary/VocabSelect';
+import VocabSession from '../pages/student/Journey/skills/vocabulary/VocabSession';
+
 const studentRoutes = [
   {
     path: 'journey',
@@ -24,6 +28,14 @@ const studentRoutes = [
   {
     path: 'unit/:unitId',
     element: <UnitDetail />,
+  },
+  {
+    path: 'vocabulary-select',
+    element: <VocabSelect />,
+  },
+  {
+    path: 'vocabulary/session',
+    element: <VocabSession />,
   },
   {
     path: 'listening-select',
