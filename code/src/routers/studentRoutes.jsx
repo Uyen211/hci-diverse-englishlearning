@@ -1,6 +1,8 @@
 import Journey from '../pages/student/Journey/Journey';
 import Review from '../pages/student/Review';
-import PracticeTest from '../pages/student/PracticeTest';
+import PracticeTest from '../pages/student/practice-test/PracticeTest';
+import ExamTaker from '../pages/student/practice-test/ExamTaker';
+import ExamReview from '../pages/student/practice-test/ExamReview';
 import UnitDetail from '../pages/student/Journey/UnitDetail';
 
 // Listening
@@ -102,6 +104,14 @@ const studentRoutes = [
   {
     path: 'practice-test',
     element: <PracticeTest />,
+  },
+  {
+    path: 'practice-test/:examId/take',
+    element: <ExamTaker />,
+  },
+  {
+    path: 'practice-test/:examId/review',
+    element: <ExamReview />,
   },
 ];
 

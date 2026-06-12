@@ -1,6 +1,7 @@
 import { initialExams } from "../mockdata/exams";
 
 const STORAGE_KEY = "diveverse_exams";
+const ATTEMPTS_KEY = "diveverse_exam_attempts";
 
 function getRawExams() {
   const stored = localStorage.getItem(STORAGE_KEY);
@@ -9,7 +10,14 @@ function getRawExams() {
     return initialExams;
   }
   try {
-    return JSON.parse(stored);
+    const exams = JSON.parse(stored);
+    // Refresh storage if length or structure does not match our new 3-exam setup
+    const hasCorrectSetup = exams.length === 3 && exams.some(e => e.id === "exam-placement") && exams.find(e => e.id === "exam-1")?.questions?.length > 2;
+    if (!hasCorrectSetup) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(initialExams));
+      return initialExams;
+    }
+    return exams;
   } catch {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(initialExams));
     return initialExams;
@@ -18,6 +26,20 @@ function getRawExams() {
 
 function saveRawExams(exams) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(exams));
+}
+
+function getRawAttempts() {
+  const stored = localStorage.getItem(ATTEMPTS_KEY);
+  if (!stored) return [];
+  try {
+    return JSON.parse(stored);
+  } catch {
+    return [];
+  }
+}
+
+function saveRawAttempts(attempts) {
+  localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(attempts));
 }
 
 const delay = (ms = 300) => new Promise(resolve => setTimeout(resolve, ms));
@@ -32,6 +54,38 @@ export const examService = {
     await delay();
     const exams = getRawExams();
     return exams.find(e => e.id === id) || null;
+  },
+
+  async getAttempts() {
+    await delay();
+    return getRawAttempts();
+  },
+
+  async getAttemptByExamId(examId) {
+    await delay();
+    const attempts = getRawAttempts();
+    return attempts.find(a => a.examId === examId) || null;
+  },
+
+  async saveAttempt(examId, answers, scoreDetails) {
+    await delay();
+    const attempts = getRawAttempts();
+    
+    // Remove existing attempt if any to support retaking exams
+    const filtered = attempts.filter(a => a.examId !== examId);
+    
+    const newAttempt = {
+      examId,
+      answers,
+      score: scoreDetails.score,
+      maxScore: scoreDetails.maxScore || 100,
+      skillsBreakdown: scoreDetails.skillsBreakdown || {},
+      submittedAt: new Date().toISOString()
+    };
+    
+    filtered.push(newAttempt);
+    saveRawAttempts(filtered);
+    return newAttempt;
   },
 
   async addExam(examData) {
