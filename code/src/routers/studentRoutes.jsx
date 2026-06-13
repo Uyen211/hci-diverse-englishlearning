@@ -18,6 +18,14 @@ import RolePlay from '../pages/student/Journey/skills/speaking/RolePlay';
 import Pronunciation from '../pages/student/Journey/skills/speaking/Pronunciation';
 import SpeakingResult from '../pages/student/Journey/skills/speaking/SpeakingResult';
 
+// Vocabulary
+import VocabSelect from '../pages/student/Journey/skills/vocabulary/VocabSelect';
+import VocabSession from '../pages/student/Journey/skills/vocabulary/VocabSession';
+
+// Grammar
+import GrammarSelect from '../pages/student/Journey/skills/grammar/GrammarSelect';
+import GrammarSession from '../pages/student/Journey/skills/grammar/GrammarSession';
+
 // Reading
 import ReadingSelect from '../pages/student/Journey/skills/reading/ReadingSelect';
 import SplitReading from '../pages/student/Journey/skills/reading/SplitReading';
@@ -36,6 +44,22 @@ const studentRoutes = [
   {
     path: 'unit/:unitId',
     element: <UnitDetail />,
+  },
+  {
+    path: 'vocabulary-select',
+    element: <VocabSelect />,
+  },
+  {
+    path: 'vocabulary/session',
+    element: <VocabSession />,
+  },
+  {
+    path: 'grammar-select',
+    element: <GrammarSelect />,
+  },
+  {
+    path: 'grammar/session',
+    element: <GrammarSession />,
   },
   {
     path: 'listening-select',
