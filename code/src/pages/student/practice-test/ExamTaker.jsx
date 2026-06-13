@@ -8,10 +8,12 @@ import TakerSpeaking from './components/TakerSpeaking'
 import TakerReading from './components/TakerReading'
 import TakerWriting from './components/TakerWriting'
 import { ArrowLeft, Send } from 'lucide-react'
+import { useToastStore } from '../../../store/toastStore'
 
 export default function ExamTaker() {
   const { examId } = useParams()
   const navigate = useNavigate()
+  const { addToast } = useToastStore()
   const [exam, setExam] = useState(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('')
@@ -150,10 +152,11 @@ export default function ExamTaker() {
         maxScore,
         skillsBreakdown
       })
+      addToast("Nộp bài thi thành công. Đang tải kết quả...", "success")
       navigate(`/student/practice-test/${exam.id}/review`)
     } catch (err) {
       console.error('Lỗi khi nộp bài thi:', err)
-      alert('Đã xảy ra lỗi khi nộp bài thi. Vui lòng thử lại.')
+      addToast("Đã xảy ra lỗi khi nộp bài thi. Vui lòng thử lại.", "error")
     }
   }
 

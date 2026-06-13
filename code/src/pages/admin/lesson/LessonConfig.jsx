@@ -6,6 +6,7 @@ import * as z from 'zod';
 import { lessonService } from '../../../services/lessonService';
 import { unitService } from '../../../services/unitService';
 import { levelService } from '../../../services/levelService';
+import { useToastStore } from '../../../store/toastStore';
 
 // Import split components
 import { FlashcardConfig, DragDropConfig, ConcordanceConfig } from './components/VocabularyConfigs';
@@ -61,6 +62,7 @@ const configFormSchema = z.object({
 export default function LessonConfig() {
   const { unitId, lessonId } = useParams();
   const navigate = useNavigate();
+  const { addToast } = useToastStore();
 
   const [unit, setUnit] = useState(null);
   const [level, setLevel] = useState(null);
@@ -643,11 +645,13 @@ export default function LessonConfig() {
       }
 
       setSaveSuccess(true);
+      addToast(`Lưu cấu hình bài học "${data.title}" thành công`, "success");
       setTimeout(() => {
         navigate(`/admin/curriculum/${unitId}/lessons`);
       }, 1000);
     } catch (err) {
       console.error('Lỗi khi lưu cấu hình bài học:', err);
+      addToast(`Lỗi: ${err.message || "Không thể lưu cấu hình bài học"}`, "error");
     } finally {
       setSaveLoading(false);
     }

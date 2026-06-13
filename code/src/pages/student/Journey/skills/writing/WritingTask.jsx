@@ -3,9 +3,11 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import Modal from '@/components/Modal'
+import { useToastStore } from '@/store/toastStore'
 
 export default function WritingTask() {
   const navigate = useNavigate()
+  const { addToast } = useToastStore()
   const [text, setText] = useState('')
   const [errorType, setErrorType] = useState(null) // null | 'empty' | 'short'
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -32,6 +34,7 @@ export default function WritingTask() {
 
   const handleConfirmSubmit = () => {
     setIsModalOpen(false)
+    addToast("Nộp bài viết thành công. AI đang chấm điểm...", "success")
     navigate('/student/writing/result')
   }
 
@@ -52,9 +55,15 @@ export default function WritingTask() {
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl mx-auto pb-12 h-full">
-      <div className="text-sm text-text-secondary mb-2 flex justify-between items-center">
-        <div>
-          <Link to="/student/unit/3" className="hover:text-primary transition-colors">Bài học</Link> &gt; Unit 3 &gt; Luyện viết
+      <div className="flex justify-between items-center mb-2">
+        <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
+          <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Trang chủ</span>
+          <span className="opacity-50">&gt;</span>
+          <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/journey')}>Hành trình</span>
+          <span className="opacity-50">&gt;</span>
+          <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/unit/3')}>Unit 3</span>
+          <span className="opacity-50">&gt;</span>
+          <span className="text-primary font-bold">Luyện viết</span>
         </div>
         {/* Hidden button to toggle error state for demo presentation */}
         <button onClick={toggleTestError} className="text-xs text-text-secondary opacity-50 hover:opacity-100">Test Errors</button>

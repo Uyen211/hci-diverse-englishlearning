@@ -8,8 +8,17 @@ export default function ListeningResult() {
 
   return (
     <div className="flex flex-col gap-6 max-w-6xl mx-auto pb-12">
-      <div className="text-sm text-text-secondary mb-2">
-        <Link to="/student/unit/3" className="hover:text-primary transition-colors">Bài học</Link> &gt; Unit 3 &gt; <Link to="/student/listening-select" className="hover:text-primary transition-colors">Luyện nghe</Link> &gt; Kết quả
+      {/* Breadcrumb & Navigation */}
+      <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Trang chủ</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/journey')}>Hành trình</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/unit/3')}>Unit 3</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/listening-select')}>Luyện nghe</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="text-primary font-bold">Kết quả</span>
       </div>
 
       <h1 className="text-3xl font-extrabold text-text-primary mb-1">Kết quả luyện nghe: A Conversation at the Coffee Shop</h1>

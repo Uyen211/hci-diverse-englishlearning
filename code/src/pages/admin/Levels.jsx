@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useNavigate } from 'react-router-dom'
 import { levelService } from '../../services/levelService'
+import { useToastStore } from '../../store/toastStore'
 
 // Validation schema matching figma mockup fields and error messages
 const levelFormSchema = z.object({
@@ -32,6 +33,7 @@ const levelFormSchema = z.object({
 
 export default function Levels() {
   const navigate = useNavigate()
+  const { addToast } = useToastStore()
   const [levels, setLevels] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -124,6 +126,7 @@ export default function Levels() {
         // Edit Mode
         const updated = await levelService.updateLevel(editingLevel.id, data)
         setLevels(prev => prev.map(l => l.id === editingLevel.id ? updated : l))
+        addToast(`Cập nhật cấp độ ${data.name} thành công`, 'success')
       } else {
         // Add Mode
         const added = await levelService.addLevel({
@@ -132,10 +135,12 @@ export default function Levels() {
           activeUsers: '1,200',
         })
         setLevels(prev => [...prev, added])
+        addToast(`Tạo cấp độ ${data.name} thành công`, 'success')
       }
       setIsFormModalOpen(false)
     } catch (err) {
       setActionError(err.message || 'Có lỗi xảy ra khi cập nhật cấp độ.')
+      addToast(err.message || 'Có lỗi xảy ra khi cập nhật cấp độ.', 'error')
     } finally {
       setActionLoading(false)
     }
@@ -151,8 +156,10 @@ export default function Levels() {
         await levelService.deleteLevel(deletingLevel.id)
         setLevels(prev => prev.filter(l => l.id !== deletingLevel.id))
         setIsDeleteModalOpen(false)
+        addToast(`Xóa cấp độ ${deletingLevel.name} thành công`, 'success')
       } catch (err) {
         setActionError(err.message || 'Không thể xóa cấp độ này.')
+        addToast(err.message || 'Không thể xóa cấp độ này.', 'error')
       } finally {
         setActionLoading(false)
       }

@@ -35,8 +35,6 @@ function saveRawLevels(levels) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(levels));
 }
 
-const delay = (ms = 350) => new Promise(resolve => setTimeout(resolve, ms));
-
 function inferCefr(ieltsTarget) {
   const targetStr = ieltsTarget || "";
   const nums = targetStr.match(/\d+(\.\d+)?/g);
@@ -53,12 +51,10 @@ function inferCefr(ieltsTarget) {
 
 export const levelService = {
   async getLevels() {
-    await delay();
     return getRawLevels();
   },
 
   async addLevel(levelData) {
-    await delay();
     const levels = getRawLevels();
     
     const nameClean = levelData.name.trim();
@@ -89,7 +85,6 @@ export const levelService = {
   },
 
   async updateLevel(id, updatedData) {
-    await delay();
     const levels = getRawLevels();
     const index = levels.findIndex(l => l.id === id);
     if (index === -1) {
@@ -122,7 +117,6 @@ export const levelService = {
   },
 
   async deleteLevel(id) {
-    await delay();
     const levels = getRawLevels();
     const filtered = levels.filter(l => l.id !== id);
     saveRawLevels(filtered);

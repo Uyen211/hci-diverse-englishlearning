@@ -65,6 +65,13 @@ export default function PracticeTest() {
 
   return (
     <div className="main-layout flex flex-col gap-6">
+      {/* Breadcrumb & Navigation */}
+      <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Trang chủ</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="text-primary font-bold">Kiểm tra thực tế</span>
+      </div>
+
       {/* Header section matching Figma */}
       <div className="flex flex-col gap-2">
         <h1 className="page-title text-3xl font-extrabold text-text-primary tracking-tight">
