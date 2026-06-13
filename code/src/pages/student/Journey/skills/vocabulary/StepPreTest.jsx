@@ -8,6 +8,8 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
   const [timeLeft, setTimeLeft] = useState(mode === 'fast' ? 30 : null);
   const [inputError, setInputError] = useState(false);
   const [showEmptyError, setShowEmptyError] = useState(false);
+  const [isCheckMode, setIsCheckMode] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
 
   // Generate 4 options for fast mode
   const [options, setOptions] = useState([]);
@@ -30,15 +32,17 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
   }, [mode, wordData]);
 
   useEffect(() => {
-    if (mode === 'fast' && timeLeft !== null) {
+    if (mode === 'fast' && timeLeft !== null && !isCheckMode) {
       if (timeLeft <= 0) {
-        onNext({ id: wordData.id, correct: false });
+        setIsCorrect(false);
+        setIsCheckMode(true);
+        playErrorEarcon();
         return;
       }
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
     }
-  }, [timeLeft, mode, onNext, wordData.id]);
+  }, [timeLeft, mode, isCheckMode, wordData.id]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -57,39 +61,39 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
   }, [mode, textInput, selectedOpt, wordData, options]);
 
   const handleSubmit = () => {
-    let isCorrect = false;
-    if (mode === 'fast') {
-      if (!selectedOpt) {
-        setShowEmptyError(true);
-        playErrorEarcon();
-        return;
-      }
-      setShowEmptyError(false);
-      if (selectedOpt === wordData.meaning) {
-        playSuccessEarcon();
-        isCorrect = true;
+    if (!isCheckMode) {
+      if (mode === 'fast') {
+        if (!selectedOpt && timeLeft > 0) {
+          setShowEmptyError(true);
+          playErrorEarcon();
+          return;
+        }
+        setShowEmptyError(false);
+        const correct = selectedOpt === wordData.meaning;
+        setIsCorrect(correct);
+        setIsCheckMode(true);
+        if (correct) playSuccessEarcon();
+        else playErrorEarcon();
       } else {
-        playErrorEarcon();
+        // Deep mode
+        if (!textInput.trim()) {
+          setInputError(true);
+          setShowEmptyError(true);
+          playErrorEarcon();
+          return;
+        }
+        setInputError(false);
+        setShowEmptyError(false);
+        const correct = textInput.toLowerCase().includes('hoàn') || textInput.toLowerCase() === wordData.meaning.toLowerCase();
+        setIsCorrect(correct);
+        setIsCheckMode(true);
+        if (correct) playSuccessEarcon();
+        else playErrorEarcon();
       }
     } else {
-      // Deep mode
-      if (!textInput.trim()) {
-        setInputError(true);
-        setShowEmptyError(true);
-        playErrorEarcon();
-        return;
-      }
-      setInputError(false);
-      setShowEmptyError(false);
-      // For demo, accept any non-empty as correct if it matches roughly or just accept "hoàn thành"
-      if (textInput.toLowerCase().includes('hoàn') || textInput.toLowerCase() === wordData.meaning.toLowerCase()) {
-        playSuccessEarcon();
-        isCorrect = true;
-      } else {
-        playErrorEarcon();
-      }
+      setIsCheckMode(false);
+      onNext({ id: wordData.id, correct: isCorrect });
     }
-    onNext({ id: wordData.id, correct: isCorrect });
   };
 
   const renderFastMode = () => (
@@ -156,29 +160,30 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
                   role="button"
                   tabIndex="0"
                   className={`interactive ${isSelected ? 'selected' : ''}`}
-                  onClick={() => { setSelectedOpt(opt.text); setShowEmptyError(false); }}
+                  onClick={() => { if (!isCheckMode) { setSelectedOpt(opt.text); setShowEmptyError(false); } }}
                   style={{
-                    border: `1px solid ${isSelected ? 'var(--primary)' : 'rgba(0,0,0,0.08)'}`,
-                    borderRadius: '999px',
-                    padding: '12px 24px',
+                    border: `1px solid ${isSelected ? (isCheckMode ? (isCorrect ? 'var(--success)' : 'var(--error)') : 'var(--primary)') : 'rgba(0,0,0,0.08)'}`,
+                    borderRadius: '16px',
+                    padding: '16px 24px',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '16px',
-                    background: isSelected ? '#FAF8FF' : 'white',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
+                    background: isSelected ? (isCheckMode ? (isCorrect ? '#F0FDF4' : '#FEF2F2') : '#FAF8FF') : 'white',
+                    cursor: isCheckMode ? 'default' : 'pointer',
+                    transition: 'all 0.2s',
+                    position: 'relative'
                   }}
                 >
                   <div style={{ 
                     width: '28px', height: '28px', borderRadius: '50%', 
-                    background: isSelected ? 'var(--primary)' : '#F3F4F6',
+                    background: isSelected ? (isCheckMode ? (isCorrect ? 'var(--success)' : 'var(--error)') : 'var(--primary)') : '#F3F4F6',
                     color: isSelected ? 'white' : 'var(--text-secondary)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: '14px', fontWeight: 'bold'
                   }}>
                     {opt.id}
                   </div>
-                  <div style={{ fontSize: '15px', color: 'var(--text-primary)' }}>{opt.text}</div>
+                  <div style={{ fontSize: '15px', color: 'var(--text-primary)', fontWeight: isCheckMode && isSelected ? 'bold' : 'normal' }}>{opt.text}</div>
                 </div>
               );
             })}
@@ -186,17 +191,37 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
         </div>
 
         {showEmptyError && (
-          <div style={{ color: 'var(--error)', fontSize: '13px', textAlign: 'center', animation: 'shake 0.4s' }}>
+          <div className="mt-6 text-center text-sm font-bold text-error" style={{ animation: 'shake 0.4s' }}>
             Vui lòng chọn một đáp án trước khi trả lời!
           </div>
         )}
 
-        <div className="flex-col items-center" style={{ marginTop: '8px', gap: '8px' }}>
-          <div role="button" tabIndex="0" className={`wf-btn ${!selectedOpt ? 'disabled' : ''}`} onClick={handleSubmit} style={{ padding: '10px 32px' }}>
-            Nộp câu trả lời
+        {!isCheckMode ? (
+          <div className="flex-col items-center" style={{ marginTop: '32px', gap: '8px' }}>
+            <div role="button" tabIndex="0" className={`wf-btn btn-default-submit ${!selectedOpt ? 'disabled' : ''}`} onClick={handleSubmit} style={{ padding: '10px 32px' }}>
+              Kiểm tra
+            </div>
+            <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Hết thời gian sẽ tự động nộp.</div>
           </div>
-          <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Hết thời gian sẽ tự động nộp.</div>
-        </div>
+        ) : (
+          <div className="flex flex-col items-center mt-8 w-full">
+            <div className={`mb-4 text-center text-sm font-medium p-4 px-6 rounded-lg w-full ${isCorrect ? 'bg-green-100 text-success' : 'bg-red-100 text-error'}`}>
+              <div className="font-bold text-base mb-1">{isCorrect ? 'Chính xác!' : 'Chưa chính xác!'}</div>
+              {!isCorrect && (
+                <div className="mt-2 text-left">
+                  <strong>Đáp án đúng:</strong> {wordData.meaning}
+                </div>
+              )}
+            </div>
+            <button
+              onClick={handleSubmit}
+              className="wf-btn btn-default-submit px-12 py-3 bg-success text-white font-bold rounded-xl shadow-glow hover:bg-green-700 transition-all"
+              tabIndex={0}
+            >
+              Tiếp tục
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -293,7 +318,7 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
         <div role="button" tabIndex="0" className="wf-btn outline interactive" onClick={() => playTextToSpeech(wordData.word)} style={{ padding: '10px 32px' }}>
           Nghe lại
         </div>
-        <div role="button" tabIndex="0" className="wf-btn interactive" onClick={handleSubmit} style={{ padding: '10px 32px' }}>
+        <div role="button" tabIndex="0" className="wf-btn btn-default-submit interactive" onClick={handleSubmit} style={{ padding: '10px 32px' }}>
           Nộp câu trả lời
         </div>
       </div>

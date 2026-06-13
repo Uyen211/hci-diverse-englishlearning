@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-export default function VocabSelect() {
+export default function GrammarSelect() {
   const navigate = useNavigate();
   const [selectedMode, setSelectedMode] = useState('fast');
   const location = useLocation();
@@ -13,24 +13,24 @@ export default function VocabSelect() {
         setSelectedMode(prev => prev === 'fast' ? 'deep' : 'fast');
       }
       if (e.key === 'Enter') {
-        navigate(`/student/vocabulary/session?mode=${selectedMode}`, { state: { unitId } });
+        navigate(`/student/grammar/session?mode=${selectedMode}`, { state: { unitId } });
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedMode, navigate]);
+  }, [selectedMode, navigate, unitId]);
 
   return (
     <div className="wf-main-content">
       <div className="wf-unit-header">
-        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; <span>Học từ vựng</span></div>
-        <div className="wf-page-title">Học Nhóm Từ Vựng</div>
+        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; <span>Học ngữ pháp</span></div>
+        <div className="wf-page-title">Học Điểm Ngữ Pháp</div>
       </div>
 
       <div className="wf-card-highlight text-center" style={{ padding: '24px', flex: 1 }}>
         <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>Bạn muốn học như thế nào?</div>
         <div className="wf-subtitle" style={{ marginBottom: '8px' }}>Chọn chế độ phù hợp với mục tiêu của bạn</div>
-        <div className="wf-word-count">Từ vựng cần học: <strong>5</strong> từ</div>
+        <div className="wf-word-count">Cấu trúc cần học: <strong>3</strong> điểm ngữ pháp</div>
 
         <div className="wf-mode-grid" style={{ marginBottom: '20px' }}>
           <div 
@@ -39,8 +39,8 @@ export default function VocabSelect() {
           >
             <div className={`wf-mode-card-check ${selectedMode === 'fast' ? 'selected' : ''}`}></div>
             <div className="wf-mode-card-title">Fast Mode</div>
-            <div className="wf-mode-card-desc">Học nhanh, bỏ qua các bước không cần thiết. Phù hợp với ôn tập và xem lại.</div>
-            <div className="wf-mode-card-tag">Có luyện phát âm</div>
+            <div className="wf-mode-card-desc">Học nhanh, bỏ qua các bước luyện tập sản sinh. Phù hợp với ôn tập và xem lại.</div>
+            <div className="wf-mode-card-tag">Lược bỏ viết câu</div>
           </div>
           <div 
             className={`wf-mode-card ${selectedMode === 'deep' ? 'selected' : ''}`}
@@ -48,8 +48,8 @@ export default function VocabSelect() {
           >
             <div className={`wf-mode-card-check ${selectedMode === 'deep' ? 'selected' : ''}`}></div>
             <div className="wf-mode-card-title">Deep Mode</div>
-            <div className="wf-mode-card-desc">Học sâu, đầy đủ nghe-nói-đọc-viết. Dành cho người muốn thực sự ghi nhớ.</div>
-            <div className="wf-mode-card-tag">Có luyện phát âm</div>
+            <div className="wf-mode-card-desc">Học sâu, đầy đủ nghe-nói-đọc-viết. Dành cho người muốn vận dụng vào giao tiếp.</div>
+            <div className="wf-mode-card-tag">Bắt buộc xây dựng câu</div>
           </div>
         </div>
 
@@ -59,7 +59,7 @@ export default function VocabSelect() {
           accessKey="b" 
           className="wf-btn" 
           style={{ padding: '10px 48px', fontSize: '14px' }}
-          onClick={() => navigate(`/student/vocabulary/session?mode=${selectedMode}`, { state: { unitId } })}
+          onClick={() => navigate(`/student/grammar/session?mode=${selectedMode}`, { state: { unitId } })}
         >
           Bắt đầu học
         </div>

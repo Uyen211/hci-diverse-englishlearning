@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAudio } from '../../../../../hooks/useAudio';
 
-export default function StepPronunciation({ wordData, mode, onNext, wordIndex, totalWords, stepIndex, totalSteps, progressPercent, unitId }) {
+export default function StepPronunciation({ grammarData, mode, onNext, wordIndex, totalWords, stepIndex, totalSteps, progressPercent, unitId }) {
   const { playTextToSpeech, playSuccessEarcon, playErrorEarcon } = useAudio();
 
   const [isRecording, setIsRecording] = useState(false);
@@ -9,7 +9,8 @@ export default function StepPronunciation({ wordData, mode, onNext, wordIndex, t
   const [history, setHistory] = useState([]);
   const [isSuccessText, setIsSuccessText] = useState(false);
 
-  const targetText = wordData.contexts && wordData.contexts.length > 0 ? wordData.contexts[0].en : wordData.word;
+  const targetText = grammarData.pronunciation?.word || '';
+  const translationText = grammarData.pronunciation?.translation || '';
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -64,7 +65,7 @@ export default function StepPronunciation({ wordData, mode, onNext, wordIndex, t
   return (
     <div className="wf-main-content">
       <div className="wf-unit-header">
-        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; Học từ vựng &gt; <span className={`wf-breadcrumb-mode-${mode}`}>{mode === 'deep' ? 'Deep Mode' : 'Fast Mode'}</span></div>
+        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; Học ngữ pháp &gt; <span className={`wf-breadcrumb-mode-${mode}`}>{mode === 'deep' ? 'Deep Mode' : 'Fast Mode'}</span></div>
         <div className="wf-page-title">Luyện phát âm ASR</div>
       </div>
 
@@ -72,7 +73,7 @@ export default function StepPronunciation({ wordData, mode, onNext, wordIndex, t
         <div className="wf-step-counter">
           <div className="wf-step-counter-item">Bước: <strong>{stepIndex + 1}</strong> / {totalSteps}</div>
           <div className="wf-step-counter-divider"></div>
-          <div className="wf-step-counter-item">Từ: <strong>{wordIndex + 1}</strong> / {totalWords}</div>
+          <div className="wf-step-counter-item">Cấu trúc: <strong>{wordIndex + 1}</strong> / {totalWords}</div>
         </div>
         <div className="wf-progress-mini">
           <div className="wf-progress-mini-bar">
@@ -89,13 +90,13 @@ export default function StepPronunciation({ wordData, mode, onNext, wordIndex, t
             <div className="wf-word-display" style={{ fontSize: '18px', padding: '12px 24px', display: 'inline-block', lineHeight: 1.5 }}>
               {targetText}
             </div>
-            {wordData.contexts && wordData.contexts.length > 0 && (
+            {translationText && (
               <div className="wf-subtitle" style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
-                Từ mục tiêu: <strong>{wordData.word}</strong> ({wordData.ipa || `/${wordData.word}/`})
+                Nghĩa: <strong>{translationText}</strong>
               </div>
             )}
-            {(!wordData.contexts || wordData.contexts.length === 0) && (
-              <div className="wf-text-block-solid">{wordData.ipa || `/${wordData.word}/`}</div>
+            {grammarData.pronunciation?.ipa && (
+              <div className="wf-text-block-solid">{grammarData.pronunciation?.ipa}</div>
             )}
           </div>
           <div className="flex-row gap-10 justify-center items-center" style={{ marginTop: '16px' }}>
@@ -115,7 +116,7 @@ export default function StepPronunciation({ wordData, mode, onNext, wordIndex, t
         <div className="wf-card" style={{ width: '100%', padding: '16px', marginBottom: '12px' }}>
           <div className="flex-row items-center gap-6" style={{ marginBottom: '8px' }}>
             <div className="wf-badge" style={{ fontSize: '9px', background: 'rgba(78, 86, 192, 0.15)', color: 'var(--primary)', fontWeight: 'bold', borderRadius: '4px', padding: '2px 6px' }}>GHI ÂM (BẮT BUỘC)</div>
-            <div className="wf-subtitle" style={{ fontSize: '11px' }}>Đọc to từ vựng bằng microphone</div>
+            <div className="wf-subtitle" style={{ fontSize: '11px' }}>Đọc to cụm ngữ pháp bằng microphone</div>
           </div>
 
           <div className="flex-row gap-10 justify-center items-center" style={{ marginBottom: '8px' }}>
@@ -211,4 +212,3 @@ export default function StepPronunciation({ wordData, mode, onNext, wordIndex, t
     </div>
   );
 }
-

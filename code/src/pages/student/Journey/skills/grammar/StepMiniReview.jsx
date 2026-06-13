@@ -1,44 +1,20 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAudio } from '../../../../../hooks/useAudio';
 
-export default function StepMiniReview({ wordData, mode, onNext, wordIndex, totalWords, stepIndex, totalSteps, progressPercent, words, unitId }) {
-  const { playSuccessEarcon, playErrorEarcon } = useAudio();
-  
-  // Generate Questions
-  const allQuizzes = useMemo(() => {
-    const recentWords = wordIndex !== undefined ? words.slice(Math.max(0, wordIndex - 2), wordIndex + 1) : words;
-    let qList = [];
-    recentWords.forEach(w => {
-      qList.push({
-        type: 'meaning',
-        word: w.word,
-        question: `Nghĩa của từ "${w.word}" là gì?`,
-        correct: w.meaning,
-        options: [w.meaning, "Sai 1", "Sai 2", "Sai 3"].sort(() => Math.random() - 0.5)
-      });
-      if (mode === 'deep' && w.contexts && w.contexts.length > 0) {
-        const sentence = w.contexts[0].en.replace(new RegExp(w.word, 'gi'), '_____');
-        qList.push({
-          type: 'context',
-          word: w.word,
-          question: `Điền từ thích hợp vào chỗ trống: "${sentence}"`,
-          correct: w.word,
-          options: [w.word, "wrong_1", "wrong_2", "wrong_3"].sort(() => Math.random() - 0.5)
-        });
-      }
-    });
-    const shuffled = qList.sort(() => Math.random() - 0.5);
-    const limit = mode === 'deep' ? 5 : 3;
-    return shuffled.slice(0, limit);
-  }, [wordIndex, mode, words]);
-
+export default function StepMiniReview({ grammarData, mode, onNext, wordIndex, totalWords, stepIndex, totalSteps, progressPercent, unitId, words }) {
+  const allItems = words || [];
+  const reviewItems = allItems.slice(-3);
+  const allQuizzes = reviewItems.flatMap(item => (item.recognitionQuizzes || []).slice(0, mode === 'deep' ? 2 : 1));
   const totalQ = allQuizzes.length;
+
   const [currentQ, setCurrentQ] = useState(0);
   const [selectedMCQ, setSelectedMCQ] = useState(null);
   const [history, setHistory] = useState([]);
   const [showEmptyError, setShowEmptyError] = useState(false);
   const [isCheckMode, setIsCheckMode] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+
+  const { playSuccessEarcon, playErrorEarcon } = useAudio();
 
   const handleNextQ = () => {
     if (selectedMCQ === null) {
@@ -50,7 +26,7 @@ export default function StepMiniReview({ wordData, mode, onNext, wordIndex, tota
     if (!isCheckMode) {
       setShowEmptyError(false);
       const quiz = allQuizzes[currentQ];
-      const correct = quiz.options[selectedMCQ] === quiz.correct;
+      const correct = quiz.options[selectedMCQ].split(' (')[0].trim() === quiz.correct;
       setIsCorrect(correct);
       setIsCheckMode(true);
       
@@ -89,15 +65,15 @@ export default function StepMiniReview({ wordData, mode, onNext, wordIndex, tota
   return (
     <div className="flex flex-col flex-1 w-full max-w-5xl mx-auto gap-4">
       <div className="wf-unit-header mb-6">
-        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; Học từ vựng &gt; <span className={mode === 'deep' ? 'wf-breadcrumb-mode-deep text-primary' : 'text-blue-500 font-bold'}>{mode === 'deep' ? 'Deep Mode' : 'Fast Mode'}</span></div>
-        <div className="wf-page-title text-2xl font-bold mt-1">Mini Review Vocabulary</div>
+        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; Học ngữ pháp &gt; <span className={mode === 'deep' ? 'wf-breadcrumb-mode-deep text-primary' : 'text-blue-500 font-bold'}>{mode === 'deep' ? 'Deep Mode' : 'Fast Mode'}</span></div>
+        <div className="wf-page-title text-2xl font-bold mt-1">Mini Review Grammar</div>
       </div>
 
       <div className="wf-topbar">
         <div className="wf-step-counter">
-          <div className="wf-step-counter-item">Bước: <strong>{stepIndex + 1}</strong> / {totalSteps}</div>
+          <div className="wf-step-counter-item">Bước: <strong>{stepIndex}</strong> / {totalSteps}</div>
           <div className="wf-step-counter-divider"></div>
-          <div className="wf-step-counter-item">Từ vựng: <strong>{wordIndex + 1}</strong> / {totalWords}</div>
+          <div className="wf-step-counter-item">Cấu trúc: <strong>{wordIndex + 1}</strong> / {totalWords}</div>
         </div>
         <div className="wf-progress-mini">
           <div className="wf-progress-mini-bar">
@@ -108,13 +84,13 @@ export default function StepMiniReview({ wordData, mode, onNext, wordIndex, tota
       </div>
 
       <div className="flex flex-col flex-1 w-full max-w-2xl mx-auto">
-        <div className="bg-white shadow-glow rounded-xl w-full p-8 relative">
+        <div className="bg-white   shadow-glow rounded-xl w-full p-8 relative">
           <div className="absolute top-4 right-4 bg-canvas text-primary/70 text-[10px] font-bold px-2 py-1 rounded">
             {mode === 'deep' ? `DEEP: ${totalQ} CÂU` : `FAST: ${totalQ} CÂU`}
           </div>
 
-          <div className="text-sm font-bold text-primary mb-4 mt-2">Chọn đáp án đúng:</div>
-          <div className="p-4 bg-surface border-purple-100 rounded-xl text-lg font-serif italic text-primary text-center mb-6 shadow-inner">
+          <div className="text-sm font-bold text-primary mb-4 mt-2">Chọn cấu trúc đúng cho câu:</div>
+          <div className="p-4 bg-surface  border-purple-100 rounded-xl text-lg font-serif italic text-primary text-center mb-6 shadow-inner">
             "{currentQuiz?.question || ''}"
           </div>
 
@@ -147,12 +123,12 @@ export default function StepMiniReview({ wordData, mode, onNext, wordIndex, tota
                 }}>
                   {String.fromCharCode(65 + i)}
                 </div>
-                <div style={{ fontSize: '15px', color: 'var(--text-primary)' }}>{opt}</div>
+                <div style={{ fontSize: '15px', color: 'var(--text-primary)' }}>{opt.split(' (')[0].trim()}</div>
               </div>
             )})}
           </div>
 
-          <div className="flex items-center justify-between mt-4 pt-6 border-t border-gray-100">
+          <div className="flex items-center justify-between mt-4 pt-6  ">
             <div className="flex items-center gap-2">
               {Array.from({ length: totalQ }).map((_, i) => {
                 const status = history[i];
@@ -194,7 +170,12 @@ export default function StepMiniReview({ wordData, mode, onNext, wordIndex, tota
               <div className="font-bold text-base mb-1">{isCorrect ? 'Chính xác!' : 'Chưa chính xác!'}</div>
               {!isCorrect && (
                 <div className="mt-2 text-left">
-                  <strong>Đáp án đúng:</strong> {currentQuiz?.correct}
+                  <strong>Đáp án đúng:</strong> {currentQuiz?.options?.find(o => o.split(' (')[0].trim() === currentQuiz?.correct)}
+                </div>
+              )}
+              {isCorrect && currentQuiz?.options?.[selectedMCQ] && (
+                <div className="mt-2 text-left">
+                  <strong>Giải thích:</strong> {currentQuiz?.options?.[selectedMCQ]}
                 </div>
               )}
             </div>
@@ -208,12 +189,12 @@ export default function StepMiniReview({ wordData, mode, onNext, wordIndex, tota
         </div>
       </div>
 
-      <div className="wf-hint-bar flex justify-between text-xs text-primary/70 mt-4 pt-4">
+      <div className="wf-hint-bar flex justify-between text-xs text-primary/70 mt-4 pt-4  ">
         <div className="flex-row gap-16">
-          <div className="wf-hint-text"><span className="wf-hint-key bg-canvas px-2 py-1 rounded border">A-D</span> Chọn đáp án</div>
-          <div className="wf-hint-text"><span className="wf-hint-key bg-canvas px-2 py-1 rounded border">Enter</span> Trả lời</div>
+          <div className="wf-hint-text"><span className="wf-hint-key">A-C</span> Chọn cấu trúc</div>
+          <div className="wf-hint-text"><span className="wf-hint-key">Enter</span> Trả lời</div>
         </div>
-        <div className="wf-hint-text">Ôn tập định kỳ giúp ghi nhớ từ vựng lâu hơn!</div>
+        <div className="wf-hint-text">Ôn tập định kỳ giúp ghi nhớ cấu trúc lâu hơn!</div>
       </div>
     </div>
   );

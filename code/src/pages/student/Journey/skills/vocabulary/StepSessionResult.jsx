@@ -1,8 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function StepSessionResult({ words, unitId, mode, wordStats }) {
+export default function StepSessionResult({ words, unitId, mode, wordStats, skillType = 'vocabulary' }) {
   const navigate = useNavigate();
+  const isGrammar = skillType === 'grammar';
+  const skillLabel = isGrammar ? 'Học ngữ pháp' : 'Học từ vựng';
+  const itemLabel = isGrammar ? 'Cấu trúc' : 'Từ';
+  const itemLabelLower = isGrammar ? 'cấu trúc' : 'từ';
+  const totalItems = words.length;
 
   const xp = 125;
   const streak = 3;
@@ -18,7 +23,7 @@ export default function StepSessionResult({ words, unitId, mode, wordStats }) {
   return (
     <div className="wf-main-content">
       <div className="wf-unit-header">
-        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; Học từ vựng &gt; <span className={`wf-breadcrumb-mode-${mode}`}>{mode === 'deep' ? 'Deep Mode' : 'Fast Mode'}</span></div>
+        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; {skillLabel} &gt; <span className={`wf-breadcrumb-mode-${mode}`}>{mode === 'deep' ? 'Deep Mode' : 'Fast Mode'}</span></div>
         <div className="wf-page-title">Kết quả phiên học</div>
       </div>
 
@@ -26,7 +31,7 @@ export default function StepSessionResult({ words, unitId, mode, wordStats }) {
         <div className="wf-step-counter">
           <div className="wf-step-counter-item">Bước: <strong>8</strong> / 8</div>
           <div className="wf-step-counter-divider"></div>
-          <div className="wf-step-counter-item">Từ: <strong>5</strong> / 5</div>
+          <div className="wf-step-counter-item">{itemLabel}: <strong>{totalItems}</strong> / {totalItems}</div>
         </div>
         <div className="wf-progress-mini">
           <div className="wf-progress-mini-bar">
@@ -41,7 +46,7 @@ export default function StepSessionResult({ words, unitId, mode, wordStats }) {
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div style={{ fontSize: '48px', marginBottom: '8px' }}>🏆</div>
           <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--primary)', marginBottom: '8px' }}>Hoàn thành phiên học</h2>
-          <p style={{ color: 'var(--text-secondary)' }}>Bạn đã hoàn thành các từ của Unit {unitId}: Daily Life. Đây là tóm tắt</p>
+          <p style={{ color: 'var(--text-secondary)' }}>Bạn đã hoàn thành các {itemLabelLower} của Unit {unitId}: Daily Life. Đây là tóm tắt</p>
         </div>
 
         {/* Stats Row */}
@@ -64,7 +69,7 @@ export default function StepSessionResult({ words, unitId, mode, wordStats }) {
           </div>
         </div>
 
-        <div style={{ width: '100%', marginBottom: '16px', fontWeight: 'bold', color: 'var(--text-primary)' }}>Chi tiết từng từ</div>
+        <div style={{ width: '100%', marginBottom: '16px', fontWeight: 'bold', color: 'var(--text-primary)' }}>Chi tiết từng {itemLabelLower}</div>
 
         <div className="flex-col gap-12" style={{ width: '100%', marginBottom: '32px' }}>
           {processedWords.map((w, idx) => (
@@ -93,7 +98,9 @@ export default function StepSessionResult({ words, unitId, mode, wordStats }) {
                   {w.isWeak ? '!' : '✓'}
                 </div>
                 <div style={{ fontSize: '16px', fontWeight: 'bold', color: 'var(--text-primary)' }}>
-                  {w.word} <span style={{ fontWeight: 'normal', color: 'var(--text-secondary)', marginLeft: '8px' }}>{w.ipa}</span>
+                  {w.word || w.title}{!isGrammar && w.ipa ? (
+                    <span style={{ fontWeight: 'normal', color: 'var(--text-secondary)', marginLeft: '8px' }}>{w.ipa}</span>
+                  ) : null}
                 </div>
               </div>
 
@@ -120,7 +127,7 @@ export default function StepSessionResult({ words, unitId, mode, wordStats }) {
           marginBottom: '40px'
         }}>
           <div style={{ fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '4px' }}>Lịch ôn tập SRS</div>
-          <div style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>{reviewCount} từ yếu sẽ được ôn tập sớm hơn</div>
+          <div style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>{reviewCount} {itemLabelLower} yếu sẽ được ôn tập sớm hơn</div>
         </div>
 
         <div className="flex-row justify-center gap-16">

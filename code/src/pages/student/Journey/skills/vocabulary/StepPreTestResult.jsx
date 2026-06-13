@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 
-export default function StepPreTestResult({ wordData, mode, onNext, unitId, pretestResult }) {
+export default function StepPreTestResult({ wordData, mode, onNext, unitId, pretestResult, skillType = 'vocabulary' }) {
   const isCorrect = pretestResult === 'correct';
+  const isGrammar = skillType === 'grammar';
+  const skillLabel = isGrammar ? 'Học ngữ pháp' : 'Học từ vựng';
+  const itemLabel = isGrammar ? 'cấu trúc' : 'từ';
+  const displayName = wordData.word || wordData.title;
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -20,7 +24,7 @@ export default function StepPreTestResult({ wordData, mode, onNext, unitId, pret
   return (
     <div className="wf-main-content">
       <div className="wf-unit-header">
-        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; Học từ vựng &gt; <span className={`wf-breadcrumb-mode-${mode}`}>{mode === 'deep' ? 'Deep Mode' : 'Fast Mode'}</span></div>
+        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; {skillLabel} &gt; <span className={`wf-breadcrumb-mode-${mode}`}>{mode === 'deep' ? 'Deep Mode' : 'Fast Mode'}</span></div>
         <div className="wf-page-title">Pre-test: Kết quả</div>
       </div>
 
@@ -58,24 +62,26 @@ export default function StepPreTestResult({ wordData, mode, onNext, unitId, pret
               borderRadius: '999px',
               padding: '4px 20px'
             }}>
-              {wordData.word}
+              {displayName}
             </div>
-            <div className="flex-col">
-              <div style={{ 
-                background: '#FFD6E8', 
-                color: '#D10068', 
-                padding: '2px 12px', 
-                borderRadius: '999px', 
-                fontSize: '13px', 
-                fontWeight: '600',
-                width: 'fit-content'
-              }}>
-                {wordData.ipa}
+            {!isGrammar && (
+              <div className="flex-col">
+                <div style={{ 
+                  background: '#FFD6E8', 
+                  color: '#D10068', 
+                  padding: '2px 12px', 
+                  borderRadius: '999px', 
+                  fontSize: '13px', 
+                  fontWeight: '600',
+                  width: 'fit-content'
+                }}>
+                  {wordData.ipa}
+                </div>
+                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                  {wordData.type === 'n' ? 'danh từ (noun)' : wordData.type === 'v' ? 'động từ (verb)' : wordData.type === 'adj' ? 'tính từ (adjective)' : 'từ loại'}
+                </div>
               </div>
-              <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                {wordData.type === 'n' ? 'danh từ (noun)' : wordData.type === 'v' ? 'động từ (verb)' : wordData.type === 'adj' ? 'tính từ (adjective)' : 'từ loại'}
-              </div>
-            </div>
+            )}
 
             <div style={{ flex: 1 }}></div>
             
@@ -131,7 +137,9 @@ export default function StepPreTestResult({ wordData, mode, onNext, unitId, pret
         {/* Action Buttons */}
         <div className="flex-col items-center" style={{ marginTop: '16px', gap: '12px' }}>
           <div style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
-            {isCorrect ? 'Bạn đã biết từ này. Có thể bỏ qua để tiết kiệm thời gian.' : 'Bạn chưa thuộc từ này. Cần học kỹ hơn.'}
+            {isCorrect
+              ? `Bạn đã biết ${itemLabel} này. Có thể bỏ qua để tiết kiệm thời gian.`
+              : `Bạn chưa thuộc ${itemLabel} này. Cần học kỹ hơn.`}
           </div>
           <div className="flex-row gap-16">
             {isCorrect ? (
@@ -158,7 +166,7 @@ export default function StepPreTestResult({ wordData, mode, onNext, unitId, pret
           {isCorrect && <div className="wf-hint-text"><span className="wf-hint-key">S</span> Bỏ qua</div>}
           <div className="wf-hint-text"><span className="wf-hint-key">Enter</span> {isCorrect ? 'Học đầy đủ' : 'Bắt đầu học'}</div>
         </div>
-        <div className="wf-hint-text" style={{ marginLeft: 'auto' }}>Từ tested-out sẽ được ôn tập sau</div>
+        <div className="wf-hint-text" style={{ marginLeft: 'auto' }}>{isGrammar ? 'Cấu trúc' : 'Từ'} tested-out sẽ được ôn tập sau</div>
       </div>
     </div>
   );

@@ -541,26 +541,8 @@
             font-family: var(--font-body);
         }
         .wf-breadcrumb span { color: var(--primary); font-weight: 600; }
-        .wf-breadcrumb-mode-deep { 
-            display: inline-block; 
-            background: var(--secondary); 
-            color: #FFF !important; 
-            padding: 2px 10px; 
-            font-size: 10px; 
-            font-weight: 700; 
-            border-radius: 9999px;
-            box-shadow: 0 0 8px rgba(155, 93, 224, 0.2);
-        }
-        .wf-breadcrumb-mode-fast { 
-            display: inline-block; 
-            background: var(--primary); 
-            color: #FFF !important; 
-            padding: 2px 10px; 
-            font-size: 10px; 
-            font-weight: 700; 
-            border-radius: 9999px;
-            box-shadow: 0 0 8px rgba(78, 86, 192, 0.2);
-        }
+        .wf-breadcrumb-mode-deep { display: inline; color: var(--primary) !important; font-weight: 600; font-size: 11px; }
+        .wf-breadcrumb-mode-fast { display: inline; color: var(--primary) !important; font-weight: 600; font-size: 11px; }
         .wf-page-title { 
             font-size: 24px; 
             font-weight: 700; 

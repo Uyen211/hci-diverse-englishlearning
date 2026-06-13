@@ -54,7 +54,7 @@ export default function StepRecognition({ wordData, mode, onNext, wordIndex, tot
         }
       }
 
-      if (e.key === 'Enter' && !isSubmitted) {
+      if (e.key === 'Enter') {
         e.preventDefault();
         handleSubmit();
       }
@@ -65,23 +65,25 @@ export default function StepRecognition({ wordData, mode, onNext, wordIndex, tot
 
   const handleSubmit = () => {
     if (mode === 'fast') {
-      if (!selectedOpt) {
-        setShowEmptyError(true);
-        playErrorEarcon();
-        return;
-      }
-      setShowEmptyError(false);
-      setIsSubmitted(true);
-      if (selectedOpt === wordData.word) {
-        playSuccessEarcon();
-        setTimeout(() => {
-          onNext();
-        }, 1500);
+      if (!isSubmitted) {
+        if (!selectedOpt) {
+          setShowEmptyError(true);
+          playErrorEarcon();
+          return;
+        }
+        setShowEmptyError(false);
+        setIsSubmitted(true);
+        if (selectedOpt === wordData.word) {
+          playSuccessEarcon();
+        } else {
+          playErrorEarcon();
+        }
       } else {
-        playErrorEarcon();
-        setTimeout(() => {
-          onNext('weak'); // Fast mode: fail immediately, move to next step
-        }, 1500);
+        if (selectedOpt === wordData.word) {
+          onNext();
+        } else {
+          onNext('weak');
+        }
       }
     } else {
       const isAllFilled = deepModeItems.every(item => matchedWords[item.meaning]);
@@ -363,26 +365,45 @@ export default function StepRecognition({ wordData, mode, onNext, wordIndex, tot
           </div>
 
           {showEmptyError && (
-            <div style={{ color: 'var(--error)', fontSize: '13px', textAlign: 'center', animation: 'shake 0.4s' }}>
+            <div className="mt-6 text-center text-sm font-bold text-error" style={{ animation: 'shake 0.4s' }}>
               Vui lòng chọn một đáp án trước khi trả lời!
             </div>
           )}
 
-          <div className="flex-col items-center" style={{ marginTop: '8px', gap: '8px' }}>
-            <button 
-              className={`wf-btn ${(isSubmitted || !selectedOpt) ? 'disabled' : ''}`} 
-              onClick={handleSubmit} 
-              style={{ minWidth: '200px' }}
-              disabled={isSubmitted}
-            >
-              Trả lời
-            </button>
-          </div>
+          {!isSubmitted ? (
+            <div className="flex-row justify-center" style={{ marginTop: '32px' }}>
+              <button 
+                className={`wf-btn ${(!selectedOpt) ? 'disabled' : ''}`} 
+                onClick={handleSubmit} 
+                style={{ minWidth: '200px' }}
+              >
+                Kiểm tra
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center mt-8 w-full">
+              <div className={`mb-4 text-center text-sm font-medium p-4 px-6 rounded-lg w-full ${selectedOpt === wordData.word ? 'bg-green-100 text-success' : 'bg-red-100 text-error'}`}>
+                <div className="font-bold text-base mb-1">{selectedOpt === wordData.word ? 'Chính xác!' : 'Chưa chính xác!'}</div>
+                {selectedOpt !== wordData.word && (
+                  <div className="mt-2 text-left">
+                    <strong>Đáp án đúng:</strong> {wordData.word}
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={handleSubmit}
+                className="wf-btn btn-default-submit px-12 py-3 bg-success text-white font-bold rounded-xl shadow-glow hover:bg-green-700 transition-all"
+                tabIndex={0}
+              >
+                Tiếp tục
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="wf-hint-bar">
-        <div className="wf-hint-text"><span className="wf-hint-key">A-D</span> Chọn đáp án <span style={{ marginLeft: '8px' }}><span className="wf-hint-key">Enter</span> Trả lời</span></div>
+        <div className="wf-hint-text"><span className="wf-hint-key">A-D</span> Chọn đáp án <span style={{ marginLeft: '8px' }}><span className="wf-hint-key">Enter</span> Kiểm tra / Tiếp tục</span></div>
       </div>
     </>
   );
