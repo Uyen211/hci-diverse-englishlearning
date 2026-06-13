@@ -20,6 +20,14 @@
             --success: #22C55E;
             --warning: #F59E0B;
             --error: #EF4444;
+
+            /* Grammar Color Code Tokens */
+            --grammar-subject: #22C55E; /* Green */
+            --grammar-subject-bg: rgba(34, 197, 94, 0.1);
+            --grammar-auxiliary: #F59E0B; /* Orange */
+            --grammar-auxiliary-bg: rgba(245, 158, 11, 0.1);
+            --grammar-verb: #EF4444; /* Red */
+            --grammar-verb-bg: rgba(239, 68, 68, 0.1);
             
             /* Typography */
             --font-primary: 'Manrope', 'Inter', -apple-system, sans-serif;
@@ -6273,3 +6281,16 @@
   }
 
 
+
+/* === CREATIVE THEME: DECODE STATION === */
+.wf-decode-console { border: 1.5px solid rgba(155, 93, 224, 0.2); background: var(--surface); padding: 20px; width: 100%; border-radius: 28px; box-shadow: var(--glow-lvl3); }
+.wf-decode-zone { border: 1.5px dashed rgba(155, 93, 224, 0.3); padding: 16px; background: #FAF8FF; text-align: center; border-radius: 20px; }
+.wf-decode-zone-label { font-size: 11px; color: var(--secondary); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+.wf-decode-signal-bars { display: flex; flex-direction: row; gap: 4px; align-items: flex-end; justify-content: center; height: 30px; }
+.wf-decode-bar { width: 6px; background: rgba(155, 93, 224, 0.3); border-radius: 2px; }
+.wf-decode-bar:nth-child(1) { height: 10px; }
+.wf-decode-bar:nth-child(2) { height: 18px; }
+.wf-decode-bar:nth-child(3) { height: 26px; }
+.wf-decode-bar:nth-child(4) { height: 14px; }
+.wf-decode-bar:nth-child(5) { height: 22px; }
+.wf-decode-screen { border: 1.5px solid rgba(155, 93, 224, 0.15); background: var(--surface); padding: 18px; text-align: center; min-width: 200px; border-radius: 16px; box-shadow: var(--glow-lvl2); }

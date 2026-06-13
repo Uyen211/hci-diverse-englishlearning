@@ -20,6 +20,10 @@ import SpeakingResult from '../pages/student/Journey/skills/speaking/SpeakingRes
 import VocabSelect from '../pages/student/Journey/skills/vocabulary/VocabSelect';
 import VocabSession from '../pages/student/Journey/skills/vocabulary/VocabSession';
 
+// Grammar
+import GrammarSelect from '../pages/student/Journey/skills/grammar/GrammarSelect';
+import GrammarSession from '../pages/student/Journey/skills/grammar/GrammarSession';
+
 const studentRoutes = [
   {
     path: 'journey',
@@ -36,6 +40,14 @@ const studentRoutes = [
   {
     path: 'vocabulary/session',
     element: <VocabSession />,
+  },
+  {
+    path: 'grammar-select',
+    element: <GrammarSelect />,
+  },
+  {
+    path: 'grammar/session',
+    element: <GrammarSession />,
   },
   {
     path: 'listening-select',

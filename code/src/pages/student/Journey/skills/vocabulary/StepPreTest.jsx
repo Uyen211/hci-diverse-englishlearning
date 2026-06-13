@@ -5,7 +5,7 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
   const { playSuccessEarcon, playErrorEarcon, playTextToSpeech } = useAudio();
   const [selectedOpt, setSelectedOpt] = useState(null);
   const [textInput, setTextInput] = useState('');
-  const [timeLeft, setTimeLeft] = useState(mode === 'fast' ? 30 : null);
+  const [timeLeft, setTimeLeft] = useState(mode === 'fast' ? 45 : null);
   const [inputError, setInputError] = useState(false);
   const [showEmptyError, setShowEmptyError] = useState(false);
 
@@ -81,8 +81,15 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
       }
       setInputError(false);
       setShowEmptyError(false);
-      // For demo, accept any non-empty as correct if it matches roughly or just accept "hoàn thành"
-      if (textInput.toLowerCase().includes('hoàn') || textInput.toLowerCase() === wordData.meaning.toLowerCase()) {
+      // Deep mode validation
+      let isCorrectInput = false;
+      if (wordData.pretestAnswer) {
+        isCorrectInput = textInput.toLowerCase().trim() === wordData.pretestAnswer.toLowerCase().trim();
+      } else {
+        isCorrectInput = textInput.toLowerCase().includes('hoàn') || textInput.toLowerCase() === (wordData.meaning || '').toLowerCase();
+      }
+
+      if (isCorrectInput) {
         playSuccessEarcon();
         isCorrect = true;
       } else {
@@ -178,7 +185,9 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
                   }}>
                     {opt.id}
                   </div>
-                  <div style={{ fontSize: '15px', color: 'var(--text-primary)' }}>{opt.text}</div>
+                  <div style={{ fontSize: '15px', color: 'var(--text-primary)' }}>
+              {wordData.pretestQuestion ? wordData.pretestQuestion : <span>Từ <strong>"{wordData.word}"</strong> có nghĩa là gì?</span>}
+            </div>
                 </div>
               );
             })}
@@ -244,49 +253,67 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
         </div>
       </div>
 
-      {/* Input Card */}
       <div style={{ 
         width: '100%', 
         background: 'white', 
         borderRadius: '16px', 
-        padding: '24px', 
-        border: `1px solid ${inputError ? 'var(--error)' : 'rgba(155, 93, 224, 0.1)'}`,
+        padding: '32px', 
+        border: '1px solid rgba(155, 93, 224, 0.1)',
         boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '16px'
+        gap: '24px'
       }}>
-        <div style={{ fontSize: '11px', fontWeight: 'bold', color: '#B493E8', letterSpacing: '1px', textTransform: 'uppercase' }}>Gõ nghĩa tiếng Việt vào đây</div>
-        
-        <div style={{ width: '100%' }}>
-          <input 
-            type="text" 
-            autoFocus
-            value={textInput}
-            onChange={(e) => {
-              setTextInput(e.target.value);
-              setInputError(false);
-              setShowEmptyError(false);
-            }}
-            placeholder="Gõ nghĩa tiếng Việt: hoàn thành, đạt được..."
-            style={{ 
-              width: '100%', 
-              padding: '16px 20px', 
-              fontSize: '15px', 
-              border: `1px ${inputError ? 'dashed var(--error)' : 'solid rgba(0,0,0,0.1)'}`, 
-              borderRadius: '8px', 
-              outline: 'none',
-              background: inputError ? '#FFF5F5' : 'white'
-            }}
-          />
-          {inputError && (
+        {wordData.pretestQuestion ? (
+          <div style={{ fontSize: '18px', textAlign: 'center' }}>
+            {wordData.pretestQuestion.split('_______').map((part, i, arr) => (
+              <React.Fragment key={i}>
+                {part}
+                {i < arr.length - 1 && (
+                  <span style={{ 
+                    display: 'inline-block', 
+                    width: '120px', 
+                    borderBottom: '2px solid var(--text-primary)',
+                    margin: '0 8px' 
+                  }}></span>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        ) : (
+          <div style={{ fontSize: '15px', color: 'var(--text-secondary)' }}>
+            Nhập nghĩa tiếng Việt của từ trên
+          </div>
+        )}
+
+        <input 
+          type="text" 
+          value={textInput}
+          onChange={(e) => {
+            setTextInput(e.target.value);
+            setInputError(false);
+            setShowEmptyError(false);
+          }}
+          placeholder={wordData.pretestQuestion ? "Nhập từ còn thiếu..." : "Nhập nghĩa..."}
+          style={{
+            width: '100%',
+            maxWidth: '400px',
+            padding: '16px 24px',
+            fontSize: '18px',
+            borderRadius: '12px',
+            border: `2px solid ${inputError ? 'var(--error)' : 'rgba(0,0,0,0.1)'}`,
+            textAlign: 'center',
+            outline: 'none',
+            background: inputError ? '#FFF5F5' : '#FAFAFA'
+          }}
+          autoFocus
+        />  {inputError && (
             <div style={{ color: 'var(--error)', fontSize: '12px', marginTop: '8px', display: 'flex', alignItems: 'center', gap: '4px', animation: 'shake 0.4s' }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               Vui lòng nhập nghĩa tiếng Việt hoặc câu ví dụ.
             </div>
           )}
-        </div>
       </div>
 
       <div className="flex-row justify-center items-center" style={{ marginTop: '16px', gap: '16px' }}>

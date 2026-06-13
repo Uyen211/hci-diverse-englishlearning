@@ -79,10 +79,10 @@ export default function UnitDetail() {
                         <Button 
                           className="shrink-0 mt-4 sm:mt-0 rounded-full px-6 shadow-active-glow"
                           onClick={() => {
-                            if (lesson.id === 1) {
+                          if (lesson.id === 1) {
                               navigate('/student/vocabulary-select', { state: { unitId: unitId || 3 } })
                             } else if (lesson.id === 2) {
-                              alert('Tính năng Học Ngữ Pháp đang được phát triển!')
+                              navigate('/student/grammar-select', { state: { unitId: unitId || 3 } })
                             } else if (lesson.id === 4) {
                               navigate('/student/listening-select')
                             } else if (lesson.id === 5) {

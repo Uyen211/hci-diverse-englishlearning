@@ -1,0 +1,230 @@
+<div class="wf-screen-title">11B. VIẾT TỰ DO: THỬ THÁCH + BẢNG ĐIỀU KHIỂN AI</div>
+        <div class="wf-layout-wrapper" style="position: relative;">
+            <div class="wf-body-wrapper" style="display: flex; flex-direction: row; width: 1440px; flex-grow: 1;">
+                <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1 class="brand-name">DiveVerse</h1>
+      <button class="back-btn" aria-label="Quay lại">
+        <svg viewBox="0 0 24 24">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+    </div>
+    
+    <ul class="nav-list">
+      <!-- Mục Trang chủ (3 ô vuông + 1 dấu cộng) -->
+      <li class="nav-item">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <rect x="4" y="4" width="6" height="6" rx="1.5"/>
+            <rect x="14" y="4" width="6" height="6" rx="1.5"/>
+            <rect x="4" y="14" width="6" height="6" rx="1.5"/>
+            <path d="M14 17h6M17 14v6"/>
+          </svg>
+        </span>
+        <span class="nav-label">Trang chủ</span>
+      </li>
+
+      <!-- Mục Hành trình (Lưới 4 ô vuông 2x2) -->
+      <li class="nav-item active">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <rect x="4" y="4" width="6" height="6" rx="1.5"/>
+            <rect x="14" y="4" width="6" height="6" rx="1.5"/>
+            <rect x="4" y="14" width="6" height="6" rx="1.5"/>
+            <rect x="14" y="14" width="6" height="6" rx="1.5"/>
+          </svg>
+        </span>
+        <span class="nav-label">Hành trình</span>
+      </li>
+
+      <!-- Mục Ôn tập (Sách mở kèm dải dấu trang) -->
+      <li class="nav-item">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            <line x1="16" y1="3" x2="16" y2="12"/>
+          </svg>
+        </span>
+        <span class="nav-label">Ôn tập</span>
+      </li>
+
+      <!-- Mục Kiểm tra thực tế (Thẻ badge có khuyết 4 góc cạnh) -->
+      <li class="nav-item">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3c1.66 0 3 1.34 3 3s-1.34 3-3 3v3a2 2 0 0 0 2 2h3c0-1.66 1.34-3 3-3s3 1.34 3 3h3a2 2 0 0 0 2-2v-3c-1.66 0-3-1.34-3-3s1.34-3 3-3V5a2 2 0 0 0-2-2h-3c0 1.66-1.34 3-3 3S8 4.66 8 3Z"/>
+          </svg>
+        </span>
+        <span class="nav-label">Kiểm tra thực tế</span>
+      </li>
+    </ul>
+  </aside>
+                <div class="wf-right-col" style="display: flex; flex-direction: column; width: 1180px; flex-shrink: 0; box-sizing: border-box;">
+                    <header class="header">
+    
+    <div class="search-wrapper">
+      <svg class="search-icon" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" class="search-input" placeholder="Tìm kiếm...">
+    </div>
+
+    <div class="profile-actions">
+      
+      <div class="action-buttons">
+        <div class="btn-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="dot-indicator"></span>
+        </div>
+
+        <div class="btn-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="vertical-divider"></div>
+
+      <div class="user-info">
+        <span class="user-name">Alex Rivera</span>
+        <div class="user-avatar"></div>
+      </div>
+
+    </div>
+  </header>
+                    <div class="wf-main-content" style="padding-right: 340px; position: relative;">
+                    <div class="wf-unit-header">
+                        <div class="wf-breadcrumb">Unit 5 > Học ngữ pháp > <span class="wf-breadcrumb-mode-deep">Deep Mode</span></div>
+                        <div class="wf-page-title">Viết thư: Viết doan van voi cấu trúc</div>
+                    </div>
+
+                    <div class="wf-topbar">
+                        <div class="wf-step-counter">
+                            <div class="wf-step-counter-item">Bước: <strong>8</strong> / 8</div>
+                            <div class="wf-step-counter-divider"></div>
+                            <div class="wf-step-counter-item">Cấu trúc: <strong>1</strong> / 6</div>
+                            <div class="wf-step-counter-divider"></div>
+                            <div class="wf-step-counter-item">Viết: <strong>1</strong> / 1</div>
+                        </div>
+                        <div class="wf-progress-mini">
+                            <div class="wf-progress-mini-bar"><div class="wf-progress-mini-fill" style="width: 95%;"></div></div>
+                            <div class="wf-progress-mini-label">95%</div>
+                        </div>
+                    </div>
+
+                    <div class="wf-letter" style="flex: 1;">
+                        <div class="wf-letter-stamp"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 11 13 15 9"/></svg><span style="font-size: 8px; margin-top: 4px; color: #10B981; font-weight: bold; text-transform: uppercase;">AI OK</span></div>
+                        <div class="wf-letter-body">
+                            <div class="wf-subtitle" style="font-weight: bold; margin-bottom: 8px;">Viết doan ngan sử dụng cấu trúc "<strong>Whenever</strong>":</div>
+                            <div class="wf-subtitle" style="font-style: italic; margin-bottom: 12px;">"Hãy viết về thói quen hàng ngày của bạn."</div>
+                            <textarea class="wf-input" rows="5" style="resize: none;">Whenever I have free time, I read books. Whenever I feel tired, I drink coffee. Every time I travel, I learn something new.</textarea>
+                            <div class="text-right wf-small" style="margin-top: 4px;">Từ: 28</div>
+                        </div>
+                    </div>
+                    <div class="flex-row justify-center" style="margin-top: 12px;"><div role="button" tabindex="0" accesskey="g" class="wf-btn wf-btn-sm"><u>G</u>ửi thư</div></div>
+                    <div class="wf-hint-bar" style="border: none; padding-top: 8px;"><span class="wf-hint-key">Tab</span> Viết <span style="margin-left: 8px;"><span class="wf-hint-key">Ctrl+Enter</span> Gui</span></div>
+                    
+                    <!-- AI Panel -->
+                    <div class="wf-ai-panel">
+                        <div class="wf-title" style="font-size: 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; color: var(--primary);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
+                                <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+                                <circle cx="12" cy="12" r="2"/>
+                            </svg>
+                            AI Assistant
+                        </div>
+                        
+                        <div class="wf-card-solid" style="padding: 16px; margin-bottom: 20px;">
+                            <div style="font-weight: 700; font-size: 13px; color: var(--text-primary); margin-bottom: 8px;">Cấu trúc mục tiêu</div>
+                            <div class="wf-text-block-solid" style="width: 100%; text-align: center; font-size: 15px; padding: 10px;">Whenever</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px; text-align: center;">Mỗi khi, bất cứ lúc nào</div>
+                        </div>
+                        
+                        <div class="wf-card" style="padding: 16px; border-left: 4px solid var(--success);">
+                            <div style="font-weight: 700; font-size: 13px; color: var(--success); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                Nhận xét hiện tại
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+                                Bạn đã sử dụng đúng cấu trúc "Whenever" ở 2 câu. Cách dùng thì hiện tại đơn rất tự nhiên.
+                                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(155, 93, 224, 0.2);">
+                                    <strong style="color: var(--primary);">Gợi ý:</strong> Hãy thử dùng thêm với một tình huống giả định xem sao nhé!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <footer class="footer">
+    <div class="footer-container">
+      
+      <div class="footer-brand">
+        <h2>DiveVerse</h2>
+        <p>Nền tảng học tiếng Anh cá nhân hóa thế hệ mới,<br>hỗ trợ bởi công nghệ AI tiên tiến nhất.</p>
+        <div class="social-icons">
+          <a href="#" class="icon-btn" aria-label="Website">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </a>
+          <a href="#" class="icon-btn" aria-label="Community">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </a>
+          <a href="#" class="icon-btn" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-links-group">
+        <div class="footer-col">
+          <h3>SẢN PHẨM</h3>
+          <ul>
+            <li><a href="#">Lộ trình học</a></li>
+            <li><a href="#">Kiểm tra trực<br>tuyến</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h3>HỖ TRỢ</h3>
+          <ul>
+            <li><a href="#">Hướng dẫn sử dụng</a></li>
+            <li><a href="#">Liên hệ với chúng tôi</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 DiveVerse. All rights reserved.</p>
+    </div>
+  </footer>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- SCREEN 11C: VIẾT TỰ DO - E-2 BÔ TRỐNG                          -->
+    <!-- ================================================================ -->
+    <div class="wf-screen-container">
+        
