@@ -12,8 +12,6 @@ import ReviewSummary from './components/ReviewSummary';
 import ReviewHintPopup from './components/ReviewHintPopup';
 import ReviewDictionaryPopup from './components/ReviewDictionaryPopup';
 import ReviewEmptyErrorPopup from './components/ReviewEmptyErrorPopup';
-import '../../review.css';
-
 import quizData from '../../data/quizData.json';
 
 // Map quizData to the format expected by the UI components

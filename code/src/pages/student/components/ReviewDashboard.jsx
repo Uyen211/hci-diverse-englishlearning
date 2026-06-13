@@ -1,10 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function ReviewDashboard({ stats, onStart }) {
     return (
-        <div className="wf-main-content" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <div className="flex flex-col mb-6 relative">
-                <h2 className="font-heading text-2xl font-extrabold text-text-primary tracking-tight">Bắt đầu ôn tập ngay</h2>
+        <div className="wf-main-content" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary mb-4">
+                <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
+                <span className="opacity-50">&gt;</span>
+                <span className="text-primary font-bold">Ôn tập</span>
+            </div>
+
+            <div className="flex flex-col gap-2 mb-6">
+                <h1 className="page-title text-3xl font-extrabold text-text-primary tracking-tight">
+                    Bắt đầu ôn tập ngay
+                </h1>
+                <p className="text-text-secondary text-sm" style={{ marginTop: '-8px' }}>
+                    Ôn lại những kiến thức đã học để ghi nhớ lâu hơn!
+                </p>
             </div>
 
             <div style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', maxWidth: '800px', margin: '0 auto', width: '100%' }}>

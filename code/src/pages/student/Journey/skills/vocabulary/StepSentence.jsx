@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
 import { useAudio } from '../../../../../hooks/useAudio';
 
@@ -68,7 +69,17 @@ export default function StepSentence({ wordData, mode, onNext, wordIndex, totalW
   return (
     <div className="wf-main-content">
       <div className="wf-unit-header">
-        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; Học từ vựng &gt; <span className="wf-breadcrumb-mode-deep">Deep Mode</span></div>
+        <div className="wf-breadcrumb flex flex-wrap items-center gap-1">
+          <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to="/student/journey" className="hover:underline text-text-secondary">Hành trình</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to={`/student/journey/unit/${typeof unitId !== 'undefined' ? unitId : 3}`} className="hover:underline text-text-secondary">Unit {typeof unitId !== 'undefined' ? unitId : 3}</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to="/student/vocabulary/select" className="hover:underline text-text-secondary">Học từ vựng</Link>
+          <span className="opacity-50">&gt;</span>
+          <span className="text-primary font-bold">{typeof mode !== 'undefined' ? (mode === 'fast' ? 'Fast Mode' : mode === 'deep' ? 'Deep Mode' : (mode || 'Mode')) : 'Mode'}</span>
+        </div>
         <div className="wf-page-title">Ứng dụng: Tạo câu</div>
       </div>
 

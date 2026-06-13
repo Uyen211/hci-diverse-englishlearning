@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {  useNavigate, useLocation , Link } from 'react-router-dom';
 
 export default function VocabSelect() {
   const navigate = useNavigate();
@@ -23,7 +23,15 @@ export default function VocabSelect() {
   return (
     <div className="wf-main-content">
       <div className="wf-unit-header">
-        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; <span>Học từ vựng</span></div>
+        <div className="wf-breadcrumb flex flex-wrap items-center gap-1">
+          <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to="/student/journey" className="hover:underline text-text-secondary">Hành trình</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to={`/student/journey/unit/${typeof unitId !== 'undefined' ? unitId : 3}`} className="hover:underline text-text-secondary">Unit {typeof unitId !== 'undefined' ? unitId : 3}</Link>
+          <span className="opacity-50">&gt;</span>
+          <span className="text-primary font-bold">Học từ vựng</span>
+        </div>
         <div className="wf-page-title">Học Nhóm Từ Vựng</div>
       </div>
 

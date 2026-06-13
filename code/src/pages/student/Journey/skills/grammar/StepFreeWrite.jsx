@@ -1,11 +1,14 @@
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useAudio } from '../../../../../hooks/useAudio';
+import { useToastStore } from '../../../../../store/toastStore';
 
 export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, totalWords, stepIndex, totalSteps, progressPercent, unitId }) {
   const [text, setText] = useState('');
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const [showEmptyError, setShowEmptyError] = useState(false);
+  const addToast = useToastStore(state => state.addToast);
   const [showA2Modal, setShowA2Modal] = useState(false);
   const { playSuccessEarcon, playErrorEarcon } = useAudio();
 
@@ -29,6 +32,7 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
       );
       if (hasKeyword) {
         playSuccessEarcon();
+        addToast('Nộp bài thành công! AI đã phân tích xong.', 'success', 3000);
         setFeedback({
           status: 'success',
           score: 85,
@@ -91,7 +95,17 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
   return (
     <div className="flex flex-col flex-1 w-full max-w-6xl mx-auto gap-4 relative">
       <div className="wf-unit-header mb-6">
-        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; Học ngữ pháp &gt; <span className="wf-breadcrumb-mode-deep">Deep Mode</span></div>
+        <div className="wf-breadcrumb flex flex-wrap items-center gap-1">
+          <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to="/student/journey" className="hover:underline text-text-secondary">Hành trình</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to={`/student/journey/unit/${typeof unitId !== 'undefined' ? unitId : 3}`} className="hover:underline text-text-secondary">Unit {typeof unitId !== 'undefined' ? unitId : 3}</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to="/student/grammar/select" className="hover:underline text-text-secondary">Học ngữ pháp</Link>
+          <span className="opacity-50">&gt;</span>
+          <span className="text-primary font-bold">{typeof mode !== 'undefined' ? (mode === 'fast' ? 'Fast Mode' : mode === 'deep' ? 'Deep Mode' : (mode || 'Mode')) : 'Mode'}</span>
+        </div>
         <div className="wf-page-title text-2xl font-bold mt-1">Viết tự do: Viết đoạn văn với cấu trúc</div>
       </div>
 

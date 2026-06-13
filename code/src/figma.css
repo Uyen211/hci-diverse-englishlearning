@@ -7879,3 +7879,94 @@
       gap: 40px;
     }
   }
+
+/* Container của thanh tab */
+.custom-tab-container {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-bottom: 2px solid #f3f4f6;
+    padding-bottom: 0;
+    width: 100%;
+}
+
+/* Định dạng chung cho từng tab */
+.custom-tab-item {
+    text-decoration: none;
+    color: #5a5a7a;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px 4px;
+    position: relative;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    user-select: none;
+    background: none;
+    border: none;
+}
+
+/* Hiệu ứng hover cho các tab chưa active */
+.custom-tab-item:hover {
+    color: #4f46e5;
+}
+
+/* Cấu hình riêng cho tab đang được chọn (Active) */
+.custom-tab-item.active {
+    color: #4338ca;
+}
+
+/* Đường gạch chân cho tab active */
+.custom-tab-item.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #4338ca;
+    border-radius: 1px;
+}
+
+/* =======================================================
+   SUB-TABS STYLE (Less prominent, non-uppercase, smaller)
+   ======================================================= */
+.custom-subtab-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 0;
+}
+
+.custom-subtab-item {
+    text-decoration: none;
+    color: #5a5a7a;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 2px;
+    position: relative;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    user-select: none;
+    background: none;
+    border: none;
+}
+
+.custom-subtab-item:hover {
+    color: #4f46e5;
+}
+
+.custom-subtab-item.active {
+    color: #4338ca;
+}
+
+.custom-subtab-item.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #4338ca;
+    border-radius: 1px;
+}

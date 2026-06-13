@@ -20,8 +20,6 @@ function saveRawLessons(lessons) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(lessons));
 }
 
-const delay = (ms = 300) => new Promise(resolve => setTimeout(resolve, ms));
-
 // Helper function to dynamically count lessons and update level's lessonCount
 function syncLevelLessonCount(unitId) {
   try {
@@ -57,12 +55,10 @@ function syncLevelLessonCount(unitId) {
 
 export const lessonService = {
   async getLessons() {
-    await delay();
     return getRawLessons();
   },
 
   async getLessonsByUnitId(unitId) {
-    await delay();
     const lessons = getRawLessons();
     return lessons
       .filter(l => l.unitId === unitId)
@@ -70,7 +66,6 @@ export const lessonService = {
   },
 
   async addLesson(lessonData, exerciseType = "", configData = {}) {
-    await delay();
     const lessons = getRawLessons();
 
     const unitId = lessonData.unitId;
@@ -100,7 +95,6 @@ export const lessonService = {
   },
 
   async updateLesson(id, updatedData) {
-    await delay();
     const lessons = getRawLessons();
     const index = lessons.findIndex(l => l.id === id);
     if (index === -1) {
@@ -122,7 +116,6 @@ export const lessonService = {
   },
 
   async updateLessonConfig(id, exerciseType, configData) {
-    await delay();
     const lessons = getRawLessons();
     const index = lessons.findIndex(l => l.id === id);
     if (index === -1) {
@@ -141,7 +134,6 @@ export const lessonService = {
   },
 
   async deleteLesson(id) {
-    await delay();
     const lessons = getRawLessons();
     const lessonToDelete = lessons.find(l => l.id === id);
     if (!lessonToDelete) return true;

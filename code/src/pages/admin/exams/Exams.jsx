@@ -3,9 +3,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { examService } from '../../../services/examService';
 import { levelService } from '../../../services/levelService';
 import { unitService } from '../../../services/unitService';
+import { useToastStore } from '../../../store/toastStore';
 
 export default function Exams() {
   const navigate = useNavigate();
+  const { addToast } = useToastStore();
   const [exams, setExams] = useState([]);
   const [levels, setLevels] = useState([]);
   const [units, setUnits] = useState([]);
@@ -101,9 +103,11 @@ export default function Exams() {
       setActionError('');
       await examService.deleteExam(deletingExam.id);
       setExams((prev) => prev.filter((ex) => ex.id !== deletingExam.id));
+      addToast(`Xóa bài thi "${deletingExam.title}" thành công`, "success");
       setIsDeleteModalOpen(false);
     } catch (err) {
       setActionError(err.message || 'Không thể xóa đề thi này.');
+      addToast(err.message || 'Không thể xóa đề thi này.', 'error');
     } finally {
       setActionLoading(false);
     }

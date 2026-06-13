@@ -7,6 +7,7 @@ import * as z from 'zod';
 import { examService } from '../../../services/examService';
 import { levelService } from '../../../services/levelService';
 import { unitService } from '../../../services/unitService';
+import { useToastStore } from '../../../store/toastStore';
 
 import McqConfig from './components/McqConfig';
 import ListeningConfig from './components/ListeningConfig';
@@ -28,6 +29,7 @@ const examFormSchema = z.object({
 export default function ExamConfig() {
   const { examId } = useParams();
   const navigate = useNavigate();
+  const { addToast } = useToastStore();
   const isCreateMode = !examId || examId === 'new';
 
   const [levels, setLevels] = useState([]);
@@ -218,8 +220,10 @@ export default function ExamConfig() {
 
       if (isCreateMode) {
         await examService.addExam(payload);
+        addToast(`Tạo đề thi "${data.title}" thành công`, "success");
       } else {
         await examService.updateExam(examId, payload);
+        addToast(`Lưu cấu hình đề thi "${data.title}" thành công`, "success");
       }
 
       setSaveSuccess(true);
@@ -228,6 +232,7 @@ export default function ExamConfig() {
       }, 1000);
     } catch (err) {
       console.error('Lỗi khi lưu đề thi:', err);
+      addToast(`Lỗi lưu đề thi: ${err.message || 'Không thể kết nối đến máy chủ.'}`, 'error');
     } finally {
       setSaveLoading(false);
     }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Tabs</title>
+    <style>
+        /* Reset cơ bản và thiết lập font chữ chỉn chu */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fcfbfe; /* Nền sáng nhẹ giống trong ảnh */
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Container của thanh tab */
+        .tab-container {
+            display: flex;
+            align-items: center;
+            gap: 24px; /* Khoảng cách giữa các tab */
+            border-bottom: 2px solid #f3f4f6; /* Đường viền mờ dưới cùng nếu cần (tùy chọn) */
+            padding-bottom: 0;
+        }
+
+        /* Định dạng chung cho từng tab */
+        .tab-item {
+            text-decoration: none;
+            color: #1f2937; /* Màu chữ đen xám cho các tab chưa chọn */
+            font-size: 18px;
+            font-weight: 600; /* Chữ đậm như trong ảnh */
+            padding: 12px 4px;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            user-select: none;
+        }
+
+        /* Hiệu ứng hover cho các tab chưa active */
+        .tab-item:hover {
+            color: #4f46e5; /* Đổi sang màu xanh tím nhẹ khi di chuột */
+        }
+
+        /* Cấu hình riêng cho tab đang được chọn (Active) */
+        .tab-item.active {
+            color: #4338ca; /* Màu xanh tím đậm đặc trưng */
+        }
+
+        /* Đường gạch chân cho tab active */
+        .tab-item.active::after {
+            content: "";
+            position: absolute;
+            bottom: -2px; /* Đè khít lên đường border của container nếu có */
+            left: 0;
+            width: 100%;
+            height: 3px; /* Độ dày của đường gạch chân */
+            background-color: #4338ca; /* Màu của đường gạch chân */
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tab-container">
+        <a class="tab-item active">Trắc nghiệm</a>
+        <a class="tab-item">Listening</a>
+        <a class="tab-item">Speaking</a>
+        <a class="tab-item">Reading</a>
+        <a class="tab-item">Writing</a>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab-item');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Xóa class active ở tab cũ
+                document.querySelector('.tab-item.active').classList.remove('active');
+                // Thêm class active vào tab vừa click
+                tab.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useAudio } from '../../../../../hooks/useAudio';
 
@@ -41,7 +42,17 @@ export default function StepCompareDifferentiate({ grammarData, mode, onNext, wo
   return (
     <div className="flex flex-col flex-1 w-full max-w-5xl mx-auto gap-4">
       <div className="wf-unit-header mb-6">
-        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; Học ngữ pháp &gt; <span className="wf-breadcrumb-mode-deep text-primary">Deep Mode</span></div>
+        <div className="wf-breadcrumb flex flex-wrap items-center gap-1">
+          <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to="/student/journey" className="hover:underline text-text-secondary">Hành trình</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to={`/student/journey/unit/${typeof unitId !== 'undefined' ? unitId : 3}`} className="hover:underline text-text-secondary">Unit {typeof unitId !== 'undefined' ? unitId : 3}</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to="/student/grammar/select" className="hover:underline text-text-secondary">Học ngữ pháp</Link>
+          <span className="opacity-50">&gt;</span>
+          <span className="text-primary font-bold">{typeof mode !== 'undefined' ? (mode === 'fast' ? 'Fast Mode' : mode === 'deep' ? 'Deep Mode' : (mode || 'Mode')) : 'Mode'}</span>
+        </div>
         <div className="wf-page-title text-2xl font-bold mt-1">Phân biệt sắc thái: {grammarData.title}</div>
       </div>
 

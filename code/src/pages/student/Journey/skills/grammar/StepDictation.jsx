@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
 import { useAudio } from '../../../../../hooks/useAudio';
 import catOpenMouth from '../../../../../assets/cat-open-mouth-removebg-preview.png';
@@ -113,7 +114,17 @@ export default function StepDictation({ grammarData, mode, onNext, wordIndex, to
       {audioSrc && <audio ref={audioRef} src={audioSrc} />}
       {/* Tiêu đề Khối Header */}
       <div className="wf-unit-header">
-        <div className="wf-breadcrumb">Bài học &gt; Unit {unitId} &gt; Học ngữ pháp &gt; <span className={mode === 'deep' ? 'wf-breadcrumb-mode-deep text-primary' : 'text-blue-500 font-bold'}>{mode === 'deep' ? 'Deep Mode' : 'Fast Mode'}</span></div>
+        <div className="wf-breadcrumb flex flex-wrap items-center gap-1">
+          <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to="/student/journey" className="hover:underline text-text-secondary">Hành trình</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to={`/student/journey/unit/${typeof unitId !== 'undefined' ? unitId : 3}`} className="hover:underline text-text-secondary">Unit {typeof unitId !== 'undefined' ? unitId : 3}</Link>
+          <span className="opacity-50">&gt;</span>
+          <Link to="/student/grammar/select" className="hover:underline text-text-secondary">Học ngữ pháp</Link>
+          <span className="opacity-50">&gt;</span>
+          <span className="text-primary font-bold">{typeof mode !== 'undefined' ? (mode === 'fast' ? 'Fast Mode' : mode === 'deep' ? 'Deep Mode' : (mode || 'Mode')) : 'Mode'}</span>
+        </div>
         <div className="wf-page-title">Chính tả: Gõ lại cụm ngữ pháp</div>
       </div>
 
