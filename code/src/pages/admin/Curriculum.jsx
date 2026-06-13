@@ -5,6 +5,7 @@ import * as z from 'zod'
 import { useNavigate, useParams } from 'react-router-dom'
 import { levelService } from '../../services/levelService'
 import { unitService } from '../../services/unitService'
+import { useToastStore } from '../../store/toastStore'
 
 // Validation schema for Unit modal form using Zod
 const unitFormSchema = z.object({
@@ -17,6 +18,7 @@ const unitFormSchema = z.object({
 
 export default function Curriculum() {
   const navigate = useNavigate()
+  const { addToast } = useToastStore()
   const { levelId } = useParams()
   const selectedLevelId = levelId || null
   const [levels, setLevels] = useState([])
@@ -157,10 +159,12 @@ export default function Curriculum() {
         // Edit Mode
         const updated = await unitService.updateUnit(editingUnit.id, payload)
         setUnits(prev => prev.map(u => u.id === editingUnit.id ? updated : u))
+        addToast(`Cập nhật Unit ${updated.sequence || ''} thành công`, 'success')
       } else {
         // Add Mode
         const added = await unitService.addUnit(payload)
         setUnits(prev => [...prev, added])
+        addToast(`Tạo Unit ${added.sequence || ''} thành công`, 'success')
       }
       
       // Refresh counts for overview
@@ -170,6 +174,7 @@ export default function Curriculum() {
       setIsFormModalOpen(false)
     } catch (err) {
       setActionError(err.message || 'Có lỗi xảy ra khi cập nhật Unit.')
+      addToast(err.message || 'Có lỗi xảy ra khi cập nhật Unit.', 'error')
     } finally {
       setActionLoading(false)
     }
@@ -191,8 +196,10 @@ export default function Curriculum() {
         setLevelCounts(counts)
         
         setIsDeleteModalOpen(false)
+        addToast(`Xóa Unit ${deletingUnit.sequence || ''} thành công`, 'success')
       } catch (err) {
         setActionError(err.message || 'Không thể xóa Unit này.')
+        addToast(err.message || 'Không thể xóa Unit này.', 'error')
       } finally {
         setActionLoading(false)
       }

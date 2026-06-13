@@ -35,8 +35,14 @@ export default function SpeakingSelect() {
   return (
     <div className="flex flex-col h-full bg-surface items-center pt-12 pb-20">
       <div className="w-full max-w-4xl px-4">
-        <div className="text-sm text-text-secondary mb-12 text-center md:text-left">
-          <Link to="/student/unit/3" className="hover:text-primary transition-colors">Bài học</Link> &gt; Unit 3 &gt; Luyện nói &gt; Chọn kiểu luyện
+        <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary mb-12 justify-center md:justify-start">
+          <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Trang chủ</span>
+          <span className="opacity-50">&gt;</span>
+          <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/journey')}>Hành trình</span>
+          <span className="opacity-50">&gt;</span>
+          <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/unit/3')}>Unit 3</span>
+          <span className="opacity-50">&gt;</span>
+          <span className="text-primary font-bold">Luyện nói</span>
         </div>
 
         <div className="flex flex-col items-center text-center">

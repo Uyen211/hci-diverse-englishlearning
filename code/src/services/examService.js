@@ -42,33 +42,26 @@ function saveRawAttempts(attempts) {
   localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(attempts));
 }
 
-const delay = (ms = 300) => new Promise(resolve => setTimeout(resolve, ms));
-
 export const examService = {
   async getExams() {
-    await delay();
     return getRawExams();
   },
 
   async getExamById(id) {
-    await delay();
     const exams = getRawExams();
     return exams.find(e => e.id === id) || null;
   },
 
   async getAttempts() {
-    await delay();
     return getRawAttempts();
   },
 
   async getAttemptByExamId(examId) {
-    await delay();
     const attempts = getRawAttempts();
     return attempts.find(a => a.examId === examId) || null;
   },
 
   async saveAttempt(examId, answers, scoreDetails) {
-    await delay();
     const attempts = getRawAttempts();
     
     // Remove existing attempt if any to support retaking exams
@@ -89,7 +82,6 @@ export const examService = {
   },
 
   async addExam(examData) {
-    await delay();
     const exams = getRawExams();
     const newExam = {
       id: `exam-${Math.random().toString(36).substr(2, 9)}`,
@@ -108,7 +100,6 @@ export const examService = {
   },
 
   async updateExam(id, updatedData) {
-    await delay();
     const exams = getRawExams();
     const index = exams.findIndex(e => e.id === id);
     if (index === -1) {
@@ -129,7 +120,6 @@ export const examService = {
   },
 
   async deleteExam(id) {
-    await delay();
     const exams = getRawExams();
     const filtered = exams.filter(e => e.id !== id);
     saveRawExams(filtered);

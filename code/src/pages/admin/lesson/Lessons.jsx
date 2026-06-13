@@ -3,8 +3,10 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { lessonService } from '../../../services/lessonService';
 import { unitService } from '../../../services/unitService';
 import { levelService } from '../../../services/levelService';
+import { useToastStore } from '../../../store/toastStore';
 
 export default function Lessons() {
+  const { addToast } = useToastStore();
   const { unitId } = useParams();
   const navigate = useNavigate();
 
@@ -77,8 +79,10 @@ export default function Lessons() {
       setLessons(lessonsData);
       
       setIsDeleteModalOpen(false);
+      addToast(`Xóa bài học ${deletingLesson.title} thành công`, 'success');
     } catch (err) {
       setActionError(err.message || 'Không thể xóa bài học này.');
+      addToast(err.message || 'Không thể xóa bài học này.', 'error');
     } finally {
       setActionLoading(false);
     }

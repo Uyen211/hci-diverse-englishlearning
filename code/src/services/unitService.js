@@ -32,16 +32,12 @@ function saveRawUnits(units) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(units));
 }
 
-const delay = (ms = 300) => new Promise(resolve => setTimeout(resolve, ms));
-
 export const unitService = {
   async getUnits() {
-    await delay();
     return getRawUnits();
   },
 
   async getUnitsByLevel(levelId) {
-    await delay();
     const units = getRawUnits();
     return units
       .filter(u => u.levelId === levelId)
@@ -49,7 +45,6 @@ export const unitService = {
   },
 
   async addUnit(unitData) {
-    await delay();
     const units = getRawUnits();
     
     const levelId = unitData.levelId;
@@ -89,7 +84,6 @@ export const unitService = {
   },
 
   async updateUnit(id, updatedData) {
-    await delay();
     const units = getRawUnits();
     const index = units.findIndex(u => u.id === id);
     if (index === -1) {
@@ -126,7 +120,6 @@ export const unitService = {
   },
 
   async deleteUnit(id) {
-    await delay();
     const units = getRawUnits();
     const unitToDelete = units.find(u => u.id === id);
     if (!unitToDelete) return true;
@@ -161,7 +154,6 @@ export const unitService = {
   },
 
   async getUnitCountsForLevels() {
-    await delay();
     const units = getRawUnits();
     const counts = {};
     units.forEach(u => {

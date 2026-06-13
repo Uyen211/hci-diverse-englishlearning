@@ -5,9 +5,11 @@ import { Input } from '@/components/ui/input'
 import { Play, Pause, RotateCcw } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import Modal from '@/components/Modal'
+import { useToastStore } from '@/store/toastStore'
 
 export default function ListeningQuiz() {
   const navigate = useNavigate()
+  const { addToast } = useToastStore()
   const [isPlaying, setIsPlaying] = useState(false)
   const [showError, setShowError] = useState(false)
   const [fillWord, setFillWord] = useState('')
@@ -24,13 +26,23 @@ export default function ListeningQuiz() {
 
   const handleConfirmSubmit = () => {
     setIsModalOpen(false)
+    addToast("Nộp bài trắc nghiệm nghe thành công. Đang tính điểm...", "success")
     navigate('/student/listening/result')
   }
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="text-sm text-text-secondary mb-2">
-        <Link to="/student/unit/3" className="hover:text-primary transition-colors">Bài học</Link> &gt; Unit 3 &gt; <Link to="/student/listening-select" className="hover:text-primary transition-colors">Luyện nghe</Link> &gt; Trắc nghiệm nghe hiểu
+      {/* Breadcrumb & Navigation */}
+      <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Trang chủ</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/journey')}>Hành trình</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/unit/3')}>Unit 3</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/listening-select')}>Luyện nghe</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="text-primary font-bold">Trắc nghiệm nghe hiểu</span>
       </div>
 
       <h1 className="text-3xl font-extrabold text-text-primary mb-2">Listening Quiz: Daily Communication</h1>

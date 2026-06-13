@@ -1,12 +1,22 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Play, Pause, Volume2, Mic, Lock } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useToastStore } from '@/store/toastStore'
 
 export default function Shadowing() {
+  const navigate = useNavigate()
+  const { addToast } = useToastStore()
   const [isPlaying, setIsPlaying] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
+
+  const handleMicClick = () => {
+    if (isRecording) {
+      addToast("Hoàn thành chấm điểm phát âm câu mẫu!", "success")
+    }
+    setIsRecording(!isRecording)
+  }
 
   const vocabularies = [
     { word: 'pronunciation', meaning: 'phát âm' },
@@ -17,8 +27,17 @@ export default function Shadowing() {
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl mx-auto">
-      <div className="text-sm text-text-secondary mb-2">
-        <Link to="/student/unit/3" className="hover:text-primary transition-colors">Bài học</Link> &gt; Unit 3 &gt; <Link to="/student/listening-select" className="hover:text-primary transition-colors">Luyện nghe</Link> &gt; Nghe và nhắc lại theo mẫu
+      {/* Breadcrumb & Navigation */}
+      <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Trang chủ</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/journey')}>Hành trình</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/unit/3')}>Unit 3</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/listening-select')}>Luyện nghe</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="text-primary font-bold">Nghe và nhắc lại</span>
       </div>
 
       <h1 className="text-3xl font-extrabold text-text-primary mb-2">Shadowing: Repeat After the Speaker</h1>
@@ -88,7 +107,7 @@ export default function Shadowing() {
                <button 
                  className={`w-16 h-16 rounded-full flex items-center justify-center transition-all shadow-active-glow
                   ${isRecording ? 'bg-error text-white animate-pulse' : 'bg-primary text-white hover:scale-105'}`}
-                 onClick={() => setIsRecording(!isRecording)}
+                 onClick={handleMicClick}
                >
                  <Mic className="w-8 h-8" />
                </button>

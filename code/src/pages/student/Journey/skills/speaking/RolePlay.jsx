@@ -27,8 +27,17 @@ export default function RolePlay() {
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl mx-auto pb-12">
-      <div className="text-sm text-text-secondary mb-2">
-        <Link to="/student/unit/3" className="hover:text-primary transition-colors">Bài học</Link> &gt; Unit 3 &gt; <Link to="/student/speaking-select" className="hover:text-primary transition-colors">Luyện nói</Link> &gt; Hội thoại AI - Role Play
+      {/* Breadcrumb & Navigation */}
+      <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Trang chủ</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/journey')}>Hành trình</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/unit/3')}>Unit 3</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/speaking-select')}>Luyện nói</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="text-primary font-bold">Hội thoại AI</span>
       </div>
 
       <h1 className="text-3xl font-extrabold text-text-primary mb-6">Luyện Nói - Hội thoại đặt phòng khách sạn</h1>

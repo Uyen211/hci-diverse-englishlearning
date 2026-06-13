@@ -1,8 +1,10 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
 import { RefreshCw, BookOpen, Layers } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Review() {
+  const navigate = useNavigate()
   const reviewItems = [
     { word: 'collaborate', type: 'Từ vựng', ipa: '/kəˈlæb.ə.reɪt/', state: 'Cần ôn gấp', level: 'Basic A2' },
     { word: 'Present Simple', type: 'Ngữ pháp', ipa: 'Thì hiện tại đơn', state: 'Sắp quên', level: 'Basic A1' },
@@ -11,6 +13,12 @@ export default function Review() {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Breadcrumb & Navigation */}
+      <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Trang chủ</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="text-primary font-bold">Ôn tập</span>
+      </div>
       <div>
         <h2 className="font-heading text-2xl font-extrabold text-text-primary tracking-tight">
           Góc ôn tập thông minh (SRS)

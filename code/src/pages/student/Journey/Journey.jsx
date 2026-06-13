@@ -14,6 +14,13 @@ export default function Journey() {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Breadcrumb & Navigation */}
+      <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Trang chủ</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="text-primary font-bold">Hành trình</span>
+      </div>
+
       <div>
         <h2 className="font-heading text-2xl font-extrabold text-text-primary tracking-tight">
           Hành trình của tôi

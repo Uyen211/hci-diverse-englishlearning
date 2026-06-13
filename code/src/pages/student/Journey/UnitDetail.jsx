@@ -18,8 +18,13 @@ export default function UnitDetail() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="text-sm text-text-secondary mb-2">
-        <Link to="/student/journey" className="hover:text-primary transition-colors">Lộ trình học</Link> &gt; Basic &gt; Unit {unitId || 3}
+      {/* Breadcrumb & Navigation */}
+      <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Trang chủ</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="hover:underline cursor-pointer" onClick={() => navigate('/student/journey')}>Hành trình</span>
+        <span className="opacity-50">&gt;</span>
+        <span className="text-primary font-bold">Unit {unitId || 3}</span>
       </div>
 
       <div className="flex flex-col md:flex-row gap-6 items-start">
