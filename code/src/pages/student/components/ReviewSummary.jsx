@@ -1,41 +1,73 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Card, CardContent } from '../../../components/ui/card';
+import { Button } from '../../../components/ui/button';
+import { CheckCircle2, Home } from 'lucide-react';
 
 export default function ReviewSummary({ stats, onGoHome }) {
     return (
-        <div className="wf-main-content" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <div className="flex flex-col mb-6 relative">
-                <h2 className="font-heading text-2xl font-extrabold text-text-primary tracking-tight">Hoàn thành phiên ôn tập!</h2>
+        <div className="main-layout flex flex-col gap-6 text-left w-full">
+            {/* Breadcrumb */}
+            <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
+                <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
+                <span className="opacity-50">&gt;</span>
+                <span className="text-primary font-bold">Ôn tập</span>
             </div>
 
-            <div style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', maxWidth: '800px', margin: '0 auto', width: '100%' }}>
-                <div className="bg-surface border border-border shadow-xl rounded-2xl w-full text-center p-8">
-                    <div className="wf-title" style={{ fontSize: '24px', marginBottom: '6px' }}>Bạn đã ôn tập <strong style={{ fontSize: '28px' }}>{stats.totalReviewed}</strong> mục</div>
-                    <div className="wf-subtitle" style={{ fontSize: '14px', marginBottom: '20px' }}>Tuyệt vời! Hãy giữ vững phong độ nhé.</div>
+            <div className="flex flex-col gap-2">
+                <h1 className="page-title text-3xl font-extrabold text-text-primary tracking-tight">
+                    Hoàn thành phiên ôn tập!
+                </h1>
+                <p className="text-text-secondary text-sm">
+                    Chúc mừng bạn đã hoàn thành nhiệm vụ ôn tập hôm nay.
+                </p>
+            </div>
 
-                    <div className="wf-srs-overview" style={{ marginBottom: '24px', maxWidth: '800px', marginLeft: 'auto', marginRight: 'auto' }}>
-                        <div className="wf-srs-overview-item" style={{ borderColor: 'rgba(34, 197, 94, 0.2)' }}>
-                            <div className="num" style={{ color: '#22C55E' }}>{stats.correct}</div>
-                            <div className="lbl" style={{ color: '#22C55E' }}>Nhớ tốt</div>
+            <div className="flex flex-col items-center justify-center max-w-4xl mx-auto w-full mt-4">
+                <Card className="w-full text-center p-8 bg-surface border border-border shadow-xl rounded-2xl">
+                    <CardContent className="flex flex-col items-center gap-6 p-0">
+                        <div className="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center border-4 border-white shadow-soft">
+                            <CheckCircle2 className="w-8 h-8 text-success" />
                         </div>
-                        <div className="wf-srs-overview-item" style={{ borderColor: 'rgba(245, 158, 11, 0.2)' }}>
-                            <div className="num" style={{ color: '#F59E0B' }}>{stats.ok}</div>
-                            <div className="lbl" style={{ color: '#F59E0B' }}>Phân vân</div>
-                        </div>
-                        <div className="wf-srs-overview-item" style={{ borderColor: 'rgba(239, 68, 68, 0.2)' }}>
-                            <div className="num" style={{ color: '#EF4444' }}>{stats.bad}</div>
-                            <div className="lbl" style={{ color: '#EF4444' }}>Quên mất</div>
-                        </div>
-                    </div>
 
-                    <div className="wf-subtitle" style={{ fontSize: '14px', marginBottom: '24px', background: '#F9F9F9', padding: '12px', borderLeft: '3px solid var(--primary)' }}>
-                        Dự kiến lịch ôn tập tiếp theo: <strong>Ngày mai (Khoảng 8 mục)</strong>
-                    </div>
+                        <div>
+                            <h2 className="text-2xl font-bold text-text-primary mb-2">
+                                Bạn đã ôn tập <strong className="text-primary text-3xl font-extrabold">{stats.totalReviewed}</strong> mục
+                            </h2>
+                            <p className="text-sm text-text-secondary">
+                                Tuyệt vời! Hãy giữ vững phong độ học tập hàng ngày nhé.
+                            </p>
+                        </div>
 
-                    <div role="button" tabIndex="0" className="wf-btn" style={{ padding: '14px 48px', fontSize: '16px', display: 'inline-block' }} onClick={onGoHome}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'middle' }}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> 
-                        Về trang chủ
-                    </div>
-                </div>
+                        {/* Summary details */}
+                        <div className="grid grid-cols-3 gap-4 w-full max-w-lg mt-2">
+                            <div className="bg-surface border border-success/20 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm bg-success/[0.02]">
+                                <span className="text-2xl font-extrabold text-success">{stats.correct}</span>
+                                <span className="text-xs font-semibold text-text-secondary mt-1 uppercase tracking-wider">Nhớ tốt</span>
+                            </div>
+                            <div className="bg-surface border border-warning/20 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm bg-warning/[0.02]">
+                                <span className="text-2xl font-extrabold text-warning">{stats.ok}</span>
+                                <span className="text-xs font-semibold text-text-secondary mt-1 uppercase tracking-wider">Phân vân</span>
+                            </div>
+                            <div className="bg-surface border border-error/20 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm bg-error/[0.02]">
+                                <span className="text-2xl font-extrabold text-error">{stats.bad}</span>
+                                <span className="text-xs font-semibold text-text-secondary mt-1 uppercase tracking-wider">Quên mất</span>
+                            </div>
+                        </div>
+
+                        <div className="w-full max-w-md bg-primary/5 border border-primary/20 rounded-xl p-4 text-sm text-center font-medium text-primary-dark">
+                            Dự kiến lịch ôn tập tiếp theo: <strong>Ngày mai (Khoảng 8 mục)</strong>
+                        </div>
+
+                        <Button 
+                            onClick={onGoHome} 
+                            className="px-12 py-6 rounded-xl text-lg font-bold shadow-active-glow mt-2 flex items-center gap-2"
+                        >
+                            <Home className="w-5 h-5" />
+                            Về trang chủ
+                        </Button>
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );

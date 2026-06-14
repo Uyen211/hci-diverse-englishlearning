@@ -165,7 +165,7 @@ export default function Exams() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
           {/* Tabs */}
-          <div className="filter-tabs">
+          <div className="flex items-center gap-6 border-b-2 border-[#f3f4f6] pb-0">
             {['Tất cả', 'Mini-test', 'Level test', 'Mock test'].map((tab) => (
               <button
                 key={tab}
@@ -173,9 +173,14 @@ export default function Exams() {
                   setActiveTab(tab);
                   setCurrentPage(1);
                 }}
-                className={`filter-tab ${activeTab === tab ? 'active' : ''}`}
+                className={`relative pb-3 px-1 text-lg font-semibold bg-transparent border-none outline-none cursor-pointer transition-colors duration-200 select-none ${
+                  activeTab === tab ? 'text-[#4338ca]' : 'text-[#1f2937] hover:text-[#4f46e5]'
+                }`}
               >
                 {tab}
+                {activeTab === tab && (
+                  <div className="absolute bottom-[-2px] left-0 w-full h-[3px] bg-[#4338ca] rounded-[2px]" />
+                )}
               </button>
             ))}
           </div>

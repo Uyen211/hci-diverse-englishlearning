@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link, useBlocker } from 'react-router-dom';
+import { useToastStore } from '../../store/toastStore';
+import '../../figma-uc5a.css';
+import '../../figma-uc08.css';
+import '../../figma-deleted.css';
 import ReviewDashboard from './components/ReviewDashboard';
 import ReviewTopBar from './components/ReviewTopBar';
 import ReviewTimer from './components/ReviewTimer';
@@ -26,8 +30,24 @@ const REVIEW_DATA = quizData.map(q => ({
 
 export default function Review() {
     const navigate = useNavigate();
+    const { addToast } = useToastStore();
     const [status, setStatus] = useState('dashboard'); // 'dashboard', 'running', 'summary'
     const [currentIdx, setCurrentIdx] = useState(0);
+
+    const blocker = useBlocker(
+        ({ currentLocation, nextLocation }) =>
+            status === 'running' && currentLocation.pathname !== nextLocation.pathname
+    );
+
+    useEffect(() => {
+        if (status !== 'running') return;
+        const handleBeforeUnload = (e) => {
+            e.preventDefault();
+            e.returnValue = '';
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [status]);
     
     // Session Stats
     const [stats, setStats] = useState({
@@ -90,6 +110,7 @@ export default function Review() {
             setPopupType(null);
         } else {
             setStatus('summary');
+            addToast("Ôn tập thành công! Bạn đã hoàn thành phiên ôn tập.", "success");
         }
     };
 
@@ -174,7 +195,7 @@ export default function Review() {
 
     if (status === 'dashboard') {
         return (
-            <div className="srs-review-wrapper" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)', overflow: 'hidden' }}>
+            <div className="student-srs-theme srs-review-wrapper w-full flex flex-col">
                 <ReviewDashboard stats={stats} onStart={handleStart} />
             </div>
         );
@@ -182,7 +203,7 @@ export default function Review() {
 
     if (status === 'summary') {
         return (
-            <div className="srs-review-wrapper" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)', overflow: 'hidden' }}>
+            <div className="student-srs-theme srs-review-wrapper w-full flex flex-col">
                 <ReviewSummary stats={{...stats, totalReviewed: currentIdx + (mode === 'assess' ? 1 : 0)}} onGoHome={() => navigate('/')} />
             </div>
         );
@@ -192,8 +213,18 @@ export default function Review() {
     const sentenceHtml = currentItem.sentence.replace('______', mode === 'feedback' || mode === 'assess' ? `<strong>${currentItem.word}</strong>` : '______');
 
     return (
-        <div className="srs-review-wrapper" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)', overflow: 'hidden' }}>
-            <div className="wf-main-content" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
+        <div className="student-srs-theme srs-review-wrapper w-full flex flex-col" style={{ position: 'relative' }}>
+            <div 
+                className="wf-main-content w-full flex flex-col relative animate-fade-in"
+                style={blocker.state === 'blocked' ? { opacity: 0.35, filter: 'blur(1.5px)', pointerEvents: 'none' } : {}}
+            >
+                {/* Breadcrumb */}
+                <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary mb-4">
+                    <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
+                    <span className="opacity-50">&gt;</span>
+                    <span className="text-primary font-bold">Ôn tập</span>
+                </div>
+
                 <ReviewTopBar 
                     current={currentIdx + 1} 
                     total={stats.total} 
@@ -274,6 +305,35 @@ export default function Review() {
                 {popupType === 'dictionary' && <ReviewDictionaryPopup item={currentItem} onClose={() => setPopupType(null)} />}
                 {popupType === 'empty' && <ReviewEmptyErrorPopup onClose={() => setPopupType(null)} />}
             </div>
+
+            {/* Exit Confirmation Modal */}
+            {blocker.state === 'blocked' && (
+                <div className="modal-overlay" style={{ zIndex: 1000, position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(28, 27, 46, 0.45)', backdropFilter: 'blur(8px)' }}>
+                    <div className="modal-box" style={{ width: '460px', textAlign: 'center', alignItems: 'center', padding: '36px', borderRadius: 'var(--rounded-xxl)', backgroundColor: 'var(--surface)', display: 'flex', flexDirection: 'column', gap: '24px', boxShadow: '0 20px 48px rgba(28, 27, 46, 0.2)' }}>
+                        <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(239, 68, 68, 0.08)', color: 'var(--error)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px auto' }}>
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        </div>
+                        <span style={{ fontFamily: 'var(--font-primary)', fontSize: '20px', fontWeight: '800', color: 'var(--text-primary)', display: 'block', marginBottom: '8px' }}>Rời khỏi trang ôn tập?</span>
+                        <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '16px' }}>Tiến trình ôn tập hiện tại của bạn sẽ bị hủy và không được lưu lại. Bạn có chắc chắn muốn rời đi?</p>
+                        <div style={{ display: 'flex', gap: '16px', width: '100%' }}>
+                            <button 
+                                onClick={() => blocker.reset()} 
+                                className="btn-secondary" 
+                                style={{ flex: 1, padding: '12px', borderRadius: 'var(--rounded-lg)', fontWeight: '700', cursor: 'pointer', border: '1px solid rgba(78, 86, 192, 0.12)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
+                            >
+                                Làm tiếp
+                            </button>
+                            <button 
+                                onClick={() => blocker.proceed()} 
+                                className="btn-danger" 
+                                style={{ flex: 1, padding: '12px', borderRadius: 'var(--rounded-lg)', fontWeight: '700', cursor: 'pointer', backgroundColor: 'var(--error)', color: '#fff', border: 'none' }}
+                            >
+                                Rời đi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
