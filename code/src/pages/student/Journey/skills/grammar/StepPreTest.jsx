@@ -87,9 +87,9 @@ export default function StepPreTest({ grammarData, mode, onNext, wordIndex, tota
           <span className="opacity-50">&gt;</span>
           <Link to="/student/journey" className="hover:underline text-text-secondary">Hành trình</Link>
           <span className="opacity-50">&gt;</span>
-          <Link to={`/student/journey/unit/${typeof unitId !== 'undefined' ? unitId : 3}`} className="hover:underline text-text-secondary">Unit {typeof unitId !== 'undefined' ? unitId : 3}</Link>
+          <Link to={`/student/unit/${typeof unitId !== 'undefined' ? unitId : 3}`} className="hover:underline text-text-secondary">Unit {typeof unitId !== 'undefined' ? unitId : 3}</Link>
           <span className="opacity-50">&gt;</span>
-          <Link to="/student/grammar/select" className="hover:underline text-text-secondary">Học ngữ pháp</Link>
+          <Link to="/student/grammar-select" className="hover:underline text-text-secondary">Học ngữ pháp</Link>
           <span className="opacity-50">&gt;</span>
           <span className="text-primary font-bold">{typeof mode !== 'undefined' ? (mode === 'fast' ? 'Fast Mode' : mode === 'deep' ? 'Deep Mode' : (mode || 'Mode')) : 'Mode'}</span>
         </div>
