@@ -167,16 +167,7 @@ export default function Levels() {
     executeDelete()
   }
 
-  // Calculate dynamic stats
-  const totalActiveUsers = levels.reduce((acc, curr) => {
-    const activeStr = curr && curr.activeUsers ? String(curr.activeUsers) : '0';
-    const num = parseInt(activeStr.replace(/,/g, ''), 10)
-    return acc + (isNaN(num) ? 0 : num)
-  }, 0).toLocaleString()
 
-  const avgCompletionProgress = levels.length > 0
-    ? (levels.reduce((acc, curr) => acc + (curr && curr.avgProgress ? Number(curr.avgProgress) : 0), 0) / levels.length).toFixed(1)
-    : '0'
 
   return (
     <main className="content-body">
@@ -204,21 +195,7 @@ export default function Levels() {
         </a>
       </div>
 
-      {/* Statistics Cards */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <span className="stat-label">Tổng người dùng hoạt động</span>
-          <span className="stat-value">{loading ? '...' : totalActiveUsers}</span>
-        </div>
-        <div className="stat-card">
-          <span className="stat-label">Tiến độ trung bình</span>
-          <span className="stat-value">{loading ? '...' : `${avgCompletionProgress}%`}</span>
-        </div>
-        <div className="stat-card">
-          <span className="stat-label">Điểm Ielts trung bình</span>
-          <span className="stat-value">5.5</span>
-        </div>
-      </div>
+
 
       {/* Table section */}
       <div>
