@@ -263,11 +263,11 @@ export default function StepPatternAnalysis({ grammarData, mode, onNext, wordInd
       </div>
 
       {/* Thanh Gợi Ý Phím Tắt */}
-      <div className="wf-hint-bar">
+      <div className="flex justify-between items-center bg-primary/5 border border-primary/20 rounded-xl p-4 mt-6 text-sm text-primary">
         <div className="flex-row gap-16">
-          <div className="wf-hint-text"><span className="wf-hint-key">Kéo thả</span> Đưa từ vào ô</div>
-          <div className="wf-hint-text"><span className="wf-hint-key">Click</span> Gỡ từ ra</div>
-          <div className="wf-hint-text"><span className="wf-hint-key">Enter</span> Kiểm tra / Tiếp tục</div>
+          <div className="flex flex-wrap items-center gap-4"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Kéo thả</kbd> Đưa từ vào ô</div>
+          <div className="text-xs text-text-secondary opacity-80 hidden md:block"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Click</kbd> Gỡ từ ra</div>
+          <div className="wf-hint-text"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Enter</kbd> Kiểm tra / Tiếp tục</div>
         </div>
       </div>
     </div>

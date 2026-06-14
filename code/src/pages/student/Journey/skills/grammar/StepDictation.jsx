@@ -278,9 +278,9 @@ export default function StepDictation({ grammarData, mode, onNext, wordIndex, to
       </div>
 
       {/* Thanh Hint Bar chân trang */}
-      <div className="wf-hint-bar">
-        <div className="wf-hint-text"><span className="wf-hint-key">Ctrl+Space</span> Nghe phát âm cụm <span style={{ marginLeft: '8px' }}><span className="wf-hint-key">Enter</span> Kiểm tra nộp bài</span></div>
-        <div className="wf-hint-text">Còn <strong>{requiredCount - correctCount}</strong> lần gõ chuẩn xác để đạt {requiredCount}/{requiredCount} mục tiêu!</div>
+      <div className="flex justify-between items-center bg-primary/5 border border-primary/20 rounded-xl p-4 mt-6 text-sm text-primary">
+        <div className="flex flex-wrap items-center gap-4"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Ctrl+Space</kbd> Nghe phát âm cụm <span style={{ marginLeft: '8px' }}><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Enter</kbd> Kiểm tra nộp bài</span></div>
+        <div className="text-xs text-text-secondary opacity-80 hidden md:block">Còn <strong>{requiredCount - correctCount}</strong> lần gõ chuẩn xác để đạt {requiredCount}/{requiredCount} mục tiêu!</div>
       </div>
     </div>
   );

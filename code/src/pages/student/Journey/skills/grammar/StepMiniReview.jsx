@@ -202,8 +202,8 @@ export default function StepMiniReview({ grammarData, mode, onNext, wordIndex, t
 
       <div className="wf-hint-bar flex justify-between text-xs text-primary/70 mt-4 pt-4  ">
         <div className="flex-row gap-16">
-          <div className="wf-hint-text"><span className="wf-hint-key">A-C</span> Chọn cấu trúc</div>
-          <div className="wf-hint-text"><span className="wf-hint-key">Enter</span> Trả lời</div>
+          <div className="wf-hint-text"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">A-C</kbd> Chọn cấu trúc</div>
+          <div className="wf-hint-text"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Enter</kbd> Trả lời</div>
         </div>
         <div className="wf-hint-text">Ôn tập định kỳ giúp ghi nhớ cấu trúc lâu hơn!</div>
       </div>

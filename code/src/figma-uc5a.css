@@ -795,48 +795,60 @@
         
 }
 
+        
         /* === BOTTOM HINT BAR (consistent across screens) === */
-        .student-srs-theme .wf-hint-bar {
- 
-            margin-top: auto; 
-            padding-top: 8px; 
-            border-top: none; 
+        .wf-hint-bar { 
+            margin-top: 24px;
+            padding: 16px; 
+            border: 1px solid rgba(78, 86, 192, 0.2) !important; 
+            background: rgba(78, 86, 192, 0.05) !important; 
+            border-radius: 12px;
             display: flex; 
             flex-direction: row; 
             align-items: center; 
             justify-content: space-between; 
-            gap: 12px; 
-        
-}
-        .student-srs-theme .wf-hint-key {
- 
+            font-size: 14px;
+            color: var(--primary);
+            border-top: 1px solid rgba(78, 86, 192, 0.2) !important;
+        }
+        .wf-hint-key { 
             display: inline-block; 
-            border: 1px solid rgba(155, 93, 224, 0.3); 
-            background: #FAF8FF; 
-            border-radius: 6px;
-            padding: 2px 8px; 
-            font-size: 10px; 
-            font-weight: 700; 
-            color: var(--primary); 
-            font-family: monospace; 
-            box-shadow: 0 2px 0 rgba(155, 93, 224, 0.15);
-        
-}
-        .student-srs-theme .wf-hint-text {
- 
-            font-size: 11px; 
-            color: var(--text-secondary); 
-        
-}
-        .student-srs-theme .wf-hint-text strong {
- 
+            border: 1px solid #e2e8f0 !important; 
+            background: #ffffff !important; 
+            border-radius: 4px;
+            padding: 2px 6px; 
+            font-size: 12px; 
+            font-weight: 600; 
+            color: var(--text-primary) !important; 
+            font-family: inherit; 
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+            margin-right: 4px;
+        }
+        .wf-hint-text { 
+            font-size: 14px !important; 
+            color: var(--primary) !important; 
+        }
+        .wf-hint-text span {
+            display: inline-flex;
+            align-items: center;
+        }
+        .wf-hint-bar > .wf-hint-text:last-child {
+            font-size: 12px !important;
+            color: var(--text-secondary) !important;
+            opacity: 0.8;
+            font-weight: normal;
+        }
+        @media (max-width: 768px) {
+            .wf-hint-bar > .wf-hint-text:last-child {
+                display: none;
+            }
+        }
+        .wf-hint-text strong { 
             color: var(--primary); 
             font-weight: 600;
-        
-}
+        }
 
-        /* === MODE CARD (screen 1) === */
-        .student-srs-theme .wf-word-count {
+        .wf-word-count {
  
             font-size: 12px; 
             color: var(--primary); 
