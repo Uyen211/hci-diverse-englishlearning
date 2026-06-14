@@ -168,8 +168,8 @@ export default function StepCompareDifferentiate({ grammarData, mode, onNext, wo
 
       <div className="wf-hint-bar flex justify-between text-xs text-primary/70 mt-4 pt-4  ">
         <div className="flex-row gap-16">
-          <div className="wf-hint-text"><span className="wf-hint-key">A-C</span> Chọn đáp án</div>
-          <div className="wf-hint-text"><span className="wf-hint-key">Enter</span> Kiểm tra / Tiếp tục</div>
+          <div className="wf-hint-text"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">A-C</kbd> Chọn đáp án</div>
+          <div className="wf-hint-text"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Enter</kbd> Kiểm tra / Tiếp tục</div>
         </div>
         <div className="wf-hint-text">Phân biệt sắc thái giữa các cấu trúc!</div>
       </div>

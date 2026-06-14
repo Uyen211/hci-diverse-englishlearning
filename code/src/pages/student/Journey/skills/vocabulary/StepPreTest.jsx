@@ -360,11 +360,11 @@ export default function StepPreTest({ wordData, mode, onNext, wordIndex, totalWo
 
       {mode === 'fast' ? renderFastMode() : renderDeepMode()}
 
-      <div className="wf-hint-bar">
+      <div className="flex justify-between items-center bg-primary/5 border border-primary/20 rounded-xl p-4 mt-6 text-sm text-primary">
         <div className="flex-row gap-16">
-          <div className="wf-hint-text"><span className="wf-hint-key">P</span> Nghe lại</div>
-          {mode === 'fast' && <div className="wf-hint-text"><span className="wf-hint-key">A-D</span> Chọn đáp án</div>}
-          <div className="wf-hint-text"><span className="wf-hint-key">Enter</span> {mode === 'fast' ? 'Nộp' : 'Nộp kết quả'} {mode === 'fast' && `| Còn ${timeLeft} giây`}</div>
+          <div className="flex flex-wrap items-center gap-4"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">P</kbd> Nghe lại</div>
+          {mode === 'fast' && <div className="text-xs text-text-secondary opacity-80 hidden md:block"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">A-D</kbd> Chọn đáp án</div>}
+          <div className="wf-hint-text"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Enter</kbd> {mode === 'fast' ? 'Nộp' : 'Nộp kết quả'} {mode === 'fast' && `| Còn ${timeLeft} giây`}</div>
         </div>
         {mode === 'deep' && <div className="wf-hint-text" style={{ marginLeft: 'auto' }}>Nghe từ vựng và giải mã nghĩa tiếng Việt</div>}
       </div>

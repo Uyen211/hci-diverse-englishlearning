@@ -273,28 +273,28 @@ export default function Review() {
                     )}
                 </div>
 
-                <div className="wf-hint-bar">
+                <div className="flex justify-between items-center bg-primary/5 border border-primary/20 rounded-xl p-4 mt-6 text-sm text-primary">
                     {mode === 'text' && (
                         <>
-                            <div className="wf-hint-text"><span className="wf-hint-key">Alt+G</span> Gợi ý <span style={{ marginLeft: '8px' }}><span className="wf-hint-key">Enter</span> Nộp</span></div>
-                            <div className="wf-hint-text">Gõ chính xác từ cần điền (còn <strong>{timeLeft}</strong> giây)</div>
+                            <div className="flex flex-wrap items-center gap-4"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Alt+G</kbd> Gợi ý <span style={{ marginLeft: '8px' }}><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Enter</kbd> Nộp</span></div>
+                            <div className="text-xs text-text-secondary opacity-80 hidden md:block">Gõ chính xác từ cần điền (còn <strong>{timeLeft}</strong> giây)</div>
                         </>
                     )}
                     {mode === 'mcq' && (
                         <>
-                            <div className="wf-hint-text"><span className="wf-hint-key">1-4</span> Chọn đáp án <span style={{ marginLeft: '8px' }}><span className="wf-hint-key">Enter</span> Nộp</span></div>
+                            <div className="wf-hint-text"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">1-4</kbd> Chọn đáp án <span style={{ marginLeft: '8px' }}><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Enter</kbd> Nộp</span></div>
                             <div className="wf-hint-text">Bạn bắt buộc phải chọn 1 đáp án để tiếp tục</div>
                         </>
                     )}
                     {mode === 'feedback' && (
                         <>
-                            <div className="wf-hint-text"><span className="wf-hint-key">Enter</span> Câu tiếp theo</div>
+                            <div className="wf-hint-text"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Enter</kbd> Câu tiếp theo</div>
                             <div className="wf-hint-text">Đọc kỹ giải thích trước khi tiếp tục</div>
                         </>
                     )}
                     {mode === 'assess' && (
                         <>
-                            <div className="wf-hint-text"><span className="wf-hint-key">1-3</span> Chọn mức độ</div>
+                            <div className="wf-hint-text"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">1-3</kbd> Chọn mức độ</div>
                             <div className="wf-hint-text">Đánh giá trung thực giúp AI hiệu chỉnh lịch ôn tập hiệu quả nhất</div>
                         </>
                     )}
