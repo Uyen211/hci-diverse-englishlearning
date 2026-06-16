@@ -93,12 +93,12 @@ export default function WritingTask() {
 
         <h1 className="text-3xl font-extrabold text-text-primary mb-6">Luyện Viết - Writing Task</h1>
 
-        <div className={`p-1 rounded-3xl transition-all ${isError ? 'bg-error border border-error border-dashed' : 'bg-transparent'}`}>
-          <Card className={`border-none shadow-soft h-full ${isError ? 'bg-[#FFF5F5] rounded-[22px]' : 'bg-white'}`}>
+        <div className="p-1 rounded-3xl transition-all bg-transparent">
+          <Card className="border-none shadow-soft h-full bg-white">
             <CardContent className="p-8">
               
               {/* Prompt Box */}
-              <div className={`rounded-xl p-6 mb-8 ${isError ? 'bg-white border border-border' : 'bg-surface'}`}>
+              <div className="rounded-xl p-6 mb-8 bg-surface">
                 <h4 className="font-bold text-text-primary mb-3">Đề bài:</h4>
                 <p className="text-text-primary leading-relaxed">
                   Viết một đoạn văn (khoảng 50-100 từ) mô tả về sở thích cá nhân của bạn trong thời gian rảnh rỗi. 
@@ -112,9 +112,9 @@ export default function WritingTask() {
                   Khung soạn thảo bài viết {isError && '*'}
                 </label>
                 <textarea 
-                  className={`w-full min-h-[200px] p-4 rounded-xl border-2 transition-all resize-y text-base
-                    ${isError ? 'border-error/30 bg-error/5 focus:border-error focus:ring-1 focus:ring-error text-error' 
-                             : 'border-border bg-surface focus:border-primary focus:ring-1 focus:ring-primary text-text-primary'}`}
+                  className={`w-full min-h-[200px] p-4 rounded-xl border-2 transition-all resize-y text-base text-text-primary
+                    ${isError ? 'border-error/30 bg-error/5 focus:border-error focus:ring-1 focus:ring-error' 
+                             : 'border-border bg-surface focus:border-primary focus:ring-1 focus:ring-primary'}`}
                   placeholder="Nhập bài viết của bạn tại đây..."
                   value={text}
                   onChange={handleTextChange}
@@ -140,7 +140,7 @@ export default function WritingTask() {
                   Số từ: {wordCount} / {MAX_WORDS} (Tối thiểu {MIN_WORDS} từ)
                 </span>
                 <Button 
-                  className={`px-8 rounded-full shadow-sm font-bold ${isError ? 'bg-error hover:bg-error/90 text-white shadow-error/20' : 'shadow-active-glow'}`}
+                  className="px-8 rounded-full shadow-sm font-bold shadow-active-glow"
                   onClick={handleSubmit}
                 >
                   Nộp bài
