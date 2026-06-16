@@ -48,7 +48,7 @@ export default function Review() {
         window.addEventListener('beforeunload', handleBeforeUnload);
         return () => window.removeEventListener('beforeunload', handleBeforeUnload);
     }, [status]);
-    
+
     // Session Stats
     const [stats, setStats] = useState({
         correct: 0,
@@ -67,7 +67,7 @@ export default function Review() {
     const [timeLeft, setTimeLeft] = useState(10);
     const [userAnswer, setUserAnswer] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
-    
+
     // Popup State
     const [popupType, setPopupType] = useState(null); // 'hint', 'dictionary', 'empty', null
 
@@ -171,10 +171,15 @@ export default function Review() {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     handleSubmit();
-                } else if (['1', '2', '3', '4'].includes(e.key)) {
-                    const idx = parseInt(e.key) - 1;
-                    if (currentItem.options[idx]) {
-                        setUserAnswer(currentItem.options[idx]);
+                } else {
+                    // Chuyển đổi phím bấm sang chữ thường để nhận diện cả 'a-d' lẫn 'A-D'
+                    const pressedKey = e.key.toLowerCase();
+                    if (['a', 'b', 'c', 'd'].includes(pressedKey)) {
+                        // Tính toán index dựa theo mã ASCII: 'a' có mã 97 -> 97 - 97 = 0 (Đáp án A), 'b' -> 1 (Đáp án B)...
+                        const idx = pressedKey.charCodeAt(0) - 97;
+                        if (currentItem && currentItem.options && currentItem.options[idx]) {
+                            setUserAnswer(currentItem.options[idx]);
+                        }
                     }
                 }
             } else if (mode === 'assess') {
@@ -204,7 +209,7 @@ export default function Review() {
     if (status === 'summary') {
         return (
             <div className="student-srs-theme srs-review-wrapper w-full flex flex-col">
-                <ReviewSummary stats={{...stats, totalReviewed: currentIdx + (mode === 'assess' ? 1 : 0)}} onGoHome={() => navigate('/')} />
+                <ReviewSummary stats={{ ...stats, totalReviewed: currentIdx + (mode === 'assess' ? 1 : 0) }} onGoHome={() => navigate('/')} />
             </div>
         );
     }
@@ -214,15 +219,15 @@ export default function Review() {
 
     return (
         <div className="student-srs-theme srs-review-wrapper w-full flex flex-col" style={{ position: 'relative' }}>
-            <div 
+            <div
                 className="wf-main-content w-full flex flex-col relative animate-fade-in"
                 style={blocker.state === 'blocked' ? { opacity: 0.35, filter: 'blur(1.5px)', pointerEvents: 'none' } : {}}
             >
-                <ReviewTopBar 
-                    current={currentIdx + 1} 
-                    total={stats.total} 
-                    correct={stats.correct} 
-                    incorrect={stats.bad} 
+                <ReviewTopBar
+                    current={currentIdx + 1}
+                    total={stats.total}
+                    correct={stats.correct}
+                    incorrect={stats.bad}
                 />
 
                 <div style={{ flex: '1', maxWidth: '900px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', overflowY: 'auto', paddingBottom: '16px' }}>
@@ -235,7 +240,7 @@ export default function Review() {
                     )}
 
                     {(mode === 'text' || mode === 'mcq') && (
-                        <ReviewInputArea 
+                        <ReviewInputArea
                             mode={mode}
                             value={userAnswer}
                             onChange={setUserAnswer}
@@ -248,7 +253,7 @@ export default function Review() {
                     )}
 
                     {mode === 'feedback' && (
-                        <ReviewFeedback 
+                        <ReviewFeedback
                             item={currentItem}
                             isCorrect={isCorrect}
                             userAnswer={userAnswer}
@@ -257,7 +262,7 @@ export default function Review() {
                     )}
 
                     {mode === 'assess' && (
-                        <ReviewSelfAssess 
+                        <ReviewSelfAssess
                             item={currentItem}
                             sentence={sentenceHtml}
                             userAnswer={userAnswer}
@@ -275,7 +280,12 @@ export default function Review() {
                     )}
                     {mode === 'mcq' && (
                         <>
-                            <div className="wf-hint-text"><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">1-4</kbd> Chọn đáp án <span style={{ marginLeft: '8px' }}><kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Enter</kbd> Nộp</span></div>
+                            <div className="wf-hint-text">
+                                <kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">A-D</kbd> Chọn đáp án
+                                <span style={{ marginLeft: '8px' }}>
+                                    <kbd className="bg-white px-1.5 py-0.5 border rounded shadow-sm text-xs font-semibold mr-1 text-text-primary">Enter</kbd> Nộp
+                                </span>
+                            </div>
                             <div className="wf-hint-text">Bạn bắt buộc phải chọn 1 đáp án để tiếp tục</div>
                         </>
                     )}
@@ -309,16 +319,16 @@ export default function Review() {
                         <span style={{ fontFamily: 'var(--font-primary)', fontSize: '20px', fontWeight: '800', color: 'var(--text-primary)', display: 'block', marginBottom: '8px' }}>Rời khỏi trang ôn tập?</span>
                         <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '16px' }}>Tiến trình ôn tập hiện tại của bạn sẽ bị hủy và không được lưu lại. Bạn có chắc chắn muốn rời đi?</p>
                         <div style={{ display: 'flex', gap: '16px', width: '100%' }}>
-                            <button 
-                                onClick={() => blocker.reset()} 
-                                className="btn-secondary" 
+                            <button
+                                onClick={() => blocker.reset()}
+                                className="btn-secondary"
                                 style={{ flex: 1, padding: '12px', borderRadius: 'var(--rounded-lg)', fontWeight: '700', cursor: 'pointer', border: '1px solid rgba(78, 86, 192, 0.12)', backgroundColor: 'var(--surface)', color: 'var(--text-secondary)' }}
                             >
                                 Làm tiếp
                             </button>
-                            <button 
-                                onClick={() => blocker.proceed()} 
-                                className="btn-danger" 
+                            <button
+                                onClick={() => blocker.proceed()}
+                                className="btn-danger"
                                 style={{ flex: 1, padding: '12px', borderRadius: 'var(--rounded-lg)', fontWeight: '700', cursor: 'pointer', backgroundColor: 'var(--error)', color: '#fff', border: 'none' }}
                             >
                                 Rời đi
