@@ -294,13 +294,6 @@ export default function Curriculum() {
            SCREEN 1: CURRICULUM OVERVIEW (LEVEL GRID)
            ========================================================================== */
         <>
-          {/* Breadcrumbs */}
-          <div className="breadcrumbs">
-            <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }}>Trang chủ</a>
-            <span className="separator">&gt;</span>
-            <span className="current">Chương trình học</span>
-          </div>
-
           <h1 className="page-title">Tổng Quan Chương Trình Học</h1>
           <p className="page-description" style={{ marginBottom: '8px' }}>
             Quản lý cấu trúc, lộ trình và phân phối kiến thức cho toàn bộ vũ trụ DiveVerse.

@@ -115,13 +115,6 @@ export default function Exams() {
 
   return (
     <main className="content-body">
-      {/* Breadcrumbs */}
-      <div className="breadcrumbs">
-        <Link to="/">Trang chủ</Link>
-        <span className="separator">&gt;</span>
-        <span className="current">Quản lý đề thi</span>
-      </div>
-
       {/* Page Header */}
       <div className="page-header-row">
         <div>

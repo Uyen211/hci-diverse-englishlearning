@@ -1,44 +1,29 @@
 import { useState } from 'react'
-import { Check } from 'lucide-react'
 
 export default function ReviewReading({ questions = [], answers = {} }) {
   const [activeIdx, setActiveIdx] = useState(0)
 
-  // Find all incorrect sub-questions across all reading questions
-  const wrongSubQuestions = []
+  // Find all sub-questions across all reading questions
+  const allSubQuestions = []
   
   questions.forEach(q => {
     q.subQuestions?.forEach(subQ => {
-      if (answers[subQ.id] !== subQ.correctOption) {
-        wrongSubQuestions.push({
-          parentQuestion: q,
-          subQ
-        })
-      }
+      allSubQuestions.push({
+        parentQuestion: q,
+        subQ
+      })
     })
   })
 
   if (questions.length === 0) return null
 
-  if (wrongSubQuestions.length === 0) {
-    return (
-      <div className="review-item-card bg-surface p-6 rounded-xl border border-border shadow-glow text-center py-12">
-        <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'rgba(34, 197, 94, 0.08)', color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px auto' }}>
-          <Check className="w-6 h-6" />
-        </div>
-        <h4 className="font-heading font-extrabold text-text-primary text-base">
-          Tuyệt vời! Bạn không sai câu nào trong phần đọc.
-        </h4>
-      </div>
-    )
-  }
-
   // Ensure activeIdx is in bounds
-  const currentActiveIdx = Math.min(activeIdx, wrongSubQuestions.length - 1)
-  const { parentQuestion, subQ } = wrongSubQuestions[currentActiveIdx]
+  const currentActiveIdx = Math.min(activeIdx, allSubQuestions.length - 1)
+  const { parentQuestion, subQ } = allSubQuestions[currentActiveIdx]
   
   // Find the sub-question index within its parent (1-based)
   const subIdx = (parentQuestion.subQuestions?.indexOf(subQ) ?? 0) + 1
+  const isCorrectQuestion = answers[subQ.id] === subQ.correctOption
 
   const handlePrev = () => {
     if (currentActiveIdx > 0) {
@@ -47,7 +32,7 @@ export default function ReviewReading({ questions = [], answers = {} }) {
   }
 
   const handleNext = () => {
-    if (currentActiveIdx < wrongSubQuestions.length - 1) {
+    if (currentActiveIdx < allSubQuestions.length - 1) {
       setActiveIdx(currentActiveIdx + 1)
     }
   }
@@ -55,71 +40,65 @@ export default function ReviewReading({ questions = [], answers = {} }) {
   const paragraphs = parentQuestion.passageContent ? parentQuestion.passageContent.split('\n') : []
 
   const renderPaginationItems = () => {
-    const total = wrongSubQuestions.length
+    const total = allSubQuestions.length
     const current = currentActiveIdx
     const pages = []
-    const range = 1
-    
-    if (total <= 7) {
-      for (let i = 0; i < total; i++) {
-        pages.push(
-          <button
-            key={i}
-            onClick={() => setActiveIdx(i)}
-            className={`page-btn ${current === i ? 'active' : 'cursor-pointer'}`}
-          >
-            {i + 1}
-          </button>
-        )
-      }
-    } else {
-      pages.push(
-        <button
-          key={0}
-          onClick={() => setActiveIdx(0)}
-          className={`page-btn ${current === 0 ? 'active' : 'cursor-pointer'}`}
-        >
-          1
-        </button>
-      )
 
-      if (current > range + 1) {
-        pages.push(
-          <span key="left-ellipsis" className="px-2 font-semibold text-text-secondary opacity-60">
-            ...
-          </span>
-        )
+    for (let i = 0; i < total; i++) {
+      const item = allSubQuestions[i]
+      const questionCorrect = answers[item.subQ.id] === item.subQ.correctOption
+      const isActive = i === current
+
+      let btnStyle = {
+        width: '32px',
+        height: '32px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '6px',
+        fontWeight: '700',
+        transition: 'all 0.2s ease',
+        cursor: 'pointer',
+        border: '1px solid rgba(78, 86, 192, 0.15)'
       }
 
-      const start = Math.max(1, current - range)
-      const end = Math.min(total - 2, current + range)
-      for (let i = start; i <= end; i++) {
-        pages.push(
-          <button
-            key={i}
-            onClick={() => setActiveIdx(i)}
-            className={`page-btn ${current === i ? 'active' : 'cursor-pointer'}`}
-          >
-            {i + 1}
-          </button>
-        )
-      }
-
-      if (current < total - range - 2) {
-        pages.push(
-          <span key="right-ellipsis" className="px-2 font-semibold text-text-secondary opacity-60">
-            ...
-          </span>
-        )
+      if (isActive) {
+        btnStyle = {
+          ...btnStyle,
+          backgroundColor: 'var(--primary)',
+          borderColor: 'var(--primary)',
+          color: '#ffffff',
+          outline: '2px solid var(--primary)',
+          outlineOffset: '2px',
+          transform: 'scale(1.05)',
+          zIndex: 10
+        }
+      } else if (questionCorrect) {
+        btnStyle = {
+          ...btnStyle,
+          backgroundColor: 'rgba(34, 197, 94, 0.08)',
+          borderColor: 'rgba(34, 197, 94, 0.3)',
+          color: 'var(--success)',
+          zIndex: 1
+        }
+      } else {
+        btnStyle = {
+          ...btnStyle,
+          backgroundColor: 'rgba(239, 68, 68, 0.08)',
+          borderColor: 'rgba(239, 68, 68, 0.3)',
+          color: 'var(--error)',
+          zIndex: 1
+        }
       }
 
       pages.push(
         <button
-          key={total - 1}
-          onClick={() => setActiveIdx(total - 1)}
-          className={`page-btn ${current === total - 1 ? 'active' : 'cursor-pointer'}`}
+          key={i}
+          onClick={() => setActiveIdx(i)}
+          className="page-btn font-bold cursor-pointer transition-all"
+          style={btnStyle}
         >
-          {total}
+          {i + 1}
         </button>
       )
     }
@@ -128,23 +107,25 @@ export default function ReviewReading({ questions = [], answers = {} }) {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Sub-navigation for wrong questions */}
+      {/* Sub-navigation for all questions */}
       <div className="taker-sub-nav flex gap-2 mb-4 items-center flex-wrap">
         <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px', marginRight: '8px' }}>
-          Câu sai:
+          Câu hỏi:
         </span>
         <button 
           onClick={handlePrev} 
-          className={`page-btn ${currentActiveIdx === 0 ? 'disabled cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+          className={`page-btn font-bold transition-all border border-border text-text-secondary bg-surface hover:bg-muted ${currentActiveIdx === 0 ? 'disabled cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
           disabled={currentActiveIdx === 0}
+          style={{ width: '32px', height: '32px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '6px' }}
         >
           &lt;
         </button>
         {renderPaginationItems()}
         <button 
           onClick={handleNext} 
-          className={`page-btn ${currentActiveIdx === wrongSubQuestions.length - 1 ? 'disabled cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-          disabled={currentActiveIdx === wrongSubQuestions.length - 1}
+          className={`page-btn font-bold transition-all border border-border text-text-secondary bg-surface hover:bg-muted ${currentActiveIdx === allSubQuestions.length - 1 ? 'disabled cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+          disabled={currentActiveIdx === allSubQuestions.length - 1}
+          style={{ width: '32px', height: '32px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '6px' }}
         >
           &gt;
         </button>
@@ -168,34 +149,48 @@ export default function ReviewReading({ questions = [], answers = {} }) {
                 const optionName = `Paragraph ${letter}`
                 const userChoice = answers[subQ.id]
                 const isUserChoice = userChoice === optionName
-                const isCorrect = subQ.correctOption === optionName
+                const isCorrectOption = subQ.correctOption === optionName
 
-                if (isUserChoice) {
-                  return (
-                    <p 
-                      key={idx} 
-                      style={{ backgroundColor: 'rgba(239, 68, 68, 0.05)', borderLeft: '4px solid var(--error)', padding: '8px 12px', fontWeight: '500', marginBottom: '12px' }}
-                    >
-                      <span style={{ color: 'var(--error)', fontWeight: '800', fontSize: '12px', display: 'block', marginBottom: '4px' }}>
-                        [Lựa chọn của bạn - Sai]
-                      </span>
-                      {p}
-                    </p>
-                  )
-                }
-
-                if (isCorrect) {
+                if (isCorrectQuestion && isCorrectOption) {
                   return (
                     <p 
                       key={idx} 
                       style={{ backgroundColor: 'rgba(34, 197, 94, 0.08)', borderLeft: '4px solid var(--success)', padding: '8px 12px', fontWeight: '500' }}
                     >
                       <span style={{ color: 'var(--success)', fontWeight: '800', fontSize: '12px', display: 'block', marginBottom: '4px' }}>
-                        [Đáp án đúng]
+                        [Lựa chọn của bạn (Đúng)]
                       </span>
                       {p}
                     </p>
                   )
+                } else if (!isCorrectQuestion) {
+                  if (isUserChoice) {
+                    return (
+                      <p 
+                        key={idx} 
+                        style={{ backgroundColor: 'rgba(239, 68, 68, 0.05)', borderLeft: '4px solid var(--error)', padding: '8px 12px', fontWeight: '500', marginBottom: '12px' }}
+                      >
+                        <span style={{ color: 'var(--error)', fontWeight: '800', fontSize: '12px', display: 'block', marginBottom: '4px' }}>
+                          [Lựa chọn của bạn - Sai]
+                        </span>
+                        {p}
+                      </p>
+                    )
+                  }
+
+                  if (isCorrectOption) {
+                    return (
+                      <p 
+                        key={idx} 
+                        style={{ backgroundColor: 'rgba(34, 197, 94, 0.08)', borderLeft: '4px solid var(--success)', padding: '8px 12px', fontWeight: '500' }}
+                      >
+                        <span style={{ color: 'var(--success)', fontWeight: '800', fontSize: '12px', display: 'block', marginBottom: '4px' }}>
+                          [Đáp án đúng]
+                        </span>
+                        {p}
+                      </p>
+                    )
+                  }
                 }
               }
 
@@ -207,12 +202,28 @@ export default function ReviewReading({ questions = [], answers = {} }) {
         {/* Right: Question details */}
         <div className="split-panel bg-surface p-6 rounded-xl border border-border shadow-glow flex flex-col gap-5">
           <div className="review-item-status-row flex items-center gap-2 font-bold text-sm">
-            <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--error)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700' }}>
+            <div style={{ 
+              width: '28px', 
+              height: '28px', 
+              borderRadius: '50%', 
+              backgroundColor: isCorrectQuestion ? 'var(--success)' : 'var(--error)', 
+              color: '#fff', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              fontWeight: '700' 
+            }}>
               {subIdx}
             </div>
-            <span style={{ color: 'var(--error)', fontWeight: '700' }}>
-              ✕ Trả lời sai
-            </span>
+            {isCorrectQuestion ? (
+              <span style={{ color: 'var(--success)', fontWeight: '700' }}>
+                ✓ Trả lời đúng
+              </span>
+            ) : (
+              <span style={{ color: 'var(--error)', fontWeight: '700' }}>
+                ✕ Trả lời sai
+              </span>
+            )}
           </div>
 
           <h4 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '12px' }}>
@@ -220,25 +231,38 @@ export default function ReviewReading({ questions = [], answers = {} }) {
           </h4>
 
           {/* Grid answers comparison */}
-          <div style={{ marginBottom: '20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-            <div style={{ border: '2px dashed var(--error)', backgroundColor: 'rgba(239, 68, 68, 0.03)', borderRadius: 'var(--rounded-lg)', padding: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <div style={{ color: 'var(--error)', fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                LỰA CHỌN CỦA BẠN (SAI)
-              </div>
-              <div style={{ fontWeight: '700', color: 'var(--error)', marginTop: '4px', fontSize: '14px' }}>
-                {answers[subQ.id] || '[Chưa trả lời]'}
+          {isCorrectQuestion ? (
+            <div style={{ marginBottom: '20px', display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
+              <div style={{ border: '1px solid var(--success)', backgroundColor: 'rgba(34, 197, 94, 0.03)', borderRadius: 'var(--rounded-lg)', padding: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ color: 'var(--success)', fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  LỰA CHỌN CỦA BẠN (ĐÚNG)
+                </div>
+                <div style={{ fontWeight: '700', color: 'var(--success)', marginTop: '4px', fontSize: '14px' }}>
+                  {answers[subQ.id]}
+                </div>
               </div>
             </div>
+          ) : (
+            <div style={{ marginBottom: '20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div style={{ border: '2px dashed var(--error)', backgroundColor: 'rgba(239, 68, 68, 0.03)', borderRadius: 'var(--rounded-lg)', padding: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ color: 'var(--error)', fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  LỰA CHỌN CỦA BẠN (SAI)
+                </div>
+                <div style={{ fontWeight: '700', color: 'var(--error)', marginTop: '4px', fontSize: '14px' }}>
+                  {answers[subQ.id] || '[Chưa trả lời]'}
+                </div>
+              </div>
 
-            <div style={{ border: '1px solid var(--text-primary)', backgroundColor: 'var(--bg-card)', borderRadius: 'var(--rounded-lg)', padding: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <div style={{ color: 'var(--text-secondary)', fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                ĐÁP ÁN ĐÚNG
-              </div>
-              <div style={{ fontWeight: '700', color: 'var(--success)', marginTop: '4px', fontSize: '14px' }}>
-                {subQ.correctOption}
+              <div style={{ border: '1px solid var(--text-primary)', backgroundColor: 'var(--bg-card)', borderRadius: 'var(--rounded-lg)', padding: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ color: 'var(--text-secondary)', fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  ĐÁP ÁN ĐÚNG
+                </div>
+                <div style={{ fontWeight: '700', color: 'var(--success)', marginTop: '4px', fontSize: '14px' }}>
+                  {subQ.correctOption}
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Explanation box */}
           <div className="review-explanation-box bg-primary/[0.02] border-l-4 border-primary p-4 rounded text-xs leading-relaxed text-text-secondary" style={{ marginTop: '0', borderLeft: '4px solid var(--primary)', backgroundColor: 'rgba(78,86,192,0.02)', padding: '16px', borderRadius: 'var(--rounded-md)' }}>

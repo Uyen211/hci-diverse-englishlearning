@@ -218,13 +218,6 @@ export default function Review() {
                 className="wf-main-content w-full flex flex-col relative animate-fade-in"
                 style={blocker.state === 'blocked' ? { opacity: 0.35, filter: 'blur(1.5px)', pointerEvents: 'none' } : {}}
             >
-                {/* Breadcrumb */}
-                <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary mb-4">
-                    <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
-                    <span className="opacity-50">&gt;</span>
-                    <span className="text-primary font-bold">Ôn tập</span>
-                </div>
-
                 <ReviewTopBar 
                     current={currentIdx + 1} 
                     total={stats.total} 

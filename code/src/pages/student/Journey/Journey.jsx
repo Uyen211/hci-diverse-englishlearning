@@ -16,13 +16,6 @@ export default function Journey() {
     <div className="main-layout flex flex-col gap-6">
       {/* Header section */}
       <div className="flex flex-col gap-4">
-        {/* Breadcrumb */}
-        <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
-          <Link to="/" className="hover:underline text-text-secondary cursor-pointer">Trang chủ</Link>
-          <span className="opacity-50">&gt;</span>
-          <span className="text-primary font-bold">Hành trình</span>
-        </div>
-
         <div className="flex flex-col gap-2">
           <h1 className="page-title text-3xl font-extrabold text-text-primary tracking-tight">
             Hành trình của tôi

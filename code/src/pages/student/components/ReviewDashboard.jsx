@@ -1,20 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import { Card, CardContent } from '../../../components/ui/card';
 import { Button } from '../../../components/ui/button';
-import { BookOpen, Star, AlertTriangle } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 
 export default function ReviewDashboard({ stats, onStart }) {
     return (
         <div className="main-layout flex flex-col gap-6 text-left w-full">
-            {/* Breadcrumb & Page Title */}
+            {/* Page Title */}
             <div className="flex flex-col gap-4">
-                <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
-                    <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
-                    <span className="opacity-50">&gt;</span>
-                    <span className="text-primary font-bold">Ôn tập</span>
-                </div>
-
                 <div className="flex flex-col gap-2">
                     <h1 className="page-title text-3xl font-extrabold text-text-primary tracking-tight">
                         Bắt đầu ôn tập ngay

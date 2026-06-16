@@ -1,5 +1,3 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import { Card, CardContent } from '../../../components/ui/card';
 import { Button } from '../../../components/ui/button';
 import { CheckCircle2, Home } from 'lucide-react';
@@ -7,13 +5,6 @@ import { CheckCircle2, Home } from 'lucide-react';
 export default function ReviewSummary({ stats, onGoHome }) {
     return (
         <div className="main-layout flex flex-col gap-6 text-left w-full">
-            {/* Breadcrumb */}
-            <div className="breadcrumbs flex items-center gap-2 text-xs font-semibold text-text-secondary">
-                <Link to="/" className="hover:underline text-text-secondary">Trang chủ</Link>
-                <span className="opacity-50">&gt;</span>
-                <span className="text-primary font-bold">Ôn tập</span>
-            </div>
-
             <div className="flex flex-col gap-2">
                 <h1 className="page-title text-3xl font-extrabold text-text-primary tracking-tight">
                     Hoàn thành phiên ôn tập!

@@ -171,13 +171,6 @@ export default function Levels() {
 
   return (
     <main className="content-body">
-      {/* Breadcrumbs */}
-      <div className="breadcrumbs">
-        <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }}>Trang chủ</a>
-        <span className="separator">&gt;</span>
-        <span className="current">Quản lý Cấp độ</span>
-      </div>
-
       {/* Page Header Row */}
       <div className="page-header-row">
         <div>
