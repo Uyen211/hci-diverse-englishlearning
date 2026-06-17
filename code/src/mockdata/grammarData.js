@@ -118,7 +118,7 @@ export let mockGrammarData = [
       parts: ["He", "doesn't", "often", "stay up late."], // force reload
     },
     freeWritePrompt:
-      "Viết một đoạn văn (50-80 từ) kể về các hoạt động buổi sáng của bạn sử dụng ít nhất 2 trạng từ chỉ tần suất.",
+      "Viết một đoạn văn (50-80 từ) kể về các hoạt động buổi sáng của bạn sử dụng ít nhất 2 trạng từ chỉ tần suất dùng cấu trúc Present Simple with Adverbs of Frequency.",
   },
   {
     id: 2,
