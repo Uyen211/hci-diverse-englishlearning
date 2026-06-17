@@ -8,7 +8,7 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const [showEmptyError, setShowEmptyError] = useState(false);
-  const [feedbackVisible, setFeedbackVisible] = useState(false); // controls slide-in
+  const [feedbackVisible, setFeedbackVisible] = useState(false); // controls slide-in / slide-out
   const addToast = useToastStore(state => state.addToast);
   const [showA2Modal, setShowA2Modal] = useState(false);
   const { playSuccessEarcon, playErrorEarcon } = useAudio();
@@ -24,15 +24,16 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
     }
   }, []);
 
-  // Re-focus textarea after writing again
+  // Re-focus textarea after writing again (GIỮ NGUYÊN TEXT & CHẠY SLIDE-OUT)
   const handleWriteAgain = () => {
     setShowA2Modal(false);
-    setFeedback(null);
-    setFeedbackVisible(false);
-    setText('');
+    setFeedbackVisible(false); // Kích hoạt hiệu ứng trượt từ trái sang phải để ẩn đi
+
+    // Đợi hiệu ứng trượt ẩn (0.4s) chạy xong xuôi mới xóa dữ liệu feedback trong state
     setTimeout(() => {
+      setFeedback(null);
       if (textareaRef.current) textareaRef.current.focus();
-    }, 50);
+    }, 400);
   };
 
   const handleEvaluate = () => {
@@ -44,7 +45,7 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
     setShowEmptyError(false);
     setIsEvaluating(true);
     setFeedback(null);
-    setFeedbackVisible(false); // hide panel while loading
+    setFeedbackVisible(false); // Ẩn panel cũ đi khi đang load
 
     setTimeout(() => {
       setIsEvaluating(false);
@@ -81,7 +82,7 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
           ]
         });
       }
-      // Trigger slide-in after feedback is set
+      // Trigger slide-in sau khi data đã nạp xong
       requestAnimationFrame(() => {
         setTimeout(() => setFeedbackVisible(true), 30);
       });
@@ -115,25 +116,26 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
 
   const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
 
-  // Whether the right panel is showing (either loading or has feedback)
-  const showRightPanel = isEvaluating || feedback;
+  // Quyết định cấu trúc layout grid: Vẫn giữ 2 cột nếu đang load hoặc chưa ẩn hết panel feedback
+  const shouldSplitLayout = isEvaluating || feedback !== null;
 
   return (
     <div className="flex flex-col flex-1 w-full max-w-6xl mx-auto gap-4 relative">
-      {/* Slide animation styles */}
+      {/* Nâng cấp CSS Animation hỗ trợ cả Slide-In và Slide-Out mượt mà */}
       <style>{`
         @keyframes slideInFromRight {
-          from {
-            opacity: 0;
-            transform: translateX(60px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+          from { opacity: 0; transform: translateX(60px); }
+          to { opacity: 1; transform: translateX(0); }
         }
-        .ai-panel-slide-in {
-          animation: slideInFromRight 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+        @keyframes slideOutToRight {
+          from { opacity: 1; transform: translateX(0); }
+          to { opacity: 0; transform: translateX(60px); }
+        }
+        .ai-panel-enter {
+          animation: slideInFromRight 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .ai-panel-leave {
+          animation: slideOutToRight 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
       `}</style>
 
@@ -166,15 +168,11 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
         </div>
       </div>
 
-      {/* 
-        Layout:
-        - No feedback yet: left col takes full width (lg:col-span-2), right is hidden
-        - Evaluating / has feedback: split 2-col, right slides in
-      */}
-      <div className={`grid flex-1 w-full gap-8 transition-all duration-300 ${showRightPanel ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
+      {/* Grid Layout co giãn mượt mà dựa trên state split */}
+      <div className={`grid flex-1 w-full gap-8 transition-all duration-300 ${shouldSplitLayout ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
 
         {/* LEFT COLUMN: User Postbox Card */}
-        <div className={`flex flex-col bg-amber-50/40 rounded-2xl shadow-sm border border-amber-100 p-6 relative transition-all duration-300 ${!showRightPanel ? 'lg:max-w-2xl lg:mx-auto w-full' : ''}`}>
+        <div className={`flex flex-col bg-amber-50/40 rounded-2xl shadow-sm border border-amber-100 p-6 relative transition-all duration-300 ${!shouldSplitLayout ? 'lg:max-w-2xl lg:mx-auto w-full' : ''}`}>
           <div className="absolute top-4 right-4 opacity-50 rotate-[15deg]">
             <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-40"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
           </div>
@@ -191,7 +189,7 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
 
           <textarea
             ref={textareaRef}
-            className="flex-1 w-full bg-transparent resize-none outline-none text-lg text-primary leading-relaxed placeholder-amber-900/30 min-h-[180px]"
+            className="flex-1 w-full bg-transparent resize-none outline-none text-lg text-primary Platê-relaxed placeholder-amber-900/30 min-h-[180px]"
             placeholder="Bắt đầu viết thư tại đây..."
             value={text}
             onChange={(e) => { setText(e.target.value); setShowEmptyError(false); }}
@@ -210,7 +208,7 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
               )}
             </div>
 
-            {(!feedback || feedback.status === 'error') && (
+            {(!feedback || feedback.status === 'error' || !feedbackVisible) && (
               <button
                 onClick={handleEvaluate}
                 className={`flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-lg font-bold transition-all shadow-sm ${wordCount >= 50 ? 'bg-purple-600 text-white hover:-translate-y-0.5' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
@@ -233,11 +231,12 @@ export default function StepFreeWrite({ grammarData, mode, onNext, wordIndex, to
           </div>
         </div>
 
-        {/* RIGHT COLUMN: AI Mailbox Feedback Card — only mounted when evaluating or has feedback */}
-        {showRightPanel && (
+        {/* RIGHT COLUMN: AI Mailbox Feedback Card — Đổi class động theo trạng thái enter/leave */}
+        {shouldSplitLayout && (
           <div
             key={feedback ? feedback.status : 'loading'}
-            className={`bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col h-full ${feedbackVisible || isEvaluating ? 'ai-panel-slide-in' : 'opacity-0'}`}
+            className={`bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col h-full ${isEvaluating || feedbackVisible ? 'ai-panel-enter' : 'ai-panel-leave'
+              }`}
           >
             {isEvaluating ? (
               <div className="flex-1 flex flex-col items-center justify-center text-center text-primary/60">
